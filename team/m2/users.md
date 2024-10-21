@@ -2,7 +2,7 @@
 
 ## Primary Audience
 
-The primary users of **Spotify Campus Connect** are university students aged 18-25 who are looking to build a sense of community through shared music tastes. This group includes a variety of individuals such as:
+The primary users of **Spotifynder** are university students aged 18-25 who are looking to build a sense of community through shared music tastes. This group includes a variety of individuals such as:
 
 - **Music Enthusiasts**: Students who are deeply passionate about music, frequently curate playlists, and actively explore new genres and artists. They seek to connect with others who share their musical interests, hoping to form friendships and communities based on these shared tastes.
   
@@ -24,7 +24,7 @@ The primary users of **Spotify Campus Connect** are university students aged 18-
 
 ## Why These Users Matter
 
-These user groups are essential to the success of **Spotify Campus Connect** because they represent a diverse cross-section of the student population that can benefit from community-building features based on shared music interests:
+These user groups are essential to the success of **Spotifynder** because they represent a diverse cross-section of the student population that can benefit from community-building features based on shared music interests:
 
 - **Music Enthusiasts** are likely to be the core users, as they will frequently engage with our app to discover new music, exchange playlists, and participate in music-centered discussions.
   
@@ -34,4 +34,4 @@ These user groups are essential to the success of **Spotify Campus Connect** bec
   
 - **Casual Listeners** ensure the app appeals to a broader audience and is not limited to just hardcore music fans. This ensures the app caters to all students, making it relevant across the entire campus.
 
-By addressing the social and emotional needs of these groups, **Spotify Campus Connect** helps build a vibrant community that allows students to bond over music, transforming Spotify data into meaningful social experiences. This focus on fostering connections through shared music tastes will make the app a valuable resource for students navigating the social landscape of university life.
+By addressing the social and emotional needs of these groups, **Spotifynder** helps build a vibrant community that allows students to bond over music, transforming Spotify data into meaningful social experiences. This focus on fostering connections through shared music tastes will make the app a valuable resource for students navigating the social landscape of university life.

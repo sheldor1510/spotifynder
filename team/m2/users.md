@@ -14,17 +14,13 @@ The primary users of **Spotify Campus Connect** are university students aged 18-
 
 ## User Needs
 
-### Music Enthusiasts
-These users seek a platform where they can find others who share their niche music interests, such as indie, underground, or experimental genres. They want to exchange playlists, discuss upcoming concerts, and deepen their engagement with their favorite genres by meeting like-minded peers.
+- **Music Enthusiasts**: These users seek a platform where they can find others who share their niche music interests, such as indie, underground, or experimental genres. They want to exchange playlists, discuss upcoming concerts, and deepen their engagement with their favorite genres by meeting like-minded peers.
 
-### New Students
-New students often face challenges in breaking into social groups, especially in large university settings. They need a tool that helps them find others with shared interests in music, easing the social integration process. By matching students based on their Spotify listening habits, the app helps them initiate conversations and build social connections in a low-pressure way.
+- **New Students (Freshmen and Transfer Students)**: New students often face challenges in breaking into social groups, especially in large university settings. They need a tool that helps them find others with shared interests in music, easing the social integration process. By matching students based on their Spotify listening habits, the app helps them initiate conversations and build social connections in a low-pressure way.
 
-### Socially Active Students
-These users need a way to connect with more students and discover potential event attendees or collaborators. They would benefit from organizing and attending music-related social activities, such as group playlist sessions, jam sessions, or live music meetups on campus. They want to use their Spotify data to enhance their campus experience through music.
+- **Socially Active Students**: These users need a way to connect with more students and discover potential event attendees or collaborators. They would benefit from organizing and attending music-related social activities, such as group playlist sessions, jam sessions, or live music meetups on campus. They want to use their Spotify data to enhance their campus experience through music.
 
-### Casual Listeners
-Casual listeners may not actively seek out new music but want to connect with others who have similar listening habits. They are looking for recommendations and connections based on what they already enjoy on Spotify. The app helps them join communities or group activities with people who share their favorite artists or genres.
+- **Casual Listeners**: Casual listeners may not actively seek out new music but want to connect with others who have similar listening habits. They are looking for recommendations and connections based on what they already enjoy on Spotify. The app helps them join communities or group activities with people who share their favorite artists or genres.
 
 ## Why These Users Matter
 

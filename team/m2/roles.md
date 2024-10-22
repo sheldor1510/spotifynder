@@ -7,7 +7,7 @@
      Created the initial GitHub repository and set up the project structure, including the `team/m2` folder for milestone submission. 
     2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/ab0277232747f4b6e904e0a7f99b13c448b0932e): 
     Organized and led the first team meeting, distributing tasks and ensuring deadlines were agreed upon.
-    3. [Commit 3] (https://github.com/sheldor1510/spotifynder/commit/442a5e806eb0aec413bcf4b5235957822c7f2478):
+    3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/442a5e806eb0aec413bcf4b5235957822c7f2478):
     Separated milestone 2 between all the group members to ensure equal work is split up. 
 
 ## Aanya Mehta - Timekeeper
@@ -50,4 +50,4 @@
 - **Top 3 Commits** : 
 1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/4c57e0d9fc935d1b26097fc7e83a35c0f28a534f):  Establish clear guidelines for writing and formatting documents, promoting best practices across the team.
 2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/4c57e0d9fc935d1b26097fc7e83a35c0f28a534f):  Schedule regular reviews of documentation to ensure all materials are current and reflect the latest project developments.
-3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/4c57e0d9fc935d1b26097fc7e83a35c0f28a534f):  Make sure all files are in the correct folder and done properly. s
+3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/4c57e0d9fc935d1b26097fc7e83a35c0f28a534f):  Make sure all files are in the correct folder and done properly.

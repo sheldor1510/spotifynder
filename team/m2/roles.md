@@ -41,6 +41,6 @@
 ## Avni Gunjikar - Quality Control
 - **Role**: Reviews team submissions and ensures that all deliverables meet the necessary quality standards. Avni is responsible for proofreading and ensuring the accuracy of all documents before submission.
 - **Top 3 Commits** : 
-1. [Commit 1]():  Thoroughly review all team submissions for accuracy, clarity, and adherence to project guidelines and standards.
-2. [Commit 2]():  Offer constructive feedback on submissions, highlighting areas for improvement and suggesting revisions to enhance quality.
-3. [Commit 3]():  Serve as the final reviewer for all critical files before submission to ensure they meet quality expectations.
+1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/40677cc3c0a3b8d60cc72046254e811a0191c5f5):  Thoroughly review all team submissions for accuracy, clarity, and adherence to project guidelines and standards.
+2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/40677cc3c0a3b8d60cc72046254e811a0191c5f5):  Offer constructive feedback on submissions, highlighting areas for improvement and suggesting revisions to enhance quality.
+3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/40677cc3c0a3b8d60cc72046254e811a0191c5f5):  Serve as the final reviewer for all critical files before submission to ensure they meet quality expectations.

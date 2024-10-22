@@ -32,8 +32,15 @@
 3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477): Help prioritize tasks based on project goals, deadlines, and dependencies to ensure that the most critical tasks are addressed first. 
 
 ## Nehal Garg - Communication Lead
-- **Role**: Facilitates communication within the team. Eve is responsible for maintaining and managing the team’s Slack workspace and ensuring that all members stay informed and engaged.
+- **Role**: Facilitates communication within the team. Nehal is responsible for maintaining and managing the team’s Group chat and ensures that all members stay informed and engaged.
 - **Top 3 Commits** : 
 1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):  Serve as a point of contact for any communication issues or misunderstandings within the team, helping to mediate and resolve conflicts.
 2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):  Ensure that important documents, links, and resources are easily accessible to all team members, promoting transparency and collaboration.
 3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):  Post regular updates in our group chat about project milestones, important announcements, and upcoming deadlines to keep everyone informed. 
+
+## Avni Gunjikar - Quality Control
+- **Role**: Reviews team submissions and ensures that all deliverables meet the necessary quality standards. Avni is responsible for proofreading and ensuring the accuracy of all documents before submission.
+- **Top 3 Commits** : 
+1. [Commit 1]():  Thoroughly review all team submissions for accuracy, clarity, and adherence to project guidelines and standards.
+2. [Commit 2]():  Offer constructive feedback on submissions, highlighting areas for improvement and suggesting revisions to enhance quality.
+3. [Commit 3]():  Serve as the final reviewer for all critical files before submission to ensure they meet quality expectations.

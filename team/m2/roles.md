@@ -20,8 +20,8 @@
 ## Priyal Nanda - Note-Taker
 - **Role**: Records detailed notes during meetings and ensures that action items are clearly communicated. Priyal is responsible for distributing meeting minutes to the team after each session.
 - **Top 3 Commits** : 
-1. [Commit 1](): Create a shared document or folder where all meeting notes and minutes are stored for easy access by the team.
-2. [Commit 2](): Send out meeting minutes shortly after the meeting concludes, ensuring that everyone has access to the information while it's still fresh.
-3. [Commit 3](): Capture key points, decisions made, and discussions during meetings, ensuring that all relevant information is documented.
+1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/12abf0397e92da3d28b8970b42b46d6aa23b4928): Create a shared document or folder where all meeting notes and minutes are stored for easy access by the team.
+2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/12abf0397e92da3d28b8970b42b46d6aa23b4928): Send out meeting minutes shortly after the meeting concludes, ensuring that everyone has access to the information while it's still fresh.
+3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/12abf0397e92da3d28b8970b42b46d6aa23b4928): Capture key points, decisions made, and discussions during meetings, ensuring that all relevant information is documented.
 
     

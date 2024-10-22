@@ -30,3 +30,10 @@
 1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):  Distribute tasks to team members based on their strengths and current workload, ensuring a balanced distribution.
 2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):   Maintain a clear record of all tasks, including who is responsible for each task, their due dates, and any related notes or comments.
 3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477): Help prioritize tasks based on project goals, deadlines, and dependencies to ensure that the most critical tasks are addressed first. 
+
+## Nehal Garg - Communication Lead
+- **Role**: Facilitates communication within the team. Eve is responsible for maintaining and managing the team’s Slack workspace and ensuring that all members stay informed and engaged.
+- **Top 3 Commits** : 
+1. [Commit 1]():  Serve as a point of contact for any communication issues or misunderstandings within the team, helping to mediate and resolve conflicts.
+2. [Commit 2]():  Ensure that important documents, links, and resources are easily accessible to all team members, promoting transparency and collaboration.
+3. [Commit 3]():  Post regular updates in our group chat about project milestones, important announcements, and upcoming deadlines to keep everyone informed. 

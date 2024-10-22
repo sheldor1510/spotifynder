@@ -27,6 +27,6 @@
 ## Tanush Savadi - Task Manager
 - **Role**: Responsible for organizing and tracking team tasks. Tanush manages ensures that all tasks are properly assigned and completed on time.
 - **Top 3 Commits** : 
-1. [Commit 1]():  Distribute tasks to team members based on their strengths and current workload, ensuring a balanced distribution.
-2. [Commit 2]():   Maintain a clear record of all tasks, including who is responsible for each task, their due dates, and any related notes or comments.
-3. [Commit 3](): Help prioritize tasks based on project goals, deadlines, and dependencies to ensure that the most critical tasks are addressed first. 
+1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):  Distribute tasks to team members based on their strengths and current workload, ensuring a balanced distribution.
+2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):   Maintain a clear record of all tasks, including who is responsible for each task, their due dates, and any related notes or comments.
+3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477): Help prioritize tasks based on project goals, deadlines, and dependencies to ensure that the most critical tasks are addressed first. 

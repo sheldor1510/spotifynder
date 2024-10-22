@@ -8,4 +8,4 @@
 ### October 21, 2024
 - **Task**: Finished the final version of the `roles.md` file.
 - **Details**: Linked all non-github actions as well as github actions. Clearly stated what each person did as a team player for our group. 
-- **Link to Commit**: [Commit on Data.md](https://github.com/sheldor1510/spotifynder/commit/041589f73a030e8d5657140ef37fdd0bbb073986)
+- **Link to Commit**: [Final commit on roles.md](https://github.com/sheldor1510/spotifynder/commit/e63d8e63323d44972544a41e0260fb28cd067152)

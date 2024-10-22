@@ -44,3 +44,10 @@
 1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/40677cc3c0a3b8d60cc72046254e811a0191c5f5):  Thoroughly review all team submissions for accuracy, clarity, and adherence to project guidelines and standards.
 2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/40677cc3c0a3b8d60cc72046254e811a0191c5f5):  Offer constructive feedback on submissions, highlighting areas for improvement and suggesting revisions to enhance quality.
 3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/40677cc3c0a3b8d60cc72046254e811a0191c5f5):  Serve as the final reviewer for all critical files before submission to ensure they meet quality expectations.
+
+## Satvi Naik - Documentation Lead
+- **Role**: Responsible for overseeing the organization and maintenance of all project documentation. Satvi ensures that all documents are up to date, well-organized, and accessible to team members.
+- **Top 3 Commits** : 
+1. [Commit 1]():  Establish clear guidelines for writing and formatting documents, promoting best practices across the team.
+2. [Commit 2]():  Schedule regular reviews of documentation to ensure all materials are current and reflect the latest project developments.
+3. [Commit 3]():  Make sure all files are in the correct folder and done properly. 

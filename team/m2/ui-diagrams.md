@@ -4,7 +4,7 @@
 
 The **Spotify Login and Artist/Track Selection Screen** is the first step in the onboarding process. The layout allows users to easily log in using their Spotify credentials and select their favorite artists and tracks, which will be used to personalize their experience on Spotifynder.
 
-![Spotify Login Placeholder]('./SPOTIFYNDER-1.jpg')
+![Spotify Login Placeholder](SPOTIFYNDER-1.jpg)
 
 ### Key Interactions:
 
@@ -21,7 +21,7 @@ A new user logs into Spotifynder with their Spotify account, selects their favor
 
 The **Playlist Integration and Profile Questions Screen** completes the onboarding process by allowing users to add personal Spotify playlists and answer unique profile questions that give depth to their profile.
 
-![Playlist Integration Placeholder]('./SPOTIFYNDER-2.jpg')
+![Playlist Integration Placeholder](./SPOTIFYNDER-2.jpg)
 
 ### Key Interactions:
 
@@ -38,7 +38,7 @@ A user selects their personal playlists to showcase their music taste, answers p
 
 The **Discovery Page** allows users to explore potential matches by applying filters such as college, favorite artists, and playlists, making the experience more tailored and personalized.
 
-![Discovery Page Placeholder]('./SPOTIFYNDER-3.jpg')
+![Discovery Page Placeholder](./SPOTIFYNDER-3.jpg)
 
 ### Key Interactions:
 
@@ -55,7 +55,7 @@ A user filters potential matches by selecting the "By College" filter. They scro
 
 The **Chat Screen** is where users can message their matches, fostering connections through conversations about their shared interests and music preferences.
 
-![Chat Placeholder]('./SPOTIFYNDER-4.jpg')
+![Chat Placeholder](./SPOTIFYNDER-4.jpg)
 
 ### Key Interactions:
 

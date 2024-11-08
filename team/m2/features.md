@@ -33,3 +33,25 @@ Profile Feature:
 The profile feature is what is displayed on a user’s feed. A user will be able to see a profile of a different user, which will appear like a card on their feed. This card will include crucial information about a user and will serve as a form of communication and aid engagement on Spotifynder. This design not only provides a snapshot of each user but also facilitates connections and encourages communication. Each profile appears as a visually appealing card that displays the user’s photo, name, and basic information at a glance. The design should be clean and intuitive, making it easy for users to quickly assess potential matches.
 
 Assigned to: Aanya
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//test

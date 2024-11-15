@@ -110,3 +110,14 @@ function loadUnreadChatCount() {
         console.error("Error loading unread chat count:", event.target.errorCode);
     };
 }
+
+document.querySelectorAll("nav button").forEach(button => {
+    button.addEventListener("click", function() {
+        // Remove `selected` class from all buttons
+        document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("selected"));
+        
+        // Add `selected` class to the clicked button
+        this.classList.add("selected");
+    });
+});
+

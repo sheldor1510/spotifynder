@@ -110,3 +110,9 @@ nav button {
 #logout-button:hover {
     text-decoration: underline; /* Optional hover effect */
 }
+
+nav button.selected {
+    background-color: #1db954; /* Change background to green */
+    color: white; /* Keep text color white */
+    font-weight: bold; /* Make the font bold for emphasis */
+}

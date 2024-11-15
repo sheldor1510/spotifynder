@@ -17,7 +17,7 @@
 
         <!-- Navigation Buttons (1b) -->
         <nav>
-            <button id="discovery-btn">Discovery</button>
+            <button id="discovery-btn" class="selected">Discovery</button>
             <button id="chats-btn">Chats <span id="unread-count">0</span></button>
             <button id="profile-btn">Profile</button>
         </nav>
@@ -34,6 +34,18 @@
 
     <!-- JavaScript File -->
     <script src="script.js"></script>
-</body>
 
+    <!-- JavaScript to handle selected button highlight -->
+    <script>
+        document.querySelectorAll("nav button").forEach(button => {
+            button.addEventListener("click", function() {
+                // Remove 'selected' class from all buttons
+                document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("selected"));
+                
+                // Add 'selected' class to the clicked button
+                this.classList.add("selected");
+            });
+        });
+    </script>
+</body>
 </html>

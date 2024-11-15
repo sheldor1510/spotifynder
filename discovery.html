@@ -30,7 +30,57 @@
             <h1 id="title">Spotifynder</h1>
         </div>
         <!-- Additional content can go here -->
+          <!-- Filter Panel -->
+<div id="filter-panel">
+    <h2>Filters</h2>
+    
+    <div class="filter-section">
+        <h3>Artists</h3>
+        <div class="filter-items">
+            <div class="filter-item">Artist 1</div>
+            <div class="filter-item">Artist 2</div>
+            <div class="filter-item">Artist 3</div>
+            <div class="filter-item">Artist 4</div>
+        </div>
     </div>
+    
+    <div class="filter-section">
+        <h3>Tracks</h3>
+        <div class="filter-items">
+            <div class="filter-item">Track 1</div>
+            <div class="filter-item">Track 2</div>
+            <div class="filter-item">Track 3</div>
+            <div class="filter-item">Track 4</div>
+        </div>
+    </div>
+    
+    <div class="filter-section">
+        <h3>Playlists</h3>
+        <div class="filter-items">
+            <div class="filter-item">Playlist 1</div>
+            <div class="filter-item">Playlist 2</div>
+            <div class="filter-item">Playlist 3</div>
+            <div class="filter-item">Playlist 4</div>
+        </div>
+    </div>
+
+    <!-- Compatibility Score Slider -->
+    <div id="slider-container">
+        <label for="compatibility-slider">Compatibility Score</label>
+        <input type="range" id="compatibility-slider" min="0" max="100" value="50" step="1">
+        <span id="slider-value">50%</span>
+    </div>
+
+    <!-- Container for Randomize and Reset Buttons -->
+<div id="button-container">
+    <button id="randomize-btn">Randomize</button>
+    <button id="reset-btn">Reset</button>
+</div>
+
+</div>
+    </div>
+
+
 
     <!-- JavaScript File -->
     <script src="script.js"></script>

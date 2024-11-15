@@ -121,3 +121,15 @@ document.querySelectorAll("nav button").forEach(button => {
     });
 });
 
+const slider = document.getElementById('compatibility-slider');
+const sliderValue = document.getElementById('slider-value');
+
+    // Add event listener to update the displayed value as the slider moves
+    slider.addEventListener('input', function() {
+        sliderValue.textContent = slider.value + '%';
+    });
+
+   
+    
+
+

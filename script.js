@@ -1,83 +1,82 @@
-// Open or create IndexedDB
+// IndexedDB setup
 let db;
-const request = indexedDB.open("SpotifynderDB", 1);
+const request = indexedDB.open('SpotifynderDB', 1);
 
 request.onupgradeneeded = function (event) {
-    db = event.target.result;
-    // Create object store for user data
-    const userStore = db.createObjectStore("user", { keyPath: "id" });
-    userStore.createIndex("username", "username", { unique: false });
-    userStore.createIndex("profilePic", "profilePic", { unique: false });
-    userStore.createIndex("unreadChats", "unreadChats", { unique: false });
+  db = event.target.result;
+
+  // Create the object store for user data
+  const objectStore = db.createObjectStore('userData', { keyPath: 'id' });
+  objectStore.createIndex('username', 'username', { unique: false });
+  objectStore.createIndex('profilePic', 'profilePic', { unique: false });
+  console.log("IndexedDB setup complete.");
 };
 
 request.onsuccess = function (event) {
-    db = event.target.result;
-    loadUserProfile();
-    loadUnreadChats();
+  db = event.target.result;
+  console.log("IndexedDB opened successfully.");
+  loadUserProfile(); // Load user profile on success
 };
 
-// Function to load user profile (1a)
+request.onerror = function (event) {
+  console.error('Database error:', event.target.errorCode);
+};
+
 function loadUserProfile() {
-    const transaction = db.transaction(["user"], "readonly");
-    const store = transaction.objectStore("user");
-    const getRequest = store.get(1); // Assuming user ID is 1
-
-    getRequest.onsuccess = function () {
-        const user = getRequest.result;
-        if (user) {
-            document.getElementById("profile-pic").src = user.profilePic;
-            document.getElementById("username").textContent = "@" + user.username;
+    if (!db) {
+      console.error("IndexedDB is not available.");
+      return;
+    }
+  
+    const transaction = db.transaction(['userData'], 'readonly');
+    const objectStore = transaction.objectStore('userData');
+    const request = objectStore.get('user'); // Assuming the ID of the user is 'user'
+  
+    request.onsuccess = function (event) {
+      const result = event.target.result;
+      if (result) {
+        console.log("User data loaded from IndexedDB:", result);
+  
+        // Update UI with fetched data
+        if (result.username) {
+          document.getElementById('username-display').textContent = result.username;
         }
-    };
-}
-
-// Function to load unread chat count (1c)
-function loadUnreadChats() {
-    const transaction = db.transaction(["user"], "readonly");
-    const store = transaction.objectStore("user");
-    const getRequest = store.get(1);
-
-    getRequest.onsuccess = function () {
-        const user = getRequest.result;
-        if (user) {
-            document.getElementById("unread-count").textContent = user.unreadChats;
+        if (result.profilePic) {
+          document.getElementById('profile-pic').src = result.profilePic;
         }
+      } else {
+        console.log("No user data found in IndexedDB.");
+      }
     };
-}
+  
+    request.onerror = function (event) {
+      console.error('Error loading user data from IndexedDB:', event.target.errorCode);
+    };
+  }
 
-// Event listeners for navigation buttons
-document.getElementById("discovery-btn").addEventListener("click", function() {
-    // Change to Discovery view
-    console.log("Discovery view selected");
-});
-
-document.getElementById("chats-btn").addEventListener("click", function() {
-    // Change to Chats view
-    console.log("Chats view selected");
-});
-
-document.getElementById("profile-btn").addEventListener("click", function() {
-    // Change to Profile view
-    console.log("Profile view selected");
-});
-
-document.getElementById("logout-btn").addEventListener("click", function() {
-    // Perform logout
-    console.log("Logout button clicked");
-});
-
-// Function to add initial user data (for testing)
-function addUserData() {
-    const transaction = db.transaction(["user"], "readwrite");
-    const store = transaction.objectStore("user");
-
+  function saveUserData(username, profilePic) {
+    if (!db) {
+      console.error("IndexedDB is not available.");
+      return;
+    }
+  
+    const transaction = db.transaction(['userData'], 'readwrite');
+    const objectStore = transaction.objectStore('userData');
+  
     const userData = {
-        id: 1,
-        username: "xxx9",
-        profilePic: "path/to/profile-pic.jpg",
-        unreadChats: 5
+      id: 'user', // Assuming a single-user setup
+      username,
+      profilePic
     };
-
-    store.put(userData);
-}
+  
+    const request = objectStore.put(userData);
+  
+    request.onsuccess = function () {
+      console.log(`User data saved: ${JSON.stringify(userData)}`);
+    };
+  
+    request.onerror = function (event) {
+      console.error('Error saving user data to IndexedDB:', event.target.errorCode);
+    };
+  }
+  

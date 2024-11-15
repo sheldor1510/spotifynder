@@ -89,3 +89,18 @@ nav button {
     margin-bottom: 40px;
     color: 	#1db954
 }
+
+#logout-button {
+    margin-top: auto; /* Push to bottom */
+    padding: 10px 0;
+    border: none;
+    background: none; /* Remove default button styles */
+    color: green; /* Green text */
+    font-size: 16px;
+    cursor: pointer;
+    text-align: left;
+}
+
+#logout-button:hover {
+    text-decoration: underline; /* Optional hover effect */
+}

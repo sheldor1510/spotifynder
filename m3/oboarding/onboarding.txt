@@ -1,0 +1,43 @@
+Spotifynder Onboarding1 Feature
+
+Overview  
+The onboarding1 feature of Spotifynder guides users through a multi-step setup process. The steps include:
+
+1. Signing in with Spotify (simulated button)
+2. Selecting a college
+3. Choosing top artists and tracks  
+
+Data is stored in `IndexedDB` to ensure session persistence, allowing users to return to their selections if they reload or revisit the app. The design 
+focuses on responsiveness and a user-friendly interface.
+
+Features
+
+1. Sign-in and College Selection (5 points - Large Feature)
+   - Description: The first step is signing in with Spotify. After authentication, users are prompted to enter the name of their college. 
+   Both actions are combined into one feature to streamline the process. The data for both Spotify login and selected college is stored in `IndexedDB` 
+   to allow persistence across sessions.
+   - Purpose: Combines two initial onboarding steps (sign-in and college selection) into a seamless experience.
+   - IndexedDB: Stores the user's Spotify account details and selected college.
+   - Points: 5 points (Large feature)
+
+2. Top Artists and Tracks Selection (3 points - Medium Feature)
+   - Description: Allows users to select up to three artists and three tracks from a predefined list. Selections are visually highlighted, 
+   and data is stored in `IndexedDB`. The feature includes a scrolling option in case the list exceeds the viewport size.
+   - Purpose: Gathers information on music preferences to improve matchmaking.
+   - IndexedDB: Stores selected artists and tracks.
+   - Points: 3 points (Medium feature)
+
+3. Finish Button and Completion (2 points - Medium Feature)
+   - Description: Finalizes the onboarding process, confirming that all selected data is saved. Users are notified of completion and can proceed to the 
+   main application. The button ensures that the user’s selections are persisted.
+   - Purpose: Provides a clear end to onboarding and prepares the user for the main application.
+   - IndexedDB: Ensures all data is saved before completion.
+   - Points: 2 points (Medium feature)
+
+4. Responsive Design and Styling (2 points - Medium Feature)
+   - Description: Responsive CSS ensures usability across devices, with media queries for optimal layout on various screen sizes. 
+   Focuses on making the interface adaptable to all screen sizes, ensuring a consistent user experience.
+   - Purpose: Enhances user experience by making the interface adaptable.
+   - Points: 2 points (Medium feature)
+
+Total Points: 12

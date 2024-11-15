@@ -1,0 +1,111 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .onboarding-container {
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    padding: 20px;
+    background-color: #282828;
+    border-radius: 8px;
+  }
+  
+  h1 {
+    font-size: 2.5em;
+    color: #1DB954;
+    margin-bottom: 0.5em;
+  }
+  
+  h2 {
+    font-size: 1.8em;
+    color: #1DB954;
+    margin-bottom: 1em;
+  }
+  
+  .spotify-button {
+    background-color: #1DB954;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 1em;
+  }
+  
+  .spotify-button:hover {
+    background-color: #1ed760;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .top-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+  }
+  
+  .top-section {
+    width: 45%;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+    max-height: 150px; /* Fixed height for scrollable area */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
+  li {
+    padding: 5px 0;
+    border-bottom: 1px solid #404040;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+  li:hover {
+    background-color: #333;
+  }
+  
+  li.selected {
+    background-color: #1DB954;
+    color: #fff;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #404040;
+    background-color: #121212;
+    color: #fff;
+    margin: 10px 0;
+  }
+  
+  .finish-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .top-info {
+      flex-direction: column;
+    }
+    .top-section {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }

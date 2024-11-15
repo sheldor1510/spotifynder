@@ -1,0 +1,91 @@
+/* General body styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+}
+
+/* Sidebar styling */
+#sidebar {
+    width: 20vw;
+    height: 100vh; /* Full viewport height */
+    background-color: #212121;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed; /* Fix the sidebar to the left side */
+    top: 0;
+    left: 0;
+}
+
+/* User Profile styling */
+#user-profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#username {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1db954;
+}
+
+/* Navigation buttons styling */
+nav button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#unread-count {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+/* Main content styling */
+#content { /* Offset for sidebar */
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80vw;
+    margin-left: 20vw;
+    background-color: #121212;
+}
+
+.header-wrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Spotifynder title styling */
+#title {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 40px; /* Remove any extra top margin */
+    margin-bottom: 40px;
+    color: 	#1db954
+}

@@ -341,6 +341,21 @@ function populateActiveCard(items) {
         document.getElementById('user-playlists').appendChild(div);
     });
 
+    document.getElementById('personality-prompts').innerHTML = '';
+    profile.questions.forEach(question => {
+        const div = document.createElement('div');
+        div.classList.add('qa');
+        const q = document.createElement('p');
+        q.classList.add('question');
+        q.textContent = question.question;
+        div.appendChild(q);
+        div.appendChild(document.createElement('br'));
+        const a = document.createElement('p');
+        a.classList.add('answer');
+        a.textContent = question.answer;
+        div.appendChild(a);
+        document.getElementById('personality-prompts').appendChild(div);
+    });
 }
 
 // Load and display filter data

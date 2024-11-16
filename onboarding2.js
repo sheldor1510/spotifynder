@@ -23,6 +23,7 @@ function openDb() {
     dbReady = true; 
     console.log("Database is ready.");
   };
+  
 
   request.onerror = function (e) {
     console.error("Error opening IndexedDB:", e);

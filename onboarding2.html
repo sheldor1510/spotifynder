@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onboarding</title>
+  <link rel="stylesheet" href="onboarding2.css">
+</head>
+
+<body>
+  <!-- First Form: Playlist -->
+  <div id="playlist-form" class="onboarding-container">
+    <h1>Spotifynder</h1>
+    <h2>Tell us about your playlists</h2>
+    <label for="playlist-input1">Personal Playlist1:</label>
+    <input type="text" id="playlist-input1" placeholder="Enter playlist name">
+    <label for="playlist-input2">Personal Playlist2:</label>
+    <input type="text" id="playlist-input2" placeholder="Enter playlist name">
+    <label for="playlist-input3">Personal Playlist3:</label>
+    <input type="text" id="playlist-input3" placeholder="Enter playlist name">
+    <button class="spotify-button" id="continue-button">Continue</button>
+  </div>
+
+  <!-- Hidden Section: Questionnaire Form -->
+  <div id="questionnaire-form" class="onboarding-container hidden">
+    <h2>Let's get to know you more!</h2>
+    <div id="questions-container" class="onboarding-container">
+      <label for="q1">If you could meet one artist who would it be?</label>
+      <input type="text" id="q1">
+      <label for="q2">What's your favorite shower jam?</label>
+      <input type="text" id="q2" >
+      <label for="q3">What's your dream concert?</label>
+      <input type="text" id="q3" >
+      <button class="spotify-button" id="submit-responses-button">Submit Responses</button>
+    </div>
+
+    
+  </div>
+
+  <script src="onboarding2.js"></script>
+</body>
+</html>

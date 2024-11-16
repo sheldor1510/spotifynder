@@ -67,7 +67,7 @@ nav button {
 }
 
 /* Main content styling */
-#content {
+#content { /* Offset for sidebar */
     box-sizing: border-box;
     min-height: 100vh;
     display: flex;
@@ -76,7 +76,6 @@ nav button {
     width: 80vw;
     margin-left: 20vw;
     background-color: #121212;
-    padding-bottom: 20px; /* Add padding to avoid items sticking to the bottom */
 }
 
 .header-wrapper {
@@ -110,6 +109,12 @@ nav button {
 
 #logout-button:hover {
     text-decoration: underline; /* Optional hover effect */
+}
+
+nav button.selected {
+    background-color: black; /* Change background to green */
+    color: white; /* Keep text color white */
+    font-weight: bold; /* Make the font bold for emphasis */
 }
 
 /* Filter Panel styling */
@@ -154,18 +159,75 @@ nav button {
     scroll-snap-type: x mandatory;
 }
 
+/* Base styles for filter-item */
 .filter-item {
+    position: relative;
     min-width: 120px;
-    height: 100px;
-    background-color: #333333;
-    border-radius: 8px;
+    height: 120px;
     margin-right: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #888888;
-    font-size: 16px;
-    scroll-snap-align: start;
+    border-radius: 8px;
+    border: none; /* Remove button border */
+    cursor: pointer; /* Add pointer cursor */
+    overflow: hidden; /* Ensure content stays within bounds */
+    outline: none; /* Remove focus outline */
+    transition: transform 0.2s ease; /* Smooth scaling effect */
+}
+
+/* Inner wrapper for the background */
+.filter-item-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: filter 0.3s ease; /* Smooth blur transition */
+    z-index: 0; /* Ensure background stays below overlay */
+}
+
+/* Blur effect when hovered */
+.filter-item:hover .filter-item-background {
+    filter: blur(3px); /* Blur the background */
+}
+
+/* Keep blurred state when clicked */
+.filter-item.clicked .filter-item-background {
+    filter: blur(3px); /* Keep blur effect */
+}
+
+/* Overlay to display the name */
+.filter-item-name {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+    pointer-events: none; /* Prevent hover events from affecting the overlay */
+    z-index: 1; /* Ensure text stays above everything else */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease; /* Smooth fade-in effect */
+}
+
+/* Show the name overlay on hover or when clicked */
+.filter-item:hover .filter-item-name,
+.filter-item.clicked .filter-item-name {
+    opacity: 1; /* Make the text visible */
+}
+
+/* Slight scaling effect on hover */
+.filter-item:hover {
+    transform: scale(1.05); /* Slightly enlarge the button */
+}
+
+/* Disable hover scale if clicked */
+.filter-item.clicked:hover {
+    transform: none;
 }
 
 /* Hide scroll bar for Webkit browsers */
@@ -173,22 +235,13 @@ nav button {
     display: none;
 }
 
-#randomize-btn {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    background-color: #1db954;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
 
 #randomize-btn:hover {
     background-color: #1aa34a;
 }
-
+#reset-btn:hover{
+    background-color: #1aa34a;
+}
 /* Slider Container Styling */
 #slider-container {
     display: flex;
@@ -241,3 +294,24 @@ nav button {
     margin-top: 5px;
     color: #1db954;
 }
+
+#button-container {
+    display: flex;
+    gap: 10px; /* Optional: space between buttons */
+    justify-content: center; /* Center the buttons horizontally */
+}
+
+/* Default button styling */
+#randomize-btn,
+#reset-btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 16px;
+    background-color: #535353;
+    color: white;
+}
+
+

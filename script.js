@@ -1,5 +1,5 @@
 let db;
-const request = window.indexedDB.open('SpotifynderDB', 4); // Updated version for new object store
+const request = window.indexedDB.open('SpotifynderDB', 4);
 
 request.onupgradeneeded = function (event) {
     db = event.target.result;
@@ -22,6 +22,12 @@ request.onupgradeneeded = function (event) {
         const filterStore = db.createObjectStore('filterData', { keyPath: 'id', autoIncrement: true });
         filterStore.createIndex('type', 'type', { unique: false }); // Type: 'artist', 'track', 'playlist'
     }
+
+    // Create cards object store
+    if (!db.objectStoreNames.contains('cardsData')) {
+        const cardsStore = db.createObjectStore('cardsData', { keyPath: 'id', autoIncrement: true });
+        cardsStore.createIndex('type', 'type', { unique: false }); // Type: 'artist', 'track', 'playlist'
+    }
 };
 
 request.onsuccess = function (event) {
@@ -33,6 +39,7 @@ request.onsuccess = function (event) {
     loadFilterData();
 
     populateDummyFilterData();
+    populateDummyCardsData();
 
 };
 
@@ -166,6 +173,116 @@ function populateDummyFilterData() {
     };
 }
 
+// Populate dummy data for cardsData
+function populateDummyCardsData() {
+    if (!db) return;
+
+    const transaction = db.transaction(['cardsData'], 'readwrite');
+    const cardsStore = transaction.objectStore('cardsData');
+
+    const dummyData = [
+        {
+            type: 'tracker',
+            profile_currently_viewing: 'anshulsaha',
+            profiles_chosen: [],
+            profiles_rejected: []
+        },
+        {
+            type: 'profile',
+            name: 'Anshul Saha',
+            username: 'anshulsaha',
+            image: 'https://github.com/sheldor1510.png',
+            compability: 90,
+            topArtists: [
+                { name: 'Artist 1', image: './artist1.jpg' },
+                { name: 'Artist 2', image: './artist1.jpg' },
+                { name: 'Artist 3', image: './artist1.jpg' }
+            ],
+            topTracks: [
+                { name: 'Track 1', image: './track1.jpg' },
+                { name: 'Track 2', image: './track1.jpg' },
+                { name: 'Track 3', image: './track1.jpg' }
+            ],
+            topPlaylists: [
+                { name: 'Playlist 1', image: './playlist1.jpg' },
+                { name: 'Playlist 2', image: './playlist1.jpg' },
+                { name: 'Playlist 3', image: './playlist1.jpg' }
+            ]
+        },
+        {
+            type: 'profile',
+            name: 'Tanush Savadi',
+            username: 'tanushsavadi',
+            image: 'https://github.com/tanushsavadi.png',
+            compability: 35,
+            topArtists: [
+                { name: 'Artist 1', image: './artist1.jpg' },
+                { name: 'Artist 2', image: './artist1.jpg' },
+                { name: 'Artist 3', image: './artist1.jpg' }
+            ],
+            topTracks: [
+                { name: 'Track 1', image: './track1.jpg' },
+                { name: 'Track 2', image: './track1.jpg' },
+                { name: 'Track 3', image: './track1.jpg' }
+            ],
+            topPlaylists: [
+                { name: 'Playlist 1', image: './playlist1.jpg' },
+                { name: 'Playlist 2', image: './playlist1.jpg' },
+                { name: 'Playlist 3', image: './playlist1.jpg' }
+            ]
+        },
+        {
+            type: 'profile',
+            name: 'shoubhitravi',
+            image: 'https://github.com/shoubhitravi.png',
+            compability: 75,
+            topArtists: [
+                { name: 'Artist 1', image: './artist1.jpg' },
+                { name: 'Artist 2', image: './artist1.jpg' },
+                { name: 'Artist 3', image: './artist1.jpg' }
+            ],
+            topTracks: [
+                { name: 'Track 1', image: './track1.jpg' },
+                { name: 'Track 2', image: './track1.jpg' },
+                { name: 'Track 3', image: './track1.jpg' }
+            ],
+            topPlaylists: [
+                { name: 'Playlist 1', image: './playlist1.jpg' },
+                { name: 'Playlist 2', image: './playlist1.jpg' },
+                { name: 'Playlist 3', image: './playlist1.jpg' }
+            ]
+        },
+    ];
+
+    dummyData.forEach(item => {
+        cardsStore.add(item);
+    });
+
+    transaction.oncomplete = function () {
+        console.log('Dummy cards data added successfully.');
+        loadCardsData();
+    };
+
+    transaction.onerror = function (event) {
+        console.error('Error adding dummy data to cardsData:', event.target.errorCode);
+    };
+}
+
+// Load and display cards data
+function loadCardsData() {
+    if (!db) return;
+
+    const transaction = db.transaction(['cardsData'], 'readonly');
+    const cardsStore = transaction.objectStore('cardsData');
+    const request = cardsStore.getAll();
+
+    request.onsuccess = function (event) {
+        const items = event.target.result;
+        console.log(items);
+        populateCardsSection(items);
+    };
+}
+
 // Load and display filter data
 function loadFilterData() {
     if (!db) return;
@@ -237,3 +354,16 @@ document.querySelectorAll('nav button').forEach(button => {
         this.classList.add('selected');
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleButtons = document.querySelectorAll(".toggle-button");
+    const frontView = document.querySelector(".front-view");
+    const backView = document.querySelector(".back-view");
+  
+    toggleButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        frontView.classList.toggle("hidden");
+        backView.classList.toggle("hidden");
+      });
+    });
+});  

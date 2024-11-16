@@ -1,5 +1,5 @@
 let db;
-const request = window.indexedDB.open('SpotifynderDB', 4);
+const request = window.indexedDB.open('SpotifynderDB', 5);
 
 request.onupgradeneeded = function (event) {
     db = event.target.result;
@@ -39,6 +39,8 @@ request.onsuccess = function (event) {
     loadFilterData();
 
     populateDummyFilterData();
+
+    
     populateDummyCardsData();
 
 };
@@ -183,7 +185,7 @@ function populateDummyCardsData() {
     const dummyData = [
         {
             type: 'tracker',
-            profile_currently_viewing: 'anshulsaha',
+            profile_currently_viewing: 'tanushsavadi',
             profiles_chosen: [],
             profiles_rejected: []
         },
@@ -207,6 +209,11 @@ function populateDummyCardsData() {
                 { name: 'Playlist 1', image: './playlist1.jpg' },
                 { name: 'Playlist 2', image: './playlist1.jpg' },
                 { name: 'Playlist 3', image: './playlist1.jpg' }
+            ],
+            questions: [
+                { question: 'What is your favorite genre?', answer: 'R&B' },
+                { question: 'What is your favorite artist?', answer: 'Kendrick Lamar' },
+                { question: 'What is your favorite track?', answer: 'Instant Crush' }
             ]
         },
         {
@@ -229,6 +236,11 @@ function populateDummyCardsData() {
                 { name: 'Playlist 1', image: './playlist1.jpg' },
                 { name: 'Playlist 2', image: './playlist1.jpg' },
                 { name: 'Playlist 3', image: './playlist1.jpg' }
+            ],
+            questions: [
+                { question: 'What is your go-to playlist?', answer: 'Chill Vibes' },
+                { question: 'Which artist do you listen to the most?', answer: 'Taylor Swift' },
+                { question: 'What is your current favorite album?', answer: 'After Hours' },
             ]
         },
         {
@@ -250,6 +262,11 @@ function populateDummyCardsData() {
                 { name: 'Playlist 1', image: './playlist1.jpg' },
                 { name: 'Playlist 2', image: './playlist1.jpg' },
                 { name: 'Playlist 3', image: './playlist1.jpg' }
+            ],
+            questions: [
+                { question: 'What is your all-time favorite concert?', answer: 'Coldplay Live 2016' },
+                { question: 'Which genre do you listen to when working?', answer: 'Lo-fi Hip Hop' },
+                { question: 'What is your favorite music decade?', answer: 'The 80s' },
             ]
         },
     ];
@@ -278,9 +295,52 @@ function loadCardsData() {
 
     request.onsuccess = function (event) {
         const items = event.target.result;
-        console.log(items);
-        populateCardsSection(items);
+        populateActiveCard(items);
     };
+}
+
+function populateActiveCard(items) {
+    const tracker = items.filter(item => item.type === 'tracker')[0];
+    const profile = items.filter(item => item.username === tracker.profile_currently_viewing)[0];
+
+    // Display the profile card
+    document.getElementById('profile-name').textContent = profile.name;
+    document.getElementById('profile-pfp').src = profile.image;
+    document.getElementById('score').textContent = profile.compability.toString() + '%';
+
+    document.getElementById('user-artists').innerHTML = '';
+    profile.topArtists.forEach(artist => {
+        const div = document.createElement('div');
+        div.classList.add('artist');
+        const img = document.createElement('img');
+        img.src = artist.image;
+        img.alt = artist.name;
+        div.appendChild(img);
+        document.getElementById('user-artists').appendChild(div);
+    });
+
+    document.getElementById('user-tracks').innerHTML = '';
+    profile.topTracks.forEach(track => {
+        const div = document.createElement('div');
+        div.classList.add('artist');
+        const img = document.createElement('img');
+        img.src = track.image;
+        img.alt = track.name;
+        div.appendChild(img);
+        document.getElementById('user-tracks').appendChild(div);
+    });
+
+    document.getElementById('user-playlists').innerHTML = '';
+    profile.topPlaylists.forEach(playlist => {
+        const div = document.createElement('div');
+        div.classList.add('artist');
+        const img = document.createElement('img');
+        img.src = playlist.image;
+        img.alt = playlist.name;
+        div.appendChild(img);
+        document.getElementById('user-playlists').appendChild(div);
+    });
+
 }
 
 // Load and display filter data

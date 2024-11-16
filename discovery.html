@@ -75,9 +75,9 @@
 
             <div class="user-profile">
                 <div class="view front-view">
-                  <h2>Anshul Saha</h2>
+                  <h2 id="profile-name">Anshul Saha</h2>
                   <div class="profile-inline-header">
-                    <img class="profile-pic" src="https://github.com/sheldor1510.png" alt="User Profile Picture">
+                    <img class="profile-pic" id="profile-pfp" src="https://github.com/sheldor1510.png" alt="User Profile Picture">
                     <div class="content">
                         <!-- <p class="compatibility"><span id="score">@</span> anshul_saha</p> -->
                         <p class="compatibility"><span id="score">95%</span> compatibility</p>
@@ -86,44 +86,20 @@
                   <div class="top-content">
                     <div class="section">
                       <h3>Top 3 Artists</h3>
-                      <div class="images">
-                        <div class="artist">
-                            <img src="artist1.jpg" alt="Artist 1">
-                        </div>
-                        <div class="artist">
-                            <img src="artist1.jpg" alt="Artist 1">
-                        </div>
-                        <div class="artist">
-                            <img src="artist1.jpg" alt="Artist 1">
-                        </div>
+                      <div class="images" id="user-artists">
+                        <!-- this populates with user's top 3 artists from indexed db -->
                       </div>
                     </div>
                     <div class="section">
                       <h3>Top 3 Tracks</h3>
-                      <div class="images">
-                        <div class="artist">
-                            <img src="artist1.jpg" alt="Artist 1">
-                        </div>
-                        <div class="artist">
-                            <img src="artist1.jpg" alt="Artist 1">
-                        </div>
-                        <div class="artist">
-                            <img src="artist1.jpg" alt="Artist 1">
-                        </div>
+                      <div class="images" id="user-tracks">
+                         <!-- this populates with user's top 3 tracks from indexed db -->
                       </div>
                     </div>
                     <div class="section">
                       <h3>Top 3 Playlists</h3>
-                      <div class="images">
-                        <div class="artist">
-                            <img src="artist1.jpg" alt="Artist 1">
-                        </div>
-                        <div class="artist">
-                            <img src="artist1.jpg" alt="Artist 1">
-                        </div>
-                        <div class="artist">
-                            <img src="artist1.jpg" alt="Artist 1">
-                        </div>
+                      <div class="images" id="user-playlists">
+                        <!-- this populates with user's top 3 playlists from indexed db -->
                       </div>
                     </div>
                   </div>

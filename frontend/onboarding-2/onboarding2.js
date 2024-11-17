@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (q1 && q2 && q3) {
       promptQ(q1, q2, q3);  // Save the responses
+      window.location.href = '../discovery/discovery.html';  // Redirect to next page  
     } else {
       alert("Please answer all questions!");
     }

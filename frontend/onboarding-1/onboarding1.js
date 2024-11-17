@@ -185,8 +185,9 @@ function finishOnboarding() {
     return;
   }
   saveData('user', { id: 'user', college: document.getElementById('college-input').value, selectedArtists, selectedTracks });
-  alert('Onboarding Complete!');
+  // alert('Onboarding Complete!');
   console.log("Onboarding complete with data saved to IndexedDB.");
+  window.location.href = '../onboarding-2/onboarding2.html';
 }
 
 // Switch between pages

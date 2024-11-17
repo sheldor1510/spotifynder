@@ -46,6 +46,8 @@ body {
   font-size: 18px;
   font-weight: bold;
   color: #1db954;
+  margin-top: 17px;
+  margin-bottom: 22px;
 }
 
 /* Navigation buttons styling */
@@ -103,8 +105,7 @@ nav button {
   color: 	#1db954
 }
 
-#logout-button {
-  margin-top: auto; /* Push to bottom */
+#logout-button { /* Push to bottom */
   padding: 10px 0;
   border: none;
   background: none; /* Remove default button styles */
@@ -112,6 +113,10 @@ nav button {
   font-size: 16px;
   cursor: pointer;
   text-align: left;
+  bottom: 0;
+  position: absolute;
+  margin-left: 7vw;
+  margin-bottom: 5%;
 }
 
 #logout-button:hover {
@@ -135,6 +140,8 @@ nav button.selected {
   color: #b3b3b3;
   position: relative; /* Ensure it follows the sidebar */
   z-index: 1; /* Above the sidebar if needed */
+  justify-content: center;
+  align-items: center;
 }
 
 /* Chat Area styling */

@@ -211,7 +211,7 @@ function collectPrompts() {
 // Function to populate prompts
 function populatePrompts(prompts) {
     const personalityPrompts = document.querySelector(".personality-prompts");
-    personalityPrompts.innerHTML = '';
+
 
     prompts.forEach(prompt => {
         const promptDiv = document.createElement("div");

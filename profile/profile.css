@@ -197,6 +197,7 @@ nav button.selected {
     color: #FFFFFF;
     font-size: 1.4em;
     font-weight: 600;
+    margin-top: 15px;
     margin-bottom: 15px; /* Space between header and first prompt */
 }
 

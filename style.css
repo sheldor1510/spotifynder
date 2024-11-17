@@ -256,3 +256,101 @@ nav button.selected {
   color: #121212; /* Dark text for readability */
   transform: scale(1); /* Reset scale */
 }
+
+.chat-area {
+  padding: 20px;
+  background-color: #090909;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile header styles */
+.profile-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatar {
+  font-size: 50px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-info p {
+  margin: 5px 0;
+}
+
+/* Section styles */
+.sections .section {
+  margin-bottom: 20px;
+}
+
+.section h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.item-list {
+  display: flex;
+  gap: 15px;
+}
+
+.item-placeholder img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.accept-button,
+.decline-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.accept-button {
+  background-color: #4caf50;
+  margin-top: 30px;
+}
+
+.decline-button {
+  background-color: #f44336;
+  margin-top: 30px;
+}
+
+.accept-button:hover {
+  background-color: #45a049;
+}
+
+.decline-button:hover {
+  background-color: #e53935;
+}

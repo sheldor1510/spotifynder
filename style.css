@@ -1,0 +1,258 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #b3b3b3;
+  background-color: #121212; /* Black background */
+  display: flex;
+  height: 100vh; /* Full height */
+  overflow: hidden;
+}
+
+/* Sidebar styling */
+#sidebar {
+
+  width: 15%; /* Explicit width for the sidebar */
+  background-color: #181818;
+  padding: 15px;
+  box-sizing: border-box;
+  color: #ffffff;
+  position: relative; /* Ensure it respects the layout flow */
+  z-index: 2; /* Lower priority than chat list/chat area */
+
+}
+.main-content {
+  display: flex;
+  flex-grow: 1; /* Allow the main content to expand */
+  margin-left: 20vw; /* Offset for sidebar */
+  width: 80vw; /* Remaining space after sidebar */
+  overflow: hidden;
+}
+
+/* User Profile styling */
+#user-profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#username {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1db954;
+}
+
+/* Navigation buttons styling */
+nav button {
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  margin: 5px 0;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #535353;
+  color: white;
+  border-radius: 16px; /* Rounded corners */
+  border: none;
+  margin-bottom: 10px;
+}
+
+#unread-count {
+  background-color: #1db954;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* Main content styling */
+#content { /* Offset for sidebar */
+  box-sizing: border-box;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80vw;
+  margin-left: 20vw;
+  background-color: #121212;
+}
+
+.header-wrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Spotifynder title styling */
+#title {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 40px; /* Remove any extra top margin */
+  margin-bottom: 40px;
+  color: 	#1db954
+}
+
+#logout-button {
+  margin-top: auto; /* Push to bottom */
+  padding: 10px 0;
+  border: none;
+  background: none; /* Remove default button styles */
+  color: green; /* Green text */
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
+}
+
+#logout-button:hover {
+  text-decoration: underline; /* Optional hover effect */
+}
+
+nav button.selected {
+  background-color: black; /* Change background to green */
+  color: white; /* Keep text color white */
+  font-weight: bold; /* Make the font bold for emphasis */
+}
+
+/* Chat List styling */
+.chat-list {
+
+  width: 20%; /* Width for the chat list */
+  background-color: #212121;
+  overflow-y: auto;
+  padding: 15px;
+  box-sizing: border-box;
+  color: #b3b3b3;
+  position: relative; /* Ensure it follows the sidebar */
+  z-index: 1; /* Above the sidebar if needed */
+}
+
+/* Chat Area styling */
+.chat-area {
+   /*flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #121212;
+  padding: 15px; /* Reduced padding for compactness 
+  color: #b3b3b3;
+  box-sizing: border-box;*/
+
+  flex: 1; /* Automatically occupy the remaining space */
+  background-color: #121212;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  color: #b3b3b3;
+  box-sizing: border-box;
+  position: relative; /* Align properly with the other elements */
+  z-index: 1; /* Same priority as chat list */
+}
+
+
+.chat-list h3 {
+  color: #1db954;
+}
+
+.request-item, .chat-item {
+  margin: 10px 0;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #535353;
+  border-radius: 5px;
+  text-align: center;
+}
+
+
+.chat-header {
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #212121;
+  padding: 10px;
+  border-bottom: 1px solid #535353;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+}
+
+.message.received {
+  background-color: #535353;
+  align-self: flex-start;
+}
+
+.message.sent {
+  background-color: #1db954;
+  align-self: flex-end;
+  color: #121212;
+}
+
+.message-input {
+  display: flex;
+  padding: 10px;
+  background-color: #212121;
+  border-top: 1px solid #535353;
+}
+
+.message-input input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #535353;
+  color: #b3b3b3;
+}
+
+.message-input button {
+  background-color: #1db954;
+  color: #121212;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Request and Chat Item Base Styles */
+.request-item, .chat-item {
+  margin: 10px 0;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #535353;
+  border-radius: 5px;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+/* Hover Effect */
+.request-item:hover, .chat-item:hover {
+  background-color: #1db954; /* Bright green hover color */
+  color: #121212; /* Dark text for contrast */
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Active State */
+.request-item.active, .chat-item.active {
+  background-color: #1db954; /* Keep green background for selected button */
+  color: #121212; /* Dark text for readability */
+  transform: scale(1); /* Reset scale */
+}

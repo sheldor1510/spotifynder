@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Profile</title>
+    <link rel="stylesheet" href="profile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <!-- Sidebar-->
+            <!-- Profile Icon, Username-->
+            <div class="profile-info">
+                <div class="search-icon">🔍</div>
+                <p>@aanyamehta2</p>
+            </div>
+
+            <!--Nav Bar-->
+            <nav>
+                <ul>
+                    <li><a href="#">Discovery</a></li>
+                    <li><a href="#">Chats</a></li>
+                    <li><a href="#" class="active">Profile</a></li>
+                </ul>
+            </nav>
+
+            <!--Logout Button-->
+            <button class="logout-button">Logout</button>
+        </aside>
+        <main class="content">
+            <!-- Profile -->
+             <div class="profile-header">
+                <div class="user-info">
+                    <div class="avatar">👤</div>
+                    <div>
+                        <p>Username: @aanyamehta</p>
+                        <p>Email: aanyamehta@umass.edu</p>
+                    </div>
+                </div>
+             </div>
+
+             <!-- Sections for artists, tracks, playlists-->
+             <section class="sections">
+                <!--artists-->
+                <div class="section">
+                    <h2>Artists</h2>
+                    <div class="item-list" id="artists">
+                        <div class="item-placeholder">
+                            <img src="giveon.jpg" alt="Artist 1">
+                        </div>
+                        <div class="item-placeholder">
+                            <img src="gracie.jpg" alt="Artist 2">
+                        </div>
+                        <div class="item-placeholder">
+                            <img src="don.jpg" alt="Artist 3">
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- tracks section -->
+                <div class="section">
+                    <h2>Tracks</h2>
+                    <div class="item-list" id="tracks">
+                        <div class="item-placeholder">
+                            <img src="apt.jpg" alt="Track 1">
+                        </div>
+                        <div class="item-placeholder">
+                            <img src="dws.jpg" alt="Track 2">
+                        </div>
+                        <div class="item-placeholder">
+                            <img src="bf.jpg" alt="Track 3">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- playlists section -->
+                <div class="section">
+                    <h2>Playlists</h2>
+                    <div class="item-list" id="playlists">
+                        <div class="item-placeholder">
+                            <img src="playlist1.jpg" alt="Playlist 1">
+                        </div>
+                        <div class="item-placeholder">
+                            <img src="playlist2.jpg" alt="Playlist 2">
+                        </div>
+                        <div class="item-placeholder">
+                            <img src="playlist3.jpg" alt="Playlist 3">
+                        </div>
+                    </div>
+                </div>
+             </section>
+
+             <!-- personality prompts section -->
+            <section class="personality-prompts">
+                <h2>Personality Prompts</h2>
+                <div class="prompt">
+                    <input type="text" placeholder="Question 1">
+                    <textarea placeholder="Answer..."></textarea>
+                </div>
+                <button class="add-prompt">+</button>
+            </section>
+
+        </main>
+    </div>
+</body>
+<script src="profile.js"></script>
+</html>

@@ -39,10 +39,7 @@ request.onsuccess = function (event) {
     loadFilterData();
 
     populateDummyFilterData();
-
-    
     populateDummyCardsData();
-
 };
 
 request.onerror = function (event) {

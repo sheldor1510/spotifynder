@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onboarding - Spotifynder</title>
+  <link rel="stylesheet" href="onboarding1.css">
+  <script src="onboarding1.js" defer></script>
+</head>
+<body>
+  <div class="onboarding-container">
+
+    <!-- Sign-In Page -->
+    <div id="sign-in-page" class="page">
+      <h1>Welcome to Spotifynder</h1>
+      <p>Sign in with Spotify to get started.</p>
+      <button id="spotify-login-btn" class="spotify-button">Sign in with Spotify</button>
+    </div>
+    
+    <!-- College Selection Page -->
+    <div id="college-selection" class="page hidden">
+      <h1>Welcome to Spotifynder</h1>
+      <label for="college-input">Enter your College:</label>
+      <input type="text" id="college-input" placeholder="Your College Name">
+      <button id="save-college-btn" class="spotify-button">Save College</button>
+    </div>
+    
+    <!-- Top Artists and Tracks Selection Page -->
+    <div id="top-info" class="page hidden">
+      <h1>Welcome to Spotifynder</h1>
+      <h2>Select Your Top Artists and Tracks</h2>
+      <div class="top-info">
+        <div id="top-artists" class="top-section">
+          <h3>Your Top Artists</h3>
+          <ul id="artists-list"></ul>
+        </div>
+        <div id="top-tracks" class="top-section">
+          <h3>Your Top Tracks</h3>
+          <ul id="tracks-list"></ul>
+        </div>
+      </div>
+      <div class="finish-button-container">
+        <button id="finish-btn" class="spotify-button">Finish</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

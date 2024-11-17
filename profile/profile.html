@@ -9,34 +9,32 @@
 </head>
 <body>
     <div class="container">
-        <aside class="sidebar">
-            <!-- Sidebar-->
-            <!-- Profile Icon, Username-->
-            <div class="profile-info">
-                <div class="search-icon">🔍</div>
-                <p>@aanyamehta2</p>
+    <!-- Sidebar -->
+        <div id="sidebar">
+            <!-- User Profile (1a) -->
+            <div id="user-profile">
+                <img id="profile-pic" src="sample-pfp.jpeg" alt="User Profile Picture">
+                <p id="username">@avni</p>
             </div>
 
-            <!--Nav Bar-->
+            <!-- Navigation Buttons (1b) -->
             <nav>
-                <ul>
-                    <li><a href="#">Discovery</a></li>
-                    <li><a href="#">Chats</a></li>
-                    <li><a href="#" class="active">Profile</a></li>
-                </ul>
+                <button id="discovery-btn">Discovery</button>
+                <button id="chats-btn">Chats <span id="unread-count">0</span></button>
+                <button id="profile-btn" class="selected">Profile</button>
             </nav>
-
-            <!--Logout Button-->
-            <button class="logout-button">Logout</button>
-        </aside>
-        <main class="content">
+            <button id="logout-button">Logout</button>
+        </div>
+        <main class="main-content">
             <!-- Profile -->
              <div class="profile-header">
                 <div class="user-info">
-                    <div class="avatar">👤</div>
+                    <div class="avatar">
+                        <img id="profile-pic" src="sample-pfp.jpeg" alt="User Profile Picture">
+                    </div>
                     <div>
-                        <p>Username: @aanyamehta</p>
-                        <p>Email: aanyamehta@umass.edu</p>
+                        <p>Username: @avni</p>
+                        <p>Email: avni@umass.edu</p>
                     </div>
                 </div>
              </div>

@@ -7,6 +7,7 @@ Assigned to: Priyal Nanda
 Onboarding Feature Part 2: 
 This feature is a part two of the onboarding process. Users will now be able to add in their personal playlists from spotify. This information will further make it easier for Spotifynder to find the perfect match ups for users, as it takes into account a user’s unique music taste and preferences. The onboarding process will also include multiple unique questions that a user will answer and display on their profile. These questions allow a user to have more versatility in what they want their profile to display and also it will include their own answers, making their profile more individualized.
 
+
 Assigned to: Nehal Garg
 
 Discovery Page Feature: 

@@ -33,7 +33,6 @@ request.onsuccess = function (event) {
     loadFilterData();
 
     populateDummyFilterData();
-
 };
 
 request.onerror = function (event) {

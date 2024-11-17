@@ -145,6 +145,16 @@ Feature Breakdown:
             IndexedDB:
             Retrieves user data stored in the database.
 
+        1(a) User Profile Pic and Username Fetched from IndexedDB (3 pts)
+            Description:
+            Fetches and displays the user's profile picture and username on the sidebar.
+            Updates dynamically if the database changes.
+            Purpose:
+            Ensures the UI always reflects the current user’s data.
+            Provides personalization and consistency.
+            IndexedDB:
+            Retrieves user data stored in the database.
+
         1(b) Four Interaction Nav Buttons (4 pts (1+1+1+1))
             Description:
             Buttons: Discovery, Chats, Profile, Logout.

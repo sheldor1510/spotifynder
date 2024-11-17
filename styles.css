@@ -1,0 +1,532 @@
+/* General body styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+}
+
+/* Sidebar styling */
+#sidebar {
+    width: 20vw;
+    height: 100vh; /* Full viewport height */
+    background-color: #212121;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed; /* Fix the sidebar to the left side */
+    top: 0;
+    left: 0;
+}
+
+/* User Profile styling */
+#user-profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#username {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1db954;
+}
+
+/* Navigation buttons styling */
+nav button {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #535353;
+    color: white;
+    border-radius: 16px; /* Rounded corners */
+    border: none;
+    margin-bottom: 10px;
+}
+
+#unread-count {
+    background-color: #1db954;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+/* Main content styling */
+#content { /* Offset for sidebar */
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80vw;
+    margin-left: 20vw;
+    background-color: #121212;
+}
+
+.header-wrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Spotifynder title styling */
+#title {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 40px; /* Remove any extra top margin */
+    margin-bottom: 40px;
+    color: 	#1db954
+}
+
+#logout-button {
+    margin-top: auto; /* Push to bottom */
+    padding: 10px 0;
+    border: none;
+    background: none; /* Remove default button styles */
+    color: green; /* Green text */
+    font-size: 16px;
+    cursor: pointer;
+    text-align: left;
+}
+
+#logout-button:hover {
+    text-decoration: underline; /* Optional hover effect */
+}
+
+nav button.selected {
+    background-color: black; /* Change background to green */
+    color: white; /* Keep text color white */
+    font-weight: bold; /* Make the font bold for emphasis */
+}
+
+/* Filter Panel styling */
+#filter-panel {
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    padding: 20px;
+    color: white;
+    flex-grow: 1; /* Allow panel to grow and fill available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push "Randomize" button to bottom */
+    left: 20vw;
+    position: fixed;
+    margin-left: 3vw;
+    height: 80%;
+    padding-bottom: 40px;
+    padding-right: 30px;
+    padding-left: 30px;
+    width: 20%;
+}
+
+#filter-panel h2 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #1db954;
+    text-align: center;
+}
+
+.filter-section h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #cccccc;
+    margin-bottom: 10px;
+}
+
+/* Horizontal scroll for filter items */
+.filter-items {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
+}
+
+/* Base styles for filter-item */
+.filter-item {
+    position: relative;
+    min-width: 5rem;
+    height: 5rem;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: none; /* Remove button border */
+    cursor: pointer; /* Add pointer cursor */
+    overflow: hidden; /* Ensure content stays within bounds */
+    outline: none; /* Remove focus outline */
+    transition: transform 0.2s ease; /* Smooth scaling effect */
+}
+
+/* Inner wrapper for the background */
+.filter-item-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: filter 0.3s ease; /* Smooth blur transition */
+    z-index: 0; /* Ensure background stays below overlay */
+}
+
+/* Blur effect when hovered */
+.filter-item:hover .filter-item-background {
+    filter: blur(3px); /* Blur the background */
+}
+
+/* Keep blurred state when clicked */
+.filter-item.clicked .filter-item-background {
+    filter: blur(3px); /* Keep blur effect */
+}
+
+/* Overlay to display the name */
+.filter-item-name {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+    pointer-events: none; /* Prevent hover events from affecting the overlay */
+    z-index: 1; /* Ensure text stays above everything else */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease; /* Smooth fade-in effect */
+}
+
+/* Show the name overlay on hover or when clicked */
+.filter-item:hover .filter-item-name,
+.filter-item.clicked .filter-item-name {
+    opacity: 1; /* Make the text visible */
+}
+
+/* Slight scaling effect on hover */
+.filter-item:hover {
+    transform: scale(1.05); /* Slightly enlarge the button */
+}
+
+/* Disable hover scale if clicked */
+.filter-item.clicked:hover {
+    transform: none;
+}
+
+/* Hide scroll bar for Webkit browsers */
+.filter-items::-webkit-scrollbar {
+    display: none;
+}
+
+
+#randomize-btn:hover {
+    background-color: #1aa34a;
+}
+#reset-btn:hover{
+    background-color: #1aa34a;
+}
+/* Slider Container Styling */
+#slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+#slider-container label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #cccccc;
+}
+
+#compatibility-slider {
+    width: 100%;
+    cursor: pointer;
+    -webkit-appearance: none; /* Remove default styling on Webkit browsers */
+    appearance: none;
+    background: #1db954;
+    height: 5px;
+    border-radius: 5px;
+    outline: none;
+}
+
+#compatibility-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #1db954;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#compatibility-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #1db954;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#slider-value {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 5px;
+    color: #1db954;
+}
+
+#button-container {
+    display: flex;
+    gap: 10px; /* Optional: space between buttons */
+    justify-content: center; /* Center the buttons horizontally */
+}
+
+/* Default button styling */
+#randomize-btn,
+#reset-btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 16px;
+    background-color: #535353;
+    color: white;
+}
+
+
+.inline-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.user-profile {
+    width: 40vw;
+    min-height: 70vh;
+    height: fit-content;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-left: 20rem;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+  }
+  
+  .view {
+    text-align: center;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .compatibility {
+    color: #888;
+  }
+  
+  .personality-prompts {
+    margin: 15px 0;
+  }
+  
+  .toggle-button {
+    background-color: #1db954;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+
+  
+  .qa {
+    margin: 10px 0;
+  }
+  
+  .qa p {
+    margin: 5px 0;
+  }
+
+  .front-view h2 {
+    font-size: 1.5em;
+    margin: 0;
+    color: #1db954;
+  }
+
+  .profile-inline-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    width: 50%;
+    margin: auto;
+    margin-top: 5px;
+  }
+
+  .profile-pic {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .profile-inline-header .content {
+    text-align: left;
+    margin-left: 10px;
+  }
+
+  .profile-inline-header .content .username {
+    color: #cccccc;
+    margin: 0;
+    font-size: 1.25em;
+  }
+
+  .section {
+    margin: 0px 0;
+    height: fit-content;
+  }
+
+  .images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 2fr));
+    gap: 10px;
+    margin: auto;
+    margin-bottom: 20px;
+  }
+
+  .artist {
+    display: flex;
+    align-items: center;
+  }
+
+  .artist img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: auto;
+  }
+
+  .section h3 {
+    color: #cccccc;
+  }
+
+  .top-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0vw;
+  }
+
+  .back-view h2 {
+    font-size: 1.5em;
+    margin: 0;
+    color: #1db954;
+  }
+
+  .qa {
+    margin: 10px 0;
+    /* // make this is a div with background-color: black and color white; */
+    padding: 10px;
+    border-radius: 10px;
+    background-color: black;
+    margin-bottom: 40px;
+    margin-top: 40px;
+  }
+
+  .question {
+    font-weight: bold;
+    color: white;
+    font-size: 1.15em;
+  }
+
+  .answer {
+    color: #cccccc;
+  }
+
+  #score {
+    color: white;
+    font-weight: bold;
+    font-size: 1.25em;
+  }
+
+
+  .profile-buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 68.5%;
+    height: 100%;
+    margin-top: 14px;
+    margin-left: 320px;
+}
+
+/* Action buttons container */
+#action-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Individual buttons styling */
+#accept-button,
+#reject-button {
+    flex: 1; /* Both buttons take equal space */
+    padding: 15px; /* Add padding for larger buttons */
+    font-size: 22px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    text-align: center;
+    margin: 0 10px; /* Add spacing between buttons */
+    background-color: #535353; /* Default color for both buttons */
+}
+
+/* Accept button styles */
+#accept-button {
+    background-color: #1db954;
+}
+
+#accept-button:hover {
+    background-color: #1aa34a;
+}
+
+/* Reject button styles */
+#reject-button {
+    background-color: #e63946;
+}
+
+#reject-button:hover {
+    background-color: #c02639;
+}
+
+
+

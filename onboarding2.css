@@ -49,16 +49,12 @@ h1{
     display: none;
   }
   
-
-  
   .question-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 10px;
   }
-  
- 
   
   input[type="text"] {
     width: 90%;

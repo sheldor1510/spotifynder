@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant User as User
     participant ProfilePage as Profile Page
@@ -22,3 +23,4 @@ sequenceDiagram
 
     User ->> ProfilePage: Refresh Profile Page
     ProfilePage ->> IndexedDB: Retrieve and display updated data
+```

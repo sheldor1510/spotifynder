@@ -242,7 +242,8 @@ function populateDummyCardsData() {
         },
         {
             type: 'profile',
-            name: 'shoubhitravi',
+            name: 'Shoubhit Ravi',
+            username: 'shoubhitravi',
             image: 'https://github.com/shoubhitravi.png',
             compability: 75,
             topArtists: [
@@ -438,4 +439,79 @@ document.addEventListener("DOMContentLoaded", () => {
         backView.classList.toggle("hidden");
       });
     });
-});  
+});
+
+document.getElementById('accept-button').addEventListener('click', () => {
+    if (!db) return;
+
+    // Open a transaction to update the cardsData
+    const transaction = db.transaction(['cardsData'], 'readwrite');
+    const cardsStore = transaction.objectStore('cardsData');
+
+    // Get the tracker object
+    const request = cardsStore.getAll();
+
+    request.onsuccess = (event) => {
+        const items = event.target.result;
+        const tracker = items.find(item => item.type === 'tracker');
+
+        if (tracker) {
+            // Update the profile_currently_viewing to 'anshulsaha'
+            tracker.profile_currently_viewing = 'anshulsaha';
+
+            // Save the updated tracker object back to the store
+            const updateRequest = cardsStore.put(tracker);
+
+            updateRequest.onsuccess = () => {
+                console.log('Profile accepted and updated to anshulsaha');
+                loadCardsData(); // Reload the updated data
+            };
+
+            updateRequest.onerror = (event) => {
+                console.error('Error updating tracker:', event.target.errorCode);
+            };
+        }
+    };
+
+    request.onerror = (event) => {
+        console.error('Error fetching tracker data:', event.target.errorCode);
+    };
+});
+
+// Event listener for "Reject" button
+document.getElementById('reject-button').addEventListener('click', () => {
+    if (!db) return;
+
+    // Open a transaction to update the cardsData
+    const transaction = db.transaction(['cardsData'], 'readwrite');
+    const cardsStore = transaction.objectStore('cardsData');
+
+    // Get the tracker object
+    const request = cardsStore.getAll();
+
+    request.onsuccess = (event) => {
+        const items = event.target.result;
+        const tracker = items.find(item => item.type === 'tracker');
+
+        if (tracker) {
+            // Update the profile_currently_viewing to 'shoubhitravi'
+            tracker.profile_currently_viewing = 'shoubhitravi';
+
+            // Save the updated tracker object back to the store
+            const updateRequest = cardsStore.put(tracker);
+
+            updateRequest.onsuccess = () => {
+                console.log('Profile rejected and updated to shoubhitravi');
+                loadCardsData();
+            };
+
+            updateRequest.onerror = (event) => {
+                console.error('Error updating tracker:', event.target.errorCode);
+            };
+        }
+    };
+
+    request.onerror = (event) => {
+        console.error('Error fetching tracker data:', event.target.errorCode);
+    };
+});

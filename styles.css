@@ -317,7 +317,7 @@ nav button.selected {
 
 .inline-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -476,3 +476,53 @@ nav button.selected {
     font-size: 1.25em;
   }
 
+  .profile-buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 68.5%;
+    height: 100%;
+    margin-top: 14px;
+    margin-left: 320px;
+}
+
+/* Action buttons container */
+#action-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Individual buttons styling */
+#accept-button,
+#reject-button {
+    flex: 1; /* Both buttons take equal space */
+    padding: 15px; /* Add padding for larger buttons */
+    font-size: 22px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    text-align: center;
+    margin: 0 10px; /* Add spacing between buttons */
+    background-color: #535353; /* Default color for both buttons */
+}
+
+/* Accept button styles */
+#accept-button {
+    background-color: #1db954;
+}
+
+#accept-button:hover {
+    background-color: #1aa34a;
+}
+
+/* Reject button styles */
+#reject-button {
+    background-color: #e63946;
+}
+
+#reject-button:hover {
+    background-color: #c02639;
+}

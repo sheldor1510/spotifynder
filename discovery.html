@@ -34,6 +34,11 @@
             <div id="filter-panel">
                 <h2>Filters</h2>
 
+        <div class="inline-wrapper">
+            <!-- Filter Panel -->
+            <div id="filter-panel">
+                <h2>Filters</h2>
+
                 <!-- Filter Section for Artists -->
                 <div class="filter-section filter-section-artist">
                     <h3>Artists</h3>
@@ -71,48 +76,58 @@
                     <button id="reset-btn">Reset</button>
                 </div>
             </div>
-
-            <div class="user-profile">
-                <div class="view front-view">
-                  <h2 id="profile-name"></h2> <!-- user name from indexed db comes here -->
-                  <div class="profile-inline-header">
-                    <img class="profile-pic" id="profile-pfp" src="" alt="User Profile Picture"> <!-- profile pic from indexed db comes here -->
-                    <div class="content">
-                        <!-- <p class="compatibility"><span id="score">@</span> anshul_saha</p> -->
-                        <p class="compatibility"><span id="score"></span> compatibility</p> <!-- score from indexed db comes here -->
+                <!-- User Profile -->
+                <div class="user-profile">
+                    <div class="view front-view">
+                        <h2 id="profile-name"></h2> <!-- user name from indexed db comes here -->
+                        <div class="profile-inline-header">
+                            <img class="profile-pic" id="profile-pfp" src="" alt="User Profile Picture"> <!-- profile pic from indexed db comes here -->
+                            <div class="content">
+                                <p class="compatibility"><span id="score"></span> compatibility</p> <!-- score from indexed db comes here -->
+                            </div>
+                        </div>
+                        <div class="top-content">
+                            <div class="section">
+                                <h3>Top 3 Artists</h3>
+                                <div class="images" id="user-artists">
+                                    <!-- this populates with user's top 3 artists from indexed db -->
+                                </div>
+                            </div>
+                            <div class="section">
+                                <h3>Top 3 Tracks</h3>
+                                <div class="images" id="user-tracks">
+                                    <!-- this populates with user's top 3 tracks from indexed db -->
+                                </div>
+                            </div>
+                            <div class="section">
+                                <h3>Top 3 Playlists</h3>
+                                <div class="images" id="user-playlists">
+                                    <!-- this populates with user's top 3 playlists from indexed db -->
+                                </div>
+                            </div>
+                        </div>
+                        <button class="toggle-button">View More</button>
                     </div>
-                  </div>
-                  <div class="top-content">
-                    <div class="section">
-                      <h3>Top 3 Artists</h3>
-                      <div class="images" id="user-artists">
-                        <!-- this populates with user's top 3 artists from indexed db -->
-                      </div>
+                    <div class="view back-view hidden">
+                        <h2>Personality Prompts</h2>
+                        <div id="personality-prompts">
+                            <!-- this populates with user's personality prompts from indexed db -->
+                        </div>
+                        <button class="toggle-button">Back to Profile</button>
                     </div>
-                    <div class="section">
-                      <h3>Top 3 Tracks</h3>
-                      <div class="images" id="user-tracks">
-                         <!-- this populates with user's top 3 tracks from indexed db -->
-                      </div>
-                    </div>
-                    <div class="section">
-                      <h3>Top 3 Playlists</h3>
-                      <div class="images" id="user-playlists">
-                        <!-- this populates with user's top 3 playlists from indexed db -->
-                      </div>
-                    </div>
-                  </div>
-                  <button class="toggle-button">View More</button>
                 </div>
-            
-                <div class="view back-view hidden">
-                  <h2>Personality Prompts</h2>
-                  <div id="personality-prompts">
-                        <!-- this populates with user's personality prompts from indexed db -->
-                  </div>
-                  <button class="toggle-button">Back to Profile</button>
+                
+                <div class="profile-buttons-wrapper">
+                <!-- Accept and Reject Buttons -->
+                <div id="action-buttons">
+                    <button id="accept-button">
+                        <span>&#10003;</span> Accept
+                    </button>
+                    <button id="reject-button">
+                        <span>&#10007;</span> Reject
+                    </button>
                 </div>
-              </div>
+            </div>
         </div>
     </div>
 

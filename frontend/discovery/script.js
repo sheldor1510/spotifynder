@@ -587,3 +587,93 @@ document.getElementById('reset-btn').addEventListener('click', () => {
     resetButton.style.backgroundColor = '#1aa34a';
     setTimeout(() => (resetButton.style.backgroundColor = '#535353'), 200);
 });
+
+// "I'm Feeling Lucky" button functionality
+document.getElementById('lucky-btn').addEventListener('click', () => {
+    if (!db) {
+        console.error("IndexedDB is not available.");
+        return;
+    }
+
+    const transaction = db.transaction(['cardsData'], 'readonly');
+    const cardsStore = transaction.objectStore('cardsData');
+
+    const request = cardsStore.getAll();
+
+    request.onsuccess = function (event) {
+        const items = event.target.result;
+
+        const profiles = items.filter(item => item.type === 'profile');
+
+        if (profiles.length === 0) {
+            console.error("No profiles available to display.");
+            return;
+        }
+
+        const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
+
+        document.getElementById('profile-name').textContent = randomProfile.name;
+        document.getElementById('profile-pfp').src = randomProfile.image;
+        document.getElementById('score').textContent = randomProfile.compability.toString() + '%';
+
+        document.getElementById('user-artists').innerHTML = '';
+        randomProfile.topArtists.forEach(artist => {
+            const div = document.createElement('div');
+            div.classList.add('artist');
+            const img = document.createElement('img');
+            img.src = artist.image;
+            img.alt = artist.name;
+            div.appendChild(img);
+            document.getElementById('user-artists').appendChild(div);
+        });
+
+        document.getElementById('user-tracks').innerHTML = '';
+        randomProfile.topTracks.forEach(track => {
+            const div = document.createElement('div');
+            div.classList.add('artist');
+            const img = document.createElement('img');
+            img.src = track.image;
+            img.alt = track.name;
+            div.appendChild(img);
+            document.getElementById('user-tracks').appendChild(div);
+        });
+
+        document.getElementById('user-playlists').innerHTML = '';
+        randomProfile.topPlaylists.forEach(playlist => {
+            const div = document.createElement('div');
+            div.classList.add('artist');
+            const img = document.createElement('img');
+            img.src = playlist.image;
+            img.alt = playlist.name;
+            div.appendChild(img);
+            document.getElementById('user-playlists').appendChild(div);
+        });
+
+        document.getElementById('personality-prompts').innerHTML = '';
+        randomProfile.questions.forEach(question => {
+            const div = document.createElement('div');
+            div.classList.add('qa');
+            const q = document.createElement('p');
+            q.classList.add('question');
+            q.textContent = question.question;
+            div.appendChild(q);
+            div.appendChild(document.createElement('br'));
+            const a = document.createElement('p');
+            a.classList.add('answer');
+            a.textContent = question.answer;
+            div.appendChild(a);
+            document.getElementById('personality-prompts').appendChild(div);
+        });
+
+        console.log("Random profile displayed:", randomProfile.name);
+    };
+
+    request.onerror = function (event) {
+        console.error("Error fetching profiles from IndexedDB:", event.target.errorCode);
+    };
+
+    const luckyButton = document.getElementById('lucky-btn');
+    luckyButton.style.backgroundColor = '#1aa34a'; // Highlight the button
+    setTimeout(() => (luckyButton.style.backgroundColor = '#535353'), 200); // Reset color after 200ms
+});
+    

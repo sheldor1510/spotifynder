@@ -6,10 +6,8 @@ let dbReady = false;
 
 function openDb() {
   const request = indexedDB.open(dbName, ver);
-
   request.onupgradeneeded = function (e) {
     db = e.target.result;
-    
     if (!db.objectStoreNames.contains('playlists')) {
       db.createObjectStore('playlists', { keyPath: 'id', autoIncrement: true });
     }
@@ -32,11 +30,6 @@ function openDb() {
 
 // Save playlist data to IndexedDB
 function savePlayList(one, two, three) {
-  if (!dbReady) {
-    console.error("Database is not ready yet!");
-    return;
-  }
-
   const transaction = db.transaction('playlists', 'readwrite');
   const store = transaction.objectStore('playlists');
   
@@ -55,22 +48,10 @@ function savePlayList(one, two, three) {
 
 // Save questionnaire responses to IndexedDB
 function promptQ(q1, q2, q3) {
-  if (!dbReady) {
-    console.error("Database is not ready yet!");
-    return;
-  }
-
   const transaction = db.transaction('responses', 'readwrite');
   const store = transaction.objectStore('responses');
-  
   const responses = { q1, q2, q3 };
-
   const request = store.add(responses);
-
-  request.onsuccess = function () {
-    console.log("Responses saved successfully!");
-  };
-
   request.onerror = function (e) {
     console.error("Error saving responses:", e);
   };
@@ -79,18 +60,12 @@ function promptQ(q1, q2, q3) {
 // Event listener for page load to initialize the DB
 document.addEventListener('DOMContentLoaded', function() {
   openDb();  
-  
   const continueButton = document.getElementById('continue-button');
   const playlistForm = document.getElementById('playlist-form');
   const questionnaireForm = document.getElementById('questionnaire-form');
   
   questionnaireForm.classList.add('hidden');  // Hide the questionnaire form initially
-
   continueButton.addEventListener('click', function() {
-    if (!dbReady) {
-      console.error("Database is not ready yet!");
-      return;
-    }
 
     const playlist1 = document.getElementById('playlist-input1').value;
     const playlist2 = document.getElementById('playlist-input2').value;
@@ -109,11 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const submitResponsesButton = document.getElementById('submit-responses-button');
   
   submitResponsesButton.addEventListener('click', function() {
-    if (!dbReady) {
-      console.error("Database is not ready yet!");
-      return;
-    }
-
     const q1 = document.getElementById('q1').value;
     const q2 = document.getElementById('q2').value;
     const q3 = document.getElementById('q3').value;

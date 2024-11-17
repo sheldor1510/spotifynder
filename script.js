@@ -1,3 +1,4 @@
+
 let db;
 const request = window.indexedDB.open('SpotifynderDB', 5);
 
@@ -39,7 +40,10 @@ request.onsuccess = function (event) {
     loadFilterData();
 
     populateDummyFilterData();
+
+    
     populateDummyCardsData();
+
 };
 
 request.onerror = function (event) {
@@ -514,4 +518,72 @@ document.getElementById('reject-button').addEventListener('click', () => {
     request.onerror = (event) => {
         console.error('Error fetching tracker data:', event.target.errorCode);
     };
+});
+    
+
+// Randomize button functionality
+document.getElementById('randomize-btn').addEventListener('click', () => {
+    if (!db) return;
+
+    const transaction = db.transaction(['filterData'], 'readonly');
+    const filterStore = transaction.objectStore('filterData');
+
+    const request = filterStore.getAll();
+
+    request.onsuccess = function (event) {
+        const items = event.target.result;
+
+        // Separate items by type
+        const artists = items.filter(item => item.type === 'artist');
+        const tracks = items.filter(item => item.type === 'track');
+        const playlists = items.filter(item => item.type === 'playlist');
+
+        // Shuffle each group
+        const shuffledArtists = artists.sort(() => Math.random() - 0.5);
+        const shuffledTracks = tracks.sort(() => Math.random() - 0.5);
+        const shuffledPlaylists = playlists.sort(() => Math.random() - 0.5);
+
+        // Re-populate the filter sections with shuffled data
+        populateFilterSection('artist', shuffledArtists);
+        populateFilterSection('track', shuffledTracks);
+        populateFilterSection('playlist', shuffledPlaylists);
+
+        console.log('Filters have been randomized.');
+    };
+
+    request.onerror = function (event) {
+        console.error('Error randomizing filters:', event.target.errorCode);
+    };
+
+    // Change button color on click
+    const randomizeButton = document.getElementById('randomize-btn');
+    randomizeButton.style.backgroundColor = '#1aa34a'; // Highlight the button
+    setTimeout(() => (randomizeButton.style.backgroundColor = '#535353'), 200); // Reset color after 200ms
+});
+
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+    if (!db) {
+        console.error("IndexedDB is not available.");
+        return;
+    }
+
+    console.log("Reset button clicked. Resetting filters and reloading data from IndexedDB.");
+
+    console.log("Reloading filter data...");
+    loadFilterData();
+    console.log("Filter data reloaded.");
+
+    console.log("Reloading cards data...");
+    loadCardsData();
+    console.log("Cards data reloaded.");
+
+    const slider = document.getElementById('compatibility-slider');
+    slider.value = 50;
+    document.getElementById('slider-value').textContent = '50%';
+    console.log("Compatibility slider reset to 50%.");
+
+    const resetButton = document.getElementById('reset-btn');
+    resetButton.style.backgroundColor = '#1aa34a';
+    setTimeout(() => (resetButton.style.backgroundColor = '#535353'), 200);
 });

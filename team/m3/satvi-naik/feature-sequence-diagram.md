@@ -1,16 +1,18 @@
-graph
-    User (@satvi) --> Discovery
-    User --> Chats
-    User --> Profile
-    User --> Requests
-    User --> Chat List
-    User --> User Details
+```mermaid
+graph TD;
+    User["User (@satvi)"] --> Discovery;
+    User --> Chats;
+    User --> Profile;
+    User --> Requests;
+    User --> ChatList["Chat List"];
+    User --> UserDetails["User Details"];
     
-    Requests --> Select Aanya
-    Select Aanya --> View @aanya's Profile
-    Aanya's profile --> Accept/Decline Friendship Status
-
-    Chat List --> Selects Anshul
-    Select Anshul --> Chat Page Opens 
-    Chat page opens --> Send message
-    Sends Message--> Message Displayed in Chat
+    Requests --> SelectAanya["Select Aanya"];
+    SelectAanya --> ViewAanyaProfile["View @aanya's Profile"];
+    ViewAanyaProfile --> FriendshipStatus["Accept/Decline Friendship Status"];
+    
+    ChatList --> SelectAnshul["Select Anshul"];
+    SelectAnshul --> ChatPage["Chat Page Opens"];
+    ChatPage --> SendMessage["Send Message"];
+    SendMessage --> MessageDisplayed["Message Displayed in Chat"];
+```

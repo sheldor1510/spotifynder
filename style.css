@@ -12,7 +12,7 @@ body {
 /* Sidebar styling */
 #sidebar {
 
-  width: 15%; /* Explicit width for the sidebar */
+  width: 20vw; /* Explicit width for the sidebar */
   background-color: #181818;
   padding: 15px;
   box-sizing: border-box;
@@ -70,6 +70,7 @@ nav button {
   padding: 2px 6px;
   font-size: 14px;
   vertical-align: middle;
+
 }
 
 /* Main content styling */
@@ -118,9 +119,9 @@ nav button {
 }
 
 nav button.selected {
-  background-color: black; /* Change background to green */
-  color: white; /* Keep text color white */
-  font-weight: bold; /* Make the font bold for emphasis */
+  background-color: black; 
+  color: white; 
+  font-weight: bold; 
 }
 
 /* Chat List styling */
@@ -138,13 +139,6 @@ nav button.selected {
 
 /* Chat Area styling */
 .chat-area {
-   /*flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: #121212;
-  padding: 15px; /* Reduced padding for compactness 
-  color: #b3b3b3;
-  box-sizing: border-box;*/
 
   flex: 1; /* Automatically occupy the remaining space */
   background-color: #121212;
@@ -153,8 +147,8 @@ nav button.selected {
   flex-direction: column;
   color: #b3b3b3;
   box-sizing: border-box;
-  position: relative; /* Align properly with the other elements */
-  z-index: 1; /* Same priority as chat list */
+  position: relative; 
+  z-index: 1; 
 }
 
 
@@ -206,6 +200,7 @@ nav button.selected {
   color: #121212;
 }
 
+
 .message-input {
   display: flex;
   padding: 10px;
@@ -240,21 +235,21 @@ nav button.selected {
   background-color: #535353;
   border-radius: 5px;
   text-align: center;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  transition: background-color 0.3s ease, transform 0.2s ease; 
 }
 
 /* Hover Effect */
 .request-item:hover, .chat-item:hover {
-  background-color: #1db954; /* Bright green hover color */
-  color: #121212; /* Dark text for contrast */
-  transform: scale(1.05); /* Slight zoom effect */
+  background-color: #1db954; 
+  color: #121212; 
+  transform: scale(1.05); 
 }
 
 /* Active State */
 .request-item.active, .chat-item.active {
-  background-color: #1db954; /* Keep green background for selected button */
-  color: #121212; /* Dark text for readability */
-  transform: scale(1); /* Reset scale */
+  background-color: #1db954; 
+  color: #121212; 
+  transform: scale(1); 
 }
 
 .chat-area {

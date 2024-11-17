@@ -1,8 +1,63 @@
-// Example chat data
-const chatData = {
-  "@anshul": ["Hi", "What's up?", "I'm Anshul"],
-  "@tanush": ["Hello!", "How are you?"],
-  "@avni": ["Good morning!", "Let's catch up later."],
+// Example chat data for initial display
+const initialChatData = {
+  "@anshul": [
+    {
+      messageType: "received",
+      message: "Hi"
+    }, 
+    {
+      messageType: "received",
+      message: "What's up?"
+    }, 
+    {
+      messageType: "received",
+      message: "I'm Anshul"
+    }],
+
+    "@tanush": [
+    {
+      messageType: "received",
+      message: "Hello!"
+    }, 
+    {
+      messageType: "received",
+      message: "How are you?"
+    }],
+    "@avni": [
+    {
+      messageType: "received",
+      message: "Good Morning!"
+    }, 
+    {
+      messageType: "received",
+      message: "Let's catch up soon :)"
+    }],
+ 
+};
+
+// IndexedDB setup
+let db;
+const request = indexedDB.open("ChatAppDB", 1);
+
+request.onupgradeneeded = (event) => {
+  db = event.target.result;
+  const objectStore = db.createObjectStore("chats", { keyPath: "user" });
+  console.log("IndexedDB: Object store created.");
+
+  // Preload initial chat data into IndexedDB
+  const transaction = objectStore.transaction;
+  Object.keys(initialChatData).forEach((user) => {
+    objectStore.add({ user, messages: initialChatData[user] });
+  });
+};
+
+request.onsuccess = (event) => {
+  db = event.target.result;
+  console.log("IndexedDB: Database initialized.");
+};
+
+request.onerror = (event) => {
+  console.error("IndexedDB: Error opening database", event.target.error);
 };
 
 // Get DOM elements
@@ -10,23 +65,66 @@ const requests = document.querySelectorAll(".request-item");
 const chats = document.querySelectorAll(".chat-item");
 const messagesContainer = document.querySelector(".messages");
 const chatHeader = document.querySelector(".chat-header");
+const inputField = document.querySelector(".message-input input");
+const sendButton = document.querySelector(".send-btn");
 
-// Function to load chat messages
+// Function to load chat messages from IndexedDB
 function loadChat(user) {
-  // Update chat header
-  chatHeader.textContent = user;
+  const transaction = db.transaction(["chats"], "readonly");
+  const objectStore = transaction.objectStore("chats");
+  const request = objectStore.get(user);
 
-  // Clear existing messages
-  messagesContainer.innerHTML = "";
+  request.onsuccess = (event) => {
+    const data = event.target.result;
 
-  // Load messages for the selected user
-  const messages = chatData[user] || [];
-  messages.forEach((msg) => {
-    const div = document.createElement("div");
-    div.textContent = msg;
-    div.classList.add("message", "received"); // Default received style
-    messagesContainer.appendChild(div);
-  });
+    // Update chat header
+    chatHeader.textContent = user;
+
+    // Clear existing messages
+    messagesContainer.innerHTML = "";
+
+    // Load messages
+    const messages = data ? data.messages : [];
+    messages.forEach((msg) => {
+      const div = document.createElement("div");
+      div.textContent = msg.message;
+      div.classList.add("message", msg.messageType);
+      messagesContainer.appendChild(div);
+    });
+  };
+
+  request.onerror = () => {
+    console.error("Failed to retrieve chat data for", user);
+  };
+}
+
+// Function to save a new message in IndexedDB
+function saveMessage(user, message, isSent) {
+  const transaction = db.transaction(["chats"], "readwrite");
+  const objectStore = transaction.objectStore("chats");
+  const request = objectStore.get(user);
+
+  request.onsuccess = (event) => {
+    let data = event.target.result;
+
+    if (!data) {
+      // If no chat history exists for the user, create it
+      data = { user, messages: [] };
+    }
+
+    // Add the message to the array
+    data.messages.push({
+      messageType: "sent",
+      message: message
+    });
+
+    // Save updated data
+    objectStore.put(data);
+  };
+
+  request.onerror = () => {
+    console.error("Failed to save message for", user);
+  };
 }
 
 // Add event listeners to load different chats
@@ -37,17 +135,13 @@ function loadChat(user) {
   });
 });
 
-// Sending messages
-const inputField = document.querySelector(".message-input input");
-const sendButton = document.querySelector(".send-btn");
-
 sendButton.addEventListener("click", () => {
   const text = inputField.value.trim();
   if (text) {
     // Create a new sent message
     const div = document.createElement("div");
     div.textContent = text;
-    div.classList.add("message", "sent");
+    div.classList.add("message", "sent"); // Add the "sent" class for styling
     messagesContainer.appendChild(div);
 
     // Clear the input field
@@ -55,5 +149,9 @@ sendButton.addEventListener("click", () => {
 
     // Scroll to the bottom of the messages container
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    // Save the message to IndexedDB
+    saveMessage(chatHeader.textContent, text);
   }
 });
+

@@ -527,3 +527,19 @@ nav button.selected {
 #reject-button:hover {
   background-color: #c02639;
 }
+
+#lucky-btn {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 16px;
+  background-color: #535353;
+  color: white;
+  text-align: center;
+}
+
+#lucky-btn:hover {
+  background-color: #1aa34a;
+}

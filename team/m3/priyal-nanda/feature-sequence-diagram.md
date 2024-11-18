@@ -1,3 +1,4 @@
+```Mermaid
 sequenceDiagram
     participant User
     participant UI
@@ -24,3 +25,4 @@ sequenceDiagram
     UI->>IndexedDB: Store selected track
 
     UI->>User: Display confirmation message ("Selections saved!")
+```

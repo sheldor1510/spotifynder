@@ -98,22 +98,26 @@ The discovery page includes multiple filters for a user. One of the filters Spot
 Feature Breakdown:
 
         Tanush (6+4+2 pts)
+        
         2(a) Filters UI Component with Dummy Data (6 pts)
             Description:
             Three separate filter sections:
-            Artists
-            Tracks
-            Playlists
+            - Artists
+            - Tracks
+            - Playlists
             Each section dynamically updates based on IndexedDB-stored data.
+            
             Purpose:
             Allows users to fine-tune matchmaking by filtering preferences.
             Ensures data is presented interactively and dynamically.
+            
             IndexedDB:
             Fetches and displays all filter data dynamically from the database.
 
         2(b) Fetching Artists, Tracks, and Playlists from IndexedDB (Included in 6 pts)
             Description:
             Retrieves data for artists, tracks, and playlists dynamically to populate filter sections.
+            
             Purpose:
             Ensures real-time synchronization of IndexedDB data with the UI.
 
@@ -122,11 +126,19 @@ Feature Breakdown:
             Accept Button: Updates user preferences in IndexedDB by marking liked profiles.
             Reject Button: Updates IndexedDB by recording disliked profiles.
             Both buttons dynamically refresh the displayed cards above based on the interaction.
+            
             Purpose:
             Builds the user's taste profile for future recommendations.
             Enables dynamic updates to the card view based on preferences.
 
-
+        2(e) Filter by Compatibility Score with Slider (2 pts)
+            Description:
+            Slider allows filtering profiles by compatibility score.
+            Updates the displayed profiles dynamically based on the selected threshold.
+            
+            Purpose:
+            Offers users precise control over the matchmaking process.
+            Provides a highly customizable user experience.
 
 Assigned to: Tanush
 
@@ -145,11 +157,24 @@ Feature Breakdown:
             IndexedDB:
             Retrieves user data stored in the database.
 
+        1(a) User Profile Pic and Username Fetched from IndexedDB (3 pts)
+            Description:
+            Fetches and displays the user's profile picture and username on the sidebar.
+            Updates dynamically if the database changes.
+            
+            Purpose:
+            Ensures the UI always reflects the current user’s data.
+            Provides personalization and consistency.
+            
+            IndexedDB:
+            Retrieves user data stored in the database.
+
         1(b) Four Interaction Nav Buttons (4 pts (1+1+1+1))
             Description:
             Buttons: Discovery, Chats, Profile, Logout.
             3 buttons update the main view based on user selection.
             Logout button changes upon hovering
+            
             Purpose:
             Provides intuitive navigation between app sections.
 
@@ -157,6 +182,7 @@ Feature Breakdown:
             Description:
             Uses IndexedDB data to shuffle and randomize filters dynamically.
             Updates UI with the new randomized data.
+            
             Purpose:
             Introduces an element of unpredictability while exploring content.
             Encourages experimentation with filters.
@@ -165,8 +191,10 @@ Feature Breakdown:
             Description:
             Resets all filters to their default state.
             Refreshes the displayed cards to reflect the reset.
+            
             Purpose:
             Provides a quick way to start over without manual adjustments.
+            
             IndexedDB:
             Ensures a smooth reset by restoring the default data state.
 
@@ -174,8 +202,10 @@ Feature Breakdown:
             Description:
             Fetches the number of unread chats from IndexedDB.
             Displays the count dynamically beside the Chats navigation button.
+            
             Purpose:
             Keeps users updated on pending chats.
+            
             IndexedDB:
             Synchronizes the count with IndexedDB to ensure real-time accuracy.
 
@@ -191,15 +221,17 @@ Feature Breakdown:
         3(a) User Profile Card Component - Front and Back Views (10 pts)
             Description:
             The front view showcases user information:
-            Profile picture
-            Username
-            Compatibility score
+            - Profile picture
+            - Username
+            - Compatibility score
             Top 3 artists, tracks, and playlists fetched from IndexedDB.
             The back view contains personality prompts with Q&A cards.
             All the displayed data dynamically updates based on changes made via filters or interactions. IndexedDB persists these updates.
+            
             Purpose:
             Provides a detailed profile view, integrating all key information.
             Enhances engagement by including interactive personality prompts on the back view.
+            
             IndexedDB:
             Stores user profile data, top artists, tracks, playlists, and personality Q&A responses.
             Updates dynamically based on user interactions or filter changes.
@@ -208,9 +240,11 @@ Feature Breakdown:
             Description:
             Displays a completely random profile, bypassing filters or previous interactions.
             Updates IndexedDB with the selected profile as a "viewed" profile.
+            
             Purpose:
             Adds a fun, unpredictable element to the experience.
             Allows users to explore random profiles outside their defined preferences.
+            
             IndexedDB:
             Ensures the randomly selected profile is marked as "viewed" for potential future algorithm use.
 

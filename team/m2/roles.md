@@ -1,53 +1,52 @@
 # Team Roles and Commit Contributions
 
-## Anshul Saha - Project Manager 
-- **Role**: Oversees the overall project timeline, ensures that milestones are met, and coordinates the team’s efforts. Anshul sets up meeting agendas and ensuring that the team stays focused on project goals.
+## Anshul Saha 
+- **Role**: Worked on the matching portion of the discovery page.  
 - **Top 3 Commits** : 
-    1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/a5f52495c62180f60006eb7d8c79441463789094): 
-     Created the initial GitHub repository and set up the project structure, including the `team/m2` folder for milestone submission. 
-    2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/ab0277232747f4b6e904e0a7f99b13c448b0932e): 
-    Organized and led the first team meeting, distributing tasks and ensuring deadlines were agreed upon.
-    3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/442a5e806eb0aec413bcf4b5235957822c7f2478):
-    Separated milestone 2 between all the group members to ensure equal work is split up. 
+    1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/4c9a9b51e39609d56d964b7c3f36144a30b62292): 
+    Created the discovery cards feature for the discovery page which consisted of user information as well as their music preferences. 
+    2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/62fc1910ca691628babb0e9be3cabaa2d713216f): 
+    Improved code organization and linking a key feature (onboarding) for a smoother user flow for other group members' parts 
+    3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/9778af8ab6c9500066b528deadcb4a535b26360b):
+    I'm feeling lucky button added. 
 
-## Aanya Mehta - Timekeeper
-- **Role**: Manages the timing of all team activities. Aanya ensures that meetings start and end on time, keeps track of deadlines, and reminds the team of upcoming due dates.
+## Aanya Mehta 
+- **Role**: Worked on the profile feature
 - **Top 3 Commits** : 
-1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/f6264f585047c6c09734591c296ca81bbce8cd17) Set up our Group Chat on IMessage to give everyone notifications about the upcoming deadlines.
-2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/f6264f585047c6c09734591c296ca81bbce8cd17)Coordinate meeting times to ensure maximum attendance by getting everyone's preferred times. 
-3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/f6264f585047c6c09734591c296ca81bbce8cd17)Regularly checked in with team members about their progress on tasks to make sure they would be done on time. 
+1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/29cd22652a9dc24976de0f53049e627626fe288e) Initial implementation of the profile page with all the necessary files. 
+2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/a54b62bc532bfac88c1fee26b44b306bf998bab8) Added indexDB to add, retrieve + dynamically populate profile data for artists,tracks,playlists,prompts.
+3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/bebb81cb84c21d1e1bb67b89a8e6acd557c6b004) Fixed some inconsistencies, especially with the sidebar. 
 
-## Priyal Nanda - Note-Taker
-- **Role**: Records detailed notes during meetings and ensures that action items are clearly communicated. Priyal is responsible for distributing meeting minutes to the team after each session.
+## Priyal Nanda 
+- **Role**: Worked on onboarding part where people can sign-in
 - **Top 3 Commits** : 
-1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/12abf0397e92da3d28b8970b42b46d6aa23b4928): Create a shared document or folder where all meeting notes and minutes are stored for easy access by the team.
-2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/12abf0397e92da3d28b8970b42b46d6aa23b4928): Send out meeting minutes shortly after the meeting concludes, ensuring that everyone has access to the information while it's still fresh.
-3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/12abf0397e92da3d28b8970b42b46d6aa23b4928): Capture key points, decisions made, and discussions during meetings, ensuring that all relevant information is documented.
+1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/049c45cb6d418aa0d5d7c454678eea4ea7978564): Initial code for the onboarding sign-in portion.
+2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/ccb53b140597ec7f63104beee721d510d2388239): Created the m3 file in the teams folder so everyone else can put their sequence diagrams.
+3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/4b3718b25da05383313e4f50a48ce4a5710bf4f0): Fixed inconsistencies for color so the web page looks more cohesive.
 
-## Tanush Savadi - Task Manager
-- **Role**: Responsible for organizing and tracking team tasks. Tanush manages ensures that all tasks are properly assigned and completed on time.
-- **Top 3 Commits** : 
-1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):  Distribute tasks to team members based on their strengths and current workload, ensuring a balanced distribution.
-2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):   Maintain a clear record of all tasks, including who is responsible for each task, their due dates, and any related notes or comments.
-3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477): Help prioritize tasks based on project goals, deadlines, and dependencies to ensure that the most critical tasks are addressed first. 
+## Tanush Savadi
+- **Role**: Worked on discovery feature - college filter section
+1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/56b961ee7dc2fef2044c26f98c64f426108fed83):  UI diagrams were updated after everyone's front ends were done
+2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/b91f40a6d0eb74b10084d8e2271a7faa08d17607):   merged the lucky-button from Anshul's pr
+3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/47dd9fe140b7086c82e483646c8bed0d4478b03d): Changed inconsistencies to make the front end more cohesive overall. 
 
-## Nehal Garg - Communication Lead
-- **Role**: Facilitates communication within the team. Nehal is responsible for maintaining and managing the team’s Group chat and ensures that all members stay informed and engaged.
+## Nehal Garg 
+- **Role**: Onboarding part to add personal playlists
 - **Top 3 Commits** : 
-1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):  Serve as a point of contact for any communication issues or misunderstandings within the team, helping to mediate and resolve conflicts.
-2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):  Ensure that important documents, links, and resources are easily accessible to all team members, promoting transparency and collaboration.
-3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/af2087daf425dbdf8c3a638219cc80ca19c1f477):  Post regular updates in our group chat about project milestones, important announcements, and upcoming deadlines to keep everyone informed. 
+1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/a650198837cfbf1a309773328a276a9c09953f8a):  Initial code for personalizing playlists. 
+2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/18e94daf65d40b2f572c6066435394577459d4fb):  Cleaned up the HTML code for easier readability. 
+3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/80acac92f581127df2a899bf91af550829f74cc1):  Updated the features.md file to make sure everything is up to date and all the points information is listed as well. 
 
-## Avni Gunjikar - Quality Control
-- **Role**: Reviews team submissions and ensures that all deliverables meet the necessary quality standards. Avni is responsible for proofreading and ensuring the accuracy of all documents before submission.
+## Avni Gunjikar 
+- **Role**: Discovery page - responsible for side bar and title
 - **Top 3 Commits** : 
-1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/40677cc3c0a3b8d60cc72046254e811a0191c5f5):  Thoroughly review all team submissions for accuracy, clarity, and adherence to project guidelines and standards.
-2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/40677cc3c0a3b8d60cc72046254e811a0191c5f5):  Offer constructive feedback on submissions, highlighting areas for improvement and suggesting revisions to enhance quality.
-3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/40677cc3c0a3b8d60cc72046254e811a0191c5f5):  Serve as the final reviewer for all critical files before submission to ensure they meet quality expectations.
+1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/ea42787e980a10ea0a4838f9cdc47e64ddcfde49):  Initial code for the side bar and header. 
+2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/a3711a08fa81da8fc9831e75d84621f315108a50):  IndexDB used to store and fetch username and profile picture for side bar 
+3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/c5522a8f543d0e41983835e490421f75ff2d86b8):  Created randomize button and utilized IndexDB to save the information
 
-## Satvi Naik - Documentation Lead
-- **Role**: Responsible for overseeing the organization and maintenance of all project documentation. Satvi ensures that all documents are up to date, well-organized, and accessible to team members.
+## Satvi Naik
+- **Role**: Responsible for the chat feature
 - **Top 3 Commits** : 
-1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/4c57e0d9fc935d1b26097fc7e83a35c0f28a534f):  Establish clear guidelines for writing and formatting documents, promoting best practices across the team.
-2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/4c57e0d9fc935d1b26097fc7e83a35c0f28a534f):  Schedule regular reviews of documentation to ensure all materials are current and reflect the latest project developments.
-3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/4c57e0d9fc935d1b26097fc7e83a35c0f28a534f):  Make sure all files are in the correct folder and done properly.
+1. [Commit 1](https://github.com/sheldor1510/spotifynder/commit/aa9e4532e9a0e189a51d14ad0317da39fbdbbe4e):  Initial code for the chats page with sidebar, profile feature and chat list included. 
+2. [Commit 2](https://github.com/sheldor1510/spotifynder/commit/50a9296cc5faa05ad9376e14038cf7ce5063078e):  indexDB used to store message data with users and friends. 
+3. [Commit 3](https://github.com/sheldor1510/spotifynder/commit/e337c78c2f51a10dab9467d5fc5630aef265a636):  Made mermaid diagram and edited roles.md file

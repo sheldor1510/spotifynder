@@ -109,3 +109,27 @@ body {
       margin-bottom: 10px;
     }
   }
+  .saved-message {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #1DB954;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .saved-message.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .hidden {
+    display: none;
+  }
+  

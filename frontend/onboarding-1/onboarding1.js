@@ -2,7 +2,7 @@
 let db;
 const request = indexedDB.open('SpotifynderDB', 1);
 
-request.onupgradeneeded = function(event) {
+request.onupgradeneeded = function (event) {
   db = event.target.result;
   const objectStore = db.createObjectStore('userData', { keyPath: 'id' });
   objectStore.createIndex('college', 'college', { unique: false });
@@ -11,13 +11,13 @@ request.onupgradeneeded = function(event) {
   console.log("IndexedDB setup complete.");
 };
 
-request.onsuccess = function(event) {
+request.onsuccess = function (event) {
   db = event.target.result;
   console.log("IndexedDB opened successfully.");
   loadUserData(); // Load data when DB is successfully opened
 };
 
-request.onerror = function(event) {
+request.onerror = function (event) {
   console.error('Database error:', event.target.errorCode);
 };
 
@@ -27,7 +27,7 @@ function saveData(id, data) {
     console.error("IndexedDB is not available.");
     return;
   }
-  
+
   const transaction = db.transaction(['userData'], 'readwrite');
   const objectStore = transaction.objectStore('userData');
   const request = objectStore.put({ id, ...data });
@@ -51,7 +51,7 @@ function loadUserData() {
   const objectStore = transaction.objectStore('userData');
   const request = objectStore.get('user');
 
-  request.onsuccess = function(event) {
+  request.onsuccess = function (event) {
     const result = event.target.result;
     if (result) {
       console.log("Data loaded from IndexedDB:", result);
@@ -86,33 +86,6 @@ const tracksList = document.getElementById('tracks-list');
 let selectedArtists = [];
 let selectedTracks = [];
 
-// Dummy Data for Artists and Tracks
-const dummyArtists = [
-  { name: "Taylor Swift" },
-  { name: "Drake" },
-  { name: "Ariana Grande" },
-  { name: "The Weeknd" },
-  { name: "Beyonce" },
-  { name: "Ed Sheeran" },
-  { name: "Billie Eilish" },
-  { name: "Post Malone" },
-  { name: "Kanye West" },
-  { name: "Dua Lipa" }
-];
-
-const dummyTracks = [
-  { name: "Top Hits" },
-  { name: "Top 10 Hits" },
-  { name: "Throwbacks" },
-  { name: "Party Mix" },
-  { name: "Study Track" },
-  { name: "Summer Vibes" },
-  { name: "Chill Beats" },
-  { name: "Workout Hits" },
-  { name: "Road Trip" },
-  { name: "Feel Good" }
-];
-
 // Event Listeners
 spotifyLoginBtn.addEventListener('click', startOnboarding);
 saveCollegeBtn.addEventListener('click', saveCollege);
@@ -120,27 +93,64 @@ finishBtn.addEventListener('click', finishOnboarding);
 
 function startOnboarding() {
   console.log("Starting onboarding...");
-  switchToPage('college-selection');
+  window.location.href = 'http://localhost:5001/auth/spotify'; // Redirect to Spotify login
 }
 
-function displayTopArtists() {
+function fetchColleges() {
+  fetch('http://localhost:5001/colleges')
+    .then(response => response.json())
+    .then(colleges => {
+      const collegeInput = document.getElementById('college-input');
+      colleges.forEach(college => {
+        const option = document.createElement('option');
+        option.value = college.name;
+        option.textContent = college.name;
+        collegeInput.appendChild(option);
+      });
+    })
+    .catch(error => console.error('Error fetching colleges:', error));
+}
+
+function fetchTopSpotifyData() {
+  fetch('http://localhost:5001/user/top-data')
+    .then(response => response.json())
+    .then(data => {
+      displayTopArtists(data.topArtists);
+      displayTopTracks(data.topTracks);
+    })
+    .catch(error => console.error('Error fetching Spotify data:', error));
+}
+
+function displayTopArtists(topArtists) {
   artistsList.innerHTML = '';
-  dummyArtists.forEach(artist => {
+  topArtists.forEach(artist => {
     const li = document.createElement('li');
-    li.textContent = artist.name;
-    li.addEventListener('click', () => toggleSelection(li, artist.name, selectedArtists));
+    li.textContent = artist;
+    li.addEventListener('click', () => toggleSelection(li, artist, selectedArtists));
     artistsList.appendChild(li);
   });
 }
 
-function displayTopTracks() {
+function displayTopTracks(topTracks) {
   tracksList.innerHTML = '';
-  dummyTracks.forEach(track => {
+  topTracks.forEach(track => {
     const li = document.createElement('li');
-    li.textContent = track.name;
-    li.addEventListener('click', () => toggleSelection(li, track.name, selectedTracks));
+    li.textContent = track;
+    li.addEventListener('click', () => toggleSelection(li, track, selectedTracks));
     tracksList.appendChild(li);
   });
+}
+
+// Toggle selection of an item, limit to max 3 selections
+// Function to show the "Saved" popup
+function showSavedMessage() {
+  const savedMessage = document.getElementById('saved-message');
+  savedMessage.classList.add('show');
+
+  // Hide the popup after 2 seconds
+  setTimeout(() => {
+    savedMessage.classList.remove('show');
+  }, 2000);
 }
 
 // Toggle selection of an item, limit to max 3 selections
@@ -154,12 +164,26 @@ function toggleSelection(element, name, selectedArray) {
   } else {
     alert('You can select a maximum of 3 items.');
   }
+  
+  // Show "Saved" message after selection
+  showSavedMessage();
   saveCollegeData(); // Save data after each selection
 }
 
+
 function saveCollegeData() {
   const college = document.getElementById('college-input').value;
-  saveData('user', { id: 'user', college, selectedArtists, selectedTracks });
+  const data = { college, selectedArtists, selectedTracks };
+
+  // Save to Backend
+  fetch('http://localhost:5001/user/save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+    .then(response => response.json())
+    .then(() => console.log('Data saved to backend:', data))
+    .catch(error => console.error('Error saving data to backend:', error));
 }
 
 function saveCollege() {
@@ -169,8 +193,7 @@ function saveCollege() {
 
     // Move to the next page immediately after calling saveData
     switchToPage('top-info');
-    displayTopArtists();
-    displayTopTracks();
+    fetchTopSpotifyData();
 
     // Save college to IndexedDB asynchronously
     saveData('user', { id: 'user', college, selectedArtists, selectedTracks });
@@ -184,7 +207,7 @@ function finishOnboarding() {
     alert('Please select at least one artist and one track.');
     return;
   }
-  saveData('user', { id: 'user', college: document.getElementById('college-input').value, selectedArtists, selectedTracks });
+  saveCollegeData();
   alert('Onboarding Complete!');
   console.log("Onboarding complete with data saved to IndexedDB.");
 }
@@ -198,5 +221,6 @@ function switchToPage(pageId) {
   document.getElementById(pageId).classList.remove('hidden');
 }
 
-// Initialize page state to show sign-in page first
+// Initialize page state
 switchToPage('sign-in-page');
+fetchColleges();

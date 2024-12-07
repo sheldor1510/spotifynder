@@ -25,7 +25,6 @@ request.onerror = function(event) {
 function saveData(id, data) {
   console.log(data)
   // TODO: Send request to backend to save data for onboarding
-
   // if (!db) {
   //   console.error("IndexedDB is not available.");
   //   return;
@@ -34,11 +33,9 @@ function saveData(id, data) {
   // const transaction = db.transaction(['userData'], 'readwrite');
   // const objectStore = transaction.objectStore('userData');
   // const request = objectStore.put({ id, ...data });
-
   // request.onsuccess = () => {
   //   console.log(`Data saved to IndexedDB: ${JSON.stringify(data)}`);
   // };
-
   // request.onerror = (event) => {
   //   console.error('Error saving data to IndexedDB:', event.target.errorCode);
   // };
@@ -121,11 +118,13 @@ spotifyLoginBtn.addEventListener('click', startOnboarding);
 saveCollegeBtn.addEventListener('click', saveCollege);
 finishBtn.addEventListener('click', finishOnboarding);
 
+// Function to start onboarding
 function startOnboarding() {
   console.log("Starting onboarding...");
   switchToPage('college-selection');
 }
 
+// Display top artists list
 function displayTopArtists() {
   artistsList.innerHTML = '';
   dummyArtists.forEach(artist => {
@@ -136,6 +135,7 @@ function displayTopArtists() {
   });
 }
 
+// Display top tracks list
 function displayTopTracks() {
   tracksList.innerHTML = '';
   dummyTracks.forEach(track => {
@@ -160,39 +160,36 @@ function toggleSelection(element, name, selectedArray) {
   saveCollegeData(); // Save data after each selection
 }
 
+// Save college and selected data
 function saveCollegeData() {
   const college = document.getElementById('college-input').value;
   saveData('user', { id: 'user', college, selectedArtists, selectedTracks });
 }
 
+// Save college information to IndexedDB
 function saveCollege() {
   const college = document.getElementById('college-input').value;
   if (college) {
     console.log("Saving college:", college);
-
-    // Move to the next page immediately after calling saveData
     switchToPage('top-info');
     displayTopArtists();
     displayTopTracks();
-
-    // Save college to IndexedDB asynchronously
     saveData('user', { id: 'user', college, selectedArtists, selectedTracks });
   } else {
     alert('Please enter your college name.');
   }
 }
 
+// Finish onboarding and save all data
 function finishOnboarding() {
   if (selectedArtists.length === 0 || selectedTracks.length === 0) {
     alert('Please select at least one artist and one track.');
     return;
   }
   saveData('user', { id: 'user', college: document.getElementById('college-input').value, selectedArtists, selectedTracks });
-  // alert('Onboarding Complete!');
   console.log("Onboarding complete with data saved to IndexedDB.");
   document.getElementById("onboarding1").style.display = "none";
   document.getElementById("onboarding2").style.display = "block";
-  // window.location.href = '../onboarding-2/onboarding2.html';
 }
 
 // Switch between pages
@@ -206,3 +203,67 @@ function switchToPage(pageId) {
 
 // Initialize page state to show sign-in page first
 switchToPage('sign-in-page');
+
+// Spotify Login Flow
+
+// Spotify Client ID and Redirect URI (replace with your credentials)
+const clientId = '73234712981648089924a4efa5774a7f';  // Replace with your Spotify Client ID
+const redirectUri = 'http://localhost:5001/api/auth/spotify/callback';  // Replace with your redirect URI
+const scopes = 'user-library-read user-top-read user-read-email playlist-read-private';  // Specify the scopes you need
+const responseType = 'code';  // Spotify OAuth response type
+
+// Redirect to Spotify's authorization page
+function handleSpotifyLogin() {
+  console.log("here")
+  const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&response_type=${responseType}`;
+  window.location.href = authUrl;
+}
+
+document.getElementById('spotify-login-btn').addEventListener('click', handleSpotifyLogin);
+
+// After Spotify redirects back, handle the authorization code
+function handleSpotifyCallback() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('code');
+
+  if (code) {
+    fetchAccessToken(code);
+  }
+}
+
+// Fetch the access token using the authorization code
+function fetchAccessToken(code) {
+  const clientSecret = '289cc0430b1e4086b1f410b221c86582';  // Replace with your Spotify Client Secret
+
+  const tokenUrl = 'https://accounts.spotify.com/api/token';
+  const body = new URLSearchParams();
+  body.append('grant_type', 'authorization_code');
+  body.append('code', code);
+  body.append('redirect_uri', redirectUri);
+  body.append('client_id', clientId);
+  body.append('client_secret', clientSecret);
+
+  fetch(tokenUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: body,
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.access_token) {
+      localStorage.setItem('spotify_access_token', data.access_token);
+      window.location.href = '/dashboard';  // Redirect to dashboard after login
+    } else {
+      console.error('Failed to obtain access token');
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching access token:', error);
+  });
+}
+
+if (window.location.pathname === '/callback') {
+  handleSpotifyCallback();
+}

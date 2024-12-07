@@ -9,8 +9,11 @@ module.exports = (sequelize, DataTypes) => {
     topTracks: { type: DataTypes.JSON },
     topPlaylists: { type: DataTypes.JSON },
     college: { type: DataTypes.STRING },
-    compatibilityScore: { type: DataTypes.FLOAT },
+    topPlaylists: { type: DataTypes.JSON },
+    topArtists: { type: DataTypes.JSON },
+    topTracks: { type: DataTypes.JSON },
     personalityPrompts: { type: DataTypes.JSON },
+    compatibilityScore: { type: DataTypes.FLOAT }
   });
 
   return User;

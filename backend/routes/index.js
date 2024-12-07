@@ -4,10 +4,12 @@ const {
   fetchColleges, 
   updateCollege, 
   createUser, 
-  fetchUsers, 
+  fetchUsers,
   updateUser,
   fetchFilteredUsers, // Import the new controller function
 } = require('../controllers/userController');
+
+const { fetchProfile } = require('../controllers/profileController'); // Correct path to profileController
 
 const {
   fetchTopArtists,
@@ -48,6 +50,7 @@ router.get('/login/spotify', (req, res) => {
   res.redirect(SPOTIFY_AUTH_URL); // Redirect to Spotify login page
 });
 
+router.get('/profile', fetchProfile); // Fetch profile of user
 
 //User Spotify related queries
 router.get('/fetchTopArtists', fetchTopArtists);

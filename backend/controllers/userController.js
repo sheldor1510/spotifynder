@@ -87,44 +87,83 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+/**
+ * @description Fetch user profiles based on filter parameters, with default query logic and pagination
+ * @query {string} artists - Filter by artist name (default: null)
+ * @query {string} tracks - Filter by track title (default: null)
+ * @query {string} playlists - Filter by playlist name (default: null)
+ * @query {number} minCompatibilityScore - Minimum compatibility score (default: 0)
+ * @query {number} page - Page number for pagination (default: 1)
+ * @query {number} limit - Number of profiles per page (default: 10)
+ */
+
 exports.fetchFilteredUsers = async (req, res) => {
   try {
-    // Extract filter parameters from the request query
-    const { artists, tracks, playlists, minCompatibilityScore } = req.query;
+    // Extract query parameters with defaults
+    const {
+      artists = null,
+      tracks = null,
+      playlists = null,
+      minCompatibilityScore = 0,
+      page = 1,
+      limit = 10,
+    } = req.query;
 
     // Initialize query conditions
     const conditions = {};
 
-    // Add conditions for filtering
+    // Filter by topArtists (if provided)
     if (artists) {
+      const artistArray = artists.split(','); // Supports multiple artists (comma-separated)
       conditions.topArtists = {
-        [Op.contains]: [{ name: artists }], // Check if the artists array contains the given name
+        [Op.or]: artistArray.map((artist) => ({
+          [Op.contains]: [{ name: artist }],
+        })),
       };
     }
 
+    // Filter by topTracks (if provided)
     if (tracks) {
+      const trackArray = tracks.split(',');
       conditions.topTracks = {
-        [Op.contains]: [{ title: tracks }], // Check if the tracks array contains the given title
+        [Op.or]: trackArray.map((track) => ({
+          [Op.contains]: [{ title: track }],
+        })),
       };
     }
 
+    // Filter by topPlaylists (if provided)
     if (playlists) {
+      const playlistArray = playlists.split(',');
       conditions.topPlaylists = {
-        [Op.contains]: [{ name: playlists }], // Check if the playlists array contains the given name
+        [Op.or]: playlistArray.map((playlist) => ({
+          [Op.contains]: [{ name: playlist }],
+        })),
       };
     }
 
-    if (minCompatibilityScore) {
-      conditions.compatibilityScore = {
-        [Op.gte]: parseFloat(minCompatibilityScore), // Match users with compatibilityScore >= minCompatibilityScore
-      };
-    }
+    // Filter by compatibilityScore
+    conditions.compatibilityScore = {
+      [Op.gte]: parseFloat(minCompatibilityScore),
+    };
 
-    // Fetch users matching the conditions
-    const users = await User.findAll({ where: conditions });
+    // Pagination: Calculate offset
+    const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
 
-    // Respond with the filtered users
-    res.status(200).json(users);
+    const users = await User.findAll({
+      where: conditions,
+      limit: parseInt(limit, 10),
+      offset,
+    });
+
+    res.status(200).json({
+      data: users,
+      meta: {
+        page: parseInt(page, 10),
+        limit: parseInt(limit, 10),
+        total: users.length,
+      },
+    });
   } catch (error) {
     console.error('Error fetching filtered users:', error);
     res.status(500).json({ error: 'Failed to fetch filtered users.' });

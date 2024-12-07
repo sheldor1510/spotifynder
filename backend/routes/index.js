@@ -5,10 +5,15 @@ const {
   updateCollege, 
   createUser, 
   fetchUsers, 
-  updateUser,
-  fetchTopArtists
+  updateUser
 
 } = require('../controllers/userController');
+
+const {
+  fetchTopArtists,
+  fetchTopTracks
+} = require ('../controllers/ArtistandTracksController');
+
 const router = express.Router();
 
 console.log({

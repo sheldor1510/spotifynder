@@ -1,3 +1,4 @@
+// routes.js
 const express = require('express');
 const { 
   spotifyOAuthCallback, 
@@ -6,9 +7,10 @@ const {
   createUser, 
   fetchUsers, 
   updateUser 
-} = require('../controllers/userController');
+} = require('../controllers/userController');  // Correct path to userController
 const router = express.Router();
 
+// Log the imported functions (for debugging)
 console.log({
   spotifyOAuthCallback,
   fetchColleges,
@@ -18,14 +20,24 @@ console.log({
   updateUser,
 });
 
-// Define routes
+// Spotify OAuth Callback Route
 router.get('/auth/spotify/callback', spotifyOAuthCallback);
-router.get('/colleges', fetchColleges);
-router.post('/college', updateCollege);
 
-// User-related routes
-router.post('/user', createUser);
-router.get('/users', fetchUsers);
-router.put('/user', updateUser);
+// Colleges Routes
+router.get('/colleges', fetchColleges); // Fetch list of colleges
+router.post('/college', updateCollege); // Update college information
+
+// User-related Routes
+router.post('/user', createUser);  // Create a new user
+router.get('/users', fetchUsers);  // Get all users
+router.put('/user', updateUser);   // Update user information
+
+// Spotify Login Route (Redirect to Spotify OAuth)
+router.get('/login/spotify', (req, res) => {
+  const SPOTIFY_AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REDIRECT_URI)}&response_type=code&scope=user-read-private user-read-email`;
+  res.redirect(SPOTIFY_AUTH_URL); // Redirect to Spotify login page
+});
 
 module.exports = router;
+
+

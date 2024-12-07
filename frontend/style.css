@@ -1,5 +1,5 @@
 /* General Styles */
-body {
+#chat-content-wrapper {
   margin: 0;
   font-family: Arial, sans-serif;
   color: #b3b3b3;
@@ -7,11 +7,12 @@ body {
   display: flex;
   height: 100vh; /* Full height */
   overflow: hidden;
+  width: 80vw;
+  margin-left: 20vw;
 }
 
 /* Sidebar styling */
 #sidebar {
-
   width: 20vw; /* Explicit width for the sidebar */
   background-color: #181818;
   padding: 15px;
@@ -19,14 +20,6 @@ body {
   color: #ffffff;
   position: relative; /* Ensure it respects the layout flow */
   z-index: 2; /* Lower priority than chat list/chat area */
-
-}
-.main-content {
-  display: flex;
-  flex-grow: 1; /* Allow the main content to expand */
-  margin-left: 20vw; /* Offset for sidebar */
-  width: 80vw; /* Remaining space after sidebar */
-  overflow: hidden;
 }
 
 /* User Profile styling */
@@ -133,7 +126,6 @@ nav button.selected {
 .chat-list {
 
   width: 20%; /* Width for the chat list */
-  background-color: #212121;
   overflow-y: auto;
   padding: 15px;
   box-sizing: border-box;
@@ -265,15 +257,6 @@ nav button.selected {
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Profile header styles */
-.profile-header {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 20px;
 }
 
 .user-info {

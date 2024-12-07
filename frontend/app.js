@@ -1,4 +1,5 @@
 // Example chat data for initial display
+
 const initialChatData = {
   "@anshul": [
     {
@@ -36,12 +37,12 @@ const initialChatData = {
 };
 
 // IndexedDB setup
-let db;
-const request = indexedDB.open("ChatAppDB", 1);
+let chatDB;
+const chatDBrequest = indexedDB.open("ChatAppDB", 1);
 
-request.onupgradeneeded = (event) => {
-  db = event.target.result;
-  const objectStore = db.createObjectStore("chats", { keyPath: "user" });
+chatDBrequest.onupgradeneeded = (event) => {
+  chatDB = event.target.result;
+  const objectStore = chatDB.createObjectStore("chats", { keyPath: "user" });
   console.log("IndexedDB: Object store created.");
 
   // Preload initial chat data into IndexedDB
@@ -51,12 +52,12 @@ request.onupgradeneeded = (event) => {
   });
 };
 
-request.onsuccess = (event) => {
-  db = event.target.result;
+chatDBrequest.onsuccess = (event) => {
+  chatDB = event.target.result;
   console.log("IndexedDB: Database initialized.");
 };
 
-request.onerror = (event) => {
+chatDBrequest.onerror = (event) => {
   console.error("IndexedDB: Error opening database", event.target.error);
 };
 
@@ -70,7 +71,7 @@ const sendButton = document.querySelector(".send-btn");
 
 // Function to load chat messages from IndexedDB
 function loadChat(user) {
-  const transaction = db.transaction(["chats"], "readonly");
+  const transaction = chatDB.transaction(["chats"], "readonly");
   const objectStore = transaction.objectStore("chats");
   const request = objectStore.get(user);
 
@@ -100,7 +101,7 @@ function loadChat(user) {
 
 // Function to save a new message in IndexedDB
 function saveMessage(user, message, isSent) {
-  const transaction = db.transaction(["chats"], "readwrite");
+  const transaction = chatDB.transaction(["chats"], "readwrite");
   const objectStore = transaction.objectStore("chats");
   const request = objectStore.get(user);
 

@@ -1,38 +1,38 @@
 
-let db;
+let discoveryDB;
 const request = window.indexedDB.open('SpotifynderDB', 5);
 
 request.onupgradeneeded = function (event) {
-    db = event.target.result;
+    discoveryDB = event.target.result;
 
     // Create userData object store
-    if (!db.objectStoreNames.contains('userData')) {
-        const userStore = db.createObjectStore('userData', { keyPath: 'id' });
+    if (!discoveryDB.objectStoreNames.contains('userData')) {
+        const userStore = discoveryDB.createObjectStore('userData', { keyPath: 'id' });
         userStore.createIndex('username', 'username', { unique: false });
         userStore.createIndex('profilePic', 'profilePic', { unique: false });
     }
 
     // Create chatsData object store
-    if (!db.objectStoreNames.contains('chatsData')) {
-        const chatStore = db.createObjectStore('chatsData', { keyPath: 'chatId', autoIncrement: true });
+    if (!discoveryDB.objectStoreNames.contains('chatsData')) {
+        const chatStore = discoveryDB.createObjectStore('chatsData', { keyPath: 'chatId', autoIncrement: true });
         chatStore.createIndex('isUnread', 'isUnread', { unique: false });
     }
 
     // Create filterData object store
-    if (!db.objectStoreNames.contains('filterData')) {
-        const filterStore = db.createObjectStore('filterData', { keyPath: 'id', autoIncrement: true });
+    if (!discoveryDB.objectStoreNames.contains('filterData')) {
+        const filterStore = discoveryDB.createObjectStore('filterData', { keyPath: 'id', autoIncrement: true });
         filterStore.createIndex('type', 'type', { unique: false }); // Type: 'artist', 'track', 'playlist'
     }
 
     // Create cards object store
-    if (!db.objectStoreNames.contains('cardsData')) {
-        const cardsStore = db.createObjectStore('cardsData', { keyPath: 'id', autoIncrement: true });
+    if (!discoveryDB.objectStoreNames.contains('cardsData')) {
+        const cardsStore = discoveryDB.createObjectStore('cardsData', { keyPath: 'id', autoIncrement: true });
         cardsStore.createIndex('type', 'type', { unique: false }); // Type: 'artist', 'track', 'playlist'
     }
 };
 
 request.onsuccess = function (event) {
-    db = event.target.result;
+    discoveryDB = event.target.result;
 
     // Load existing data or populate dummy data
     loadUserProfile();
@@ -51,9 +51,9 @@ request.onerror = function (event) {
 };
 
 function loadUserProfile() {
-    if (!db) return;
+    if (!discoveryDB) return;
 
-    const transaction = db.transaction(['userData'], 'readonly');
+    const transaction = discoveryDB.transaction(['userData'], 'readonly');
     const objectStore = transaction.objectStore('userData');
     const request = objectStore.get('user');
 
@@ -75,9 +75,9 @@ function loadUserProfile() {
 }
 
 function addDummyData() {
-    if (!db) return;
+    if (!discoveryDB) return;
 
-    const userTransaction = db.transaction(['userData'], 'readwrite');
+    const userTransaction = discoveryDB.transaction(['userData'], 'readwrite');
     const userStore = userTransaction.objectStore('userData');
     const dummyUserData = {
         id: 'user',
@@ -86,7 +86,7 @@ function addDummyData() {
     };
     userStore.put(dummyUserData);
 
-    const chatTransaction = db.transaction(['chatsData'], 'readwrite');
+    const chatTransaction = discoveryDB.transaction(['chatsData'], 'readwrite');
     const chatStore = chatTransaction.objectStore('chatsData');
     const dummyChats = [
         { isUnread: true, message: "Hello! How are you?" },
@@ -108,9 +108,9 @@ function addDummyData() {
 }
 
 function loadUnreadChatCount() {
-    if (!db) return;
+    if (!discoveryDB) return;
 
-    const transaction = db.transaction(['chatsData'], 'readonly');
+    const transaction = discoveryDB.transaction(['chatsData'], 'readonly');
     const objectStore = transaction.objectStore('chatsData');
     const request = objectStore.getAll();
 
@@ -137,9 +137,9 @@ function loadUnreadChatCount() {
 
 // Populate dummy data for filterData
 function populateDummyFilterData() {
-    if (!db) return;
+    if (!discoveryDB) return;
 
-    const transaction = db.transaction(['filterData'], 'readwrite');
+    const transaction = discoveryDB.transaction(['filterData'], 'readwrite');
     const filterStore = transaction.objectStore('filterData');
 
     const dummyData = [
@@ -178,9 +178,9 @@ function populateDummyFilterData() {
 
 // Populate dummy data for cardsData
 function populateDummyCardsData() {
-    if (!db) return;
+    if (!discoveryDB) return;
 
-    const transaction = db.transaction(['cardsData'], 'readwrite');
+    const transaction = discoveryDB.transaction(['cardsData'], 'readwrite');
     const cardsStore = transaction.objectStore('cardsData');
 
     const dummyData = [
@@ -289,9 +289,9 @@ function populateDummyCardsData() {
 
 // Load and display cards data
 function loadCardsData() {
-    if (!db) return;
+    if (!discoveryDB) return;
 
-    const transaction = db.transaction(['cardsData'], 'readonly');
+    const transaction = discoveryDB.transaction(['cardsData'], 'readonly');
     const cardsStore = transaction.objectStore('cardsData');
     const request = cardsStore.getAll();
 
@@ -362,9 +362,9 @@ function populateActiveCard(items) {
 
 // Load and display filter data
 function loadFilterData() {
-    if (!db) return;
+    if (!discoveryDB) return;
 
-    const transaction = db.transaction(['filterData'], 'readonly');
+    const transaction = discoveryDB.transaction(['filterData'], 'readonly');
     const filterStore = transaction.objectStore('filterData');
     const request = filterStore.getAll();
 
@@ -446,10 +446,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.getElementById('accept-button').addEventListener('click', () => {
-    if (!db) return;
+    if (!discoveryDB) return;
 
     // Open a transaction to update the cardsData
-    const transaction = db.transaction(['cardsData'], 'readwrite');
+    const transaction = discoveryDB.transaction(['cardsData'], 'readwrite');
     const cardsStore = transaction.objectStore('cardsData');
 
     // Get the tracker object
@@ -484,10 +484,10 @@ document.getElementById('accept-button').addEventListener('click', () => {
 
 // Event listener for "Reject" button
 document.getElementById('reject-button').addEventListener('click', () => {
-    if (!db) return;
+    if (!discoveryDB) return;
 
     // Open a transaction to update the cardsData
-    const transaction = db.transaction(['cardsData'], 'readwrite');
+    const transaction = discoveryDB.transaction(['cardsData'], 'readwrite');
     const cardsStore = transaction.objectStore('cardsData');
 
     // Get the tracker object
@@ -523,9 +523,9 @@ document.getElementById('reject-button').addEventListener('click', () => {
 
 // Randomize button functionality
 document.getElementById('randomize-btn').addEventListener('click', () => {
-    if (!db) return;
+    if (!discoveryDB) return;
 
-    const transaction = db.transaction(['filterData'], 'readonly');
+    const transaction = discoveryDB.transaction(['filterData'], 'readonly');
     const filterStore = transaction.objectStore('filterData');
 
     const request = filterStore.getAll();
@@ -563,7 +563,7 @@ document.getElementById('randomize-btn').addEventListener('click', () => {
 
 
 document.getElementById('reset-btn').addEventListener('click', () => {
-    if (!db) {
+    if (!discoveryDB) {
         console.error("IndexedDB is not available.");
         return;
     }
@@ -590,12 +590,12 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 
 // "I'm Feeling Lucky" button functionality
 document.getElementById('lucky-btn').addEventListener('click', () => {
-    if (!db) {
+    if (!discoveryDB) {
         console.error("IndexedDB is not available.");
         return;
     }
 
-    const transaction = db.transaction(['cardsData'], 'readonly');
+    const transaction = discoveryDB.transaction(['cardsData'], 'readonly');
     const cardsStore = transaction.objectStore('cardsData');
 
     const request = cardsStore.getAll();

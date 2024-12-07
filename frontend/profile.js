@@ -1,4 +1,5 @@
 // Dummy profile data with image paths
+
 const dummyProfile = {
     id: 1,
     username: "@aanyamehta",
@@ -26,32 +27,32 @@ const dummyProfile = {
 };
 
 // Initialize IndexedDB
-let db;
-const request = indexedDB.open("SpotifynderDB", 1);
+let profileDB;
+const profileDBRequest = indexedDB.open("SpotifynderDB", 1);
 
-request.onupgradeneeded = (event) => {
-    db = event.target.result;
+profileDBRequest.onupgradeneeded = (event) => {
+    profileDB = event.target.result;
 
     // Create main profiles store
-    const profilesStore = db.createObjectStore("profiles", { keyPath: "id", autoIncrement: true });
+    const profilesStore = profileDB.createObjectStore("profiles", { keyPath: "id", autoIncrement: true });
     profilesStore.createIndex("username", "username", { unique: true });
     profilesStore.createIndex("email", "email", { unique: false });
 
     // Separate stores for artists, tracks, and playlists with image-only field
-    const artistsStore = db.createObjectStore("artists", { keyPath: "id", autoIncrement: true });
+    const artistsStore = profileDB.createObjectStore("artists", { keyPath: "id", autoIncrement: true });
     artistsStore.createIndex("image", "image", { unique: false });
 
-    const tracksStore = db.createObjectStore("tracks", { keyPath: "id", autoIncrement: true });
+    const tracksStore = profileDB.createObjectStore("tracks", { keyPath: "id", autoIncrement: true });
     tracksStore.createIndex("image", "image", { unique: false });
 
-    const playlistsStore = db.createObjectStore("playlists", { keyPath: "id", autoIncrement: true });
+    const playlistsStore = profileDB.createObjectStore("playlists", { keyPath: "id", autoIncrement: true });
     playlistsStore.createIndex("image", "image", { unique: false });
 
     console.log("Database setup complete.");
 };
 
-request.onsuccess = (event) => {
-    db = event.target.result;
+profileDBRequest.onsuccess = (event) => {
+    profileDB = event.target.result;
     console.log("Database opened successfully");
     
     // Call loadProfileData only after the database is successfully opened
@@ -59,19 +60,19 @@ request.onsuccess = (event) => {
     saveProfileData(1);
 };
 
-request.onerror = (event) => {
+profileDBRequest.onerror = (event) => {
     console.error("Database error:", event.target.errorCode);
 };
 
 // Function to load profile data and related images
 function loadProfileData(key = 1) {
-    if (!db) {
+    if (!profileDB) {
         console.error("IndexedDB is not initialized.");
         return;
     }
 
     // Load main profile data
-    const profileTransaction = db.transaction(["profiles"], "readwrite");
+    const profileTransaction = profileDB.transaction(["profiles"], "readwrite");
     const profilesStore = profileTransaction.objectStore("profiles");
     const profileRequest = profilesStore.get(key);
 
@@ -85,7 +86,7 @@ function loadProfileData(key = 1) {
     };
 
     // Load artists images
-    const artistsTransaction = db.transaction(["artists"], "readwrite");
+    const artistsTransaction = profileDB.transaction(["artists"], "readwrite");
     const artistsStore = artistsTransaction.objectStore("artists");
     const artistsRequest = artistsStore.getAll();
 
@@ -94,7 +95,7 @@ function loadProfileData(key = 1) {
     };
 
     // Load tracks images
-    const tracksTransaction = db.transaction(["tracks"], "readwrite");
+    const tracksTransaction = profileDB.transaction(["tracks"], "readwrite");
     const tracksStore = tracksTransaction.objectStore("tracks");
     const tracksRequest = tracksStore.getAll();
 
@@ -103,7 +104,7 @@ function loadProfileData(key = 1) {
     };
 
     // Load playlists images
-    const playlistsTransaction = db.transaction(["playlists"], "readwrite");
+    const playlistsTransaction = profileDB.transaction(["playlists"], "readwrite");
     const playlistsStore = playlistsTransaction.objectStore("playlists");
     const playlistsRequest = playlistsStore.getAll();
 
@@ -119,6 +120,7 @@ function addCustomPrompt() {
     const personalityPrompts = document.querySelector(".personality-prompts");
 
     addPromptButton.addEventListener("click", () => {
+        console.log("hello");
         const currentPrompts = document.querySelectorAll(".personality-prompts .prompt").length;
 
         if (currentPrompts < maxPrompts) {
@@ -137,7 +139,7 @@ function addCustomPrompt() {
 
 // Function to save profile data and images to IndexedDB
 function saveProfileData() {
-    if (!db) {
+    if (!profileDB) {
         console.error("IndexedDB is not available.");
         return;
     }
@@ -153,7 +155,7 @@ function saveProfileData() {
         prompts
     };
 
-    const transaction = db.transaction(["profiles", "artists", "tracks", "playlists"], "readwrite");
+    const transaction = profileDB.transaction(["profiles", "artists", "tracks", "playlists"], "readwrite");
 
     transaction.objectStore("profiles").put(profile);
 

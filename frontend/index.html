@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotifynder</title>
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <div id="onboarding1">
+        <!DOCTYPE html>
+            <html lang="en">
+            <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>onboarding - Spotifynder</title>
+            <link rel="stylesheet" href="onboarding1.css">
+            <script src="onboarding1.js" defer></script>
+            </head>
+            <body>
+            <div class="onboarding-container">
+
+                <!-- Sign-In Page -->
+                <div id="sign-in-page" class="page">
+                <h1>Welcome to Spotifynder</h1>
+                <p>Sign in with Spotify to get started.</p>
+                <button id="spotify-login-btn" class="spotify-button">Sign in with Spotify</button>
+                </div>
+                
+                <!-- College Selection Page -->
+                <div id="college-selection" class="page hidden">
+                <h1>Spotifynder</h1>
+                <label for="college-input">Enter your College:</label>
+                <input type="text" id="college-input" placeholder="Your College Name">
+                <button id="save-college-btn" class="spotify-button">Save College</button>
+                </div>
+                
+                <!-- Top Artists and Tracks Selection Page -->
+                <div id="top-info" class="page hidden">
+                <h1>Spotifynder</h1>
+                <h2>Select Your Top Artists and Tracks</h2>
+                <div class="top-info">
+                    <div id="top-artists" class="top-section">
+                    <h3>Your Top Artists</h3>
+                    <ul id="artists-list"></ul>
+                    </div>
+                    <div id="top-tracks" class="top-section">
+                    <h3>Your Top Tracks</h3>
+                    <ul id="tracks-list"></ul>
+                    </div>
+                </div>
+                <div class="finish-button-container">
+                    <button id="finish-btn" class="spotify-button">Continue</button>
+                </div>
+                </div>
+            </div>
+            </body>
+        </html>
+    </div>
+
+    <div id="onboarding2">
+        <!DOCTYPE html>
+            <html lang="en">
+            <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Onboarding</title>
+            <link rel="stylesheet" href="onboarding2.css">
+            </head>
+
+            <body>
+            <!-- Playlist Form -->
+            <div id="playlist-form" class="onboarding-container">
+                <h1>Spotifynder</h1>
+                <h2>Tell us about your playlists</h2>
+                <label for="playlist-input1">Personal Playlist1:</label>
+                <input type="text" id="playlist-input1" placeholder="Enter playlist name">
+                <label for="playlist-input2">Personal Playlist2:</label>
+                <input type="text" id="playlist-input2" placeholder="Enter playlist name">
+                <label for="playlist-input3">Personal Playlist3:</label>
+                <input type="text" id="playlist-input3" placeholder="Enter playlist name">
+                <button class="spotify-button" id="continue-button">Continue</button>
+            </div>
+
+            <!-- Questionnaire Form -->
+            <div id="questionnaire-form" class="onboarding-container hidden">
+                <h2>Additional Information</h2>
+                <h3>Personality Prompts</h3>
+                <div id="questions-container" class="onboarding-container">
+                <label for="q1">If you could meet one artist who would it be?</label>
+                <input type="text" id="q1">
+                <label for="q2">What's your favorite shower jam?</label>
+                <input type="text" id="q2" >
+                <label for="q3">What's your dream concert?</label>
+                <input type="text" id="q3" >
+                <button class="spotify-button" id="submit-responses-button">Submit Responses</button>
+                </div>
+            </div>
+            <script src="onboarding2.js"></script>
+            </body>
+        </html>
+    </div>
+
+    <div id="discovery">
+        <!DOCTYPE html>
+            <html lang="en">
+            <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Chat App</title>
+            <link rel="stylesheet" href="style.css">
+            <link rel="stylesheet" href="styles.css">
+            <link rel="stylesheet" href="profile.css">
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+            </head>
+            <body>
+            <div id="sidebar">
+                <!-- User Profile (1a) -->
+                <div id="user-profile">
+                    <img id="profile-pic" src="sample-pfp.jpeg" alt="User Profile Picture">
+                    <p id="username">@satvi</p>
+                </div>
+
+                <!-- Navigation Buttons (1b) -->
+                <nav>
+                    <button id="discovery-btn" class="selected">Discovery</button>
+                    <button id="chats-btn">Chats <span id="unread-count">0</span></button>
+                    <button id="profile-btn">Profile</button>
+                </nav>
+                <button id="logout-button">Logout</button>
+            </div>
+
+            <!-- Discovery Page -->
+            <span id="discovery-content-wrapper">
+                <div id="content">
+                    <div class="header-wrapper">
+                        <h1 id="title">Spotifynder</h1>
+                    </div>
+    
+                    <div class="inline-wrapper">
+                        <!-- Filter Panel -->
+                        <div id="filter-panel">
+                            <h2>Filters</h2>
+    
+                            <!-- Filter Section for Artists -->
+                            <div class="filter-section filter-section-artist">
+                                <h3>Artists</h3>
+                                <div class="filter-items">
+                                    <!-- Artist items will be dynamically loaded here -->
+                                </div>
+                            </div>
+    
+                            <!-- Filter Section for Tracks -->
+                            <div class="filter-section filter-section-track">
+                                <h3>Tracks</h3>
+                                <div class="filter-items">
+                                    <!-- Track items will be dynamically loaded here -->
+                                </div>
+                            </div>
+    
+                            <!-- Filter Section for Playlists -->
+                            <div class="filter-section filter-section-playlist">
+                                <h3>Playlists</h3>
+                                <div class="filter-items">
+                                    <!-- Playlist items will be dynamically loaded here -->
+                                </div>
+                            </div>
+    
+                            <!-- Compatibility Score Slider -->
+                            <div id="slider-container">
+                                <label for="compatibility-slider">Compatibility Score</label>
+                                <input type="range" id="compatibility-slider" min="0" max="100" value="50" step="1">
+                                <span id="slider-value">50%</span>
+                            </div>
+    
+                            <!-- Container for Randomize and Reset Buttons -->
+                            <div id="button-container">
+                                <button id="randomize-btn">Randomize</button>
+                                <button id="reset-btn">Reset</button>
+                                <button id="lucky-btn">I'm Feeling Lucky</button>
+                            </div>
+                        </div>
+    
+                            <!-- User Profile -->
+                            <div class="user-profile">
+                                <div class="view front-view">
+                                    <h2 id="profile-name"></h2> <!-- user name from indexed db comes here -->
+                                    <div class="profile-inline-header">
+                                        <img class="profile-pic" id="profile-pfp" src="" alt="User Profile Picture"> <!-- profile pic from indexed db comes here -->
+                                        <div class="content">
+                                            <p class="compatibility"><span id="score"></span> compatibility</p> <!-- score from indexed db comes here -->
+                                        </div>
+                                    </div>
+                                    <div class="top-content">
+                                        <div class="section">
+                                            <h3>Top 3 Artists</h3>
+                                            <div class="images" id="user-artists">
+                                                <!-- this populates with user's top 3 artists from indexed db -->
+                                            </div>
+                                        </div>
+                                        <div class="section">
+                                            <h3>Top 3 Tracks</h3>
+                                            <div class="images" id="user-tracks">
+                                                <!-- this populates with user's top 3 tracks from indexed db -->
+                                            </div>
+                                        </div>
+                                        <div class="section">
+                                            <h3>Top 3 Playlists</h3>
+                                            <div class="images" id="user-playlists">
+                                                <!-- this populates with user's top 3 playlists from indexed db -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="toggle-button">View More</button>
+                                </div>
+                                <div class="view back-view hidden">
+                                    <h2>Personality Prompts</h2>
+                                    <div id="personality-prompts">
+                                        <!-- this populates with user's personality prompts from indexed db -->
+                                    </div>
+                                    <button class="toggle-button">Back to Profile</button>
+                                </div>
+                            </div>
+                            
+                            <div class="profile-buttons-wrapper">
+                            <!-- Accept and Reject Buttons -->
+                            <div id="action-buttons">
+                                <button id="reject-button">
+                                    <span>&#10007;</span> Reject
+                                </button>
+                                <button id="accept-button">
+                                    <span>&#10003;</span> Accept
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script src="script.js"></script>
+            </span>
+
+
+            <!-- Chat Page -->
+            <span id="chat-content-wrapper">
+                <div class="chat-list">
+                    <div class="requests">
+                    <h3>Chats</h3>
+                    <div class="request-item" >@anshul</div>
+                    <div class="request-item" >@tanush</div>
+                    <div class="request-item" >@avni</div>
+                    </div>
+                    <div class="chats">
+                    <h3>Requests</h3>
+                    <div class="chat-item" data-username="aanya"data-email="aanyamehta@umass.edu">@aanya </div>
+                    <div class="chat-item" data-username="priyal"data-email="priyal@umass.edu">@priyal</div>
+                    <div class="chat-item" data-username="nehal"data-email="nehal@umass.edu">@nehal</div>
+                    </div>
+                </div>
+    
+                <div class="chat-area" id="chat-area">
+                    <div class="chat-header">Messages</div>
+                    <div class="messages">
+                    
+                    </div>
+                    <div class="message-input">
+                    <input type="text" placeholder="Type your message..." />
+                    <button class="send-btn">➤</button>
+                    </div>
+                </div>
+                <script src="app.js"></script>
+            </span>
+
+            <!-- Profile Page -->
+            <span id="profile-content-wrapper">
+                <main class="main-content">
+                    <!-- Profile -->
+                    <div class="profile-header">
+                        <div class="user-info">
+                            <div class="avatar">
+                                <img id="profile-pic" src="sample-pfp.jpeg" alt="User Profile Picture">
+                            </div>
+                            <div>
+                                <p>Username: @avni</p>
+                                <p>Email: avni@umass.edu</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sections for artists, tracks, playlists-->
+                    <section class="sections">
+                        <!--artists-->
+                        <div class="section">
+                            <h2>Artists</h2>
+                            <div class="item-list" id="artists">
+                                <div class="item-placeholder">
+                                    <img src="giveon.jpg" alt="Artist 1">
+                                </div>
+                                <div class="item-placeholder">
+                                    <img src="gracie.jpg" alt="Artist 2">
+                                </div>
+                                <div class="item-placeholder">
+                                    <img src="don.jpg" alt="Artist 3">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- tracks section -->
+                        <div class="section">
+                            <h2>Tracks</h2>
+                            <div class="item-list" id="tracks">
+                                <div class="item-placeholder">
+                                    <img src="apt.jpg" alt="Track 1">
+                                </div>
+                                <div class="item-placeholder">
+                                    <img src="dws.jpg" alt="Track 2">
+                                </div>
+                                <div class="item-placeholder">
+                                    <img src="bf.jpg" alt="Track 3">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- playlists section -->
+                        <div class="section">
+                            <h2>Playlists</h2>
+                            <div class="item-list" id="playlists">
+                                <div class="item-placeholder">
+                                    <img src="playlist1.jpg" alt="Playlist 1">
+                                </div>
+                                <div class="item-placeholder">
+                                    <img src="playlist2.jpg" alt="Playlist 2">
+                                </div>
+                                <div class="item-placeholder">
+                                    <img src="playlist3.jpg" alt="Playlist 3">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- personality prompts section -->
+                    <section class="personality-prompts">
+                        <h2>Personality Prompts</h2>
+                        <button class="add-prompt">+</button>
+                    </section>
+
+                </main>
+                <script src="profile.js"></script>
+            </span>
+        
+
+            <!-- JavaScript to handle selected button highlight -->
+            <script>
+                document.querySelectorAll("nav button").forEach(button => {
+                    button.addEventListener("click", function() {
+                        // Remove 'selected' class from all buttons
+                        document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("selected"));
+                        
+                        // Add 'selected' class to the clicked button
+                        this.classList.add("selected");
+                    });
+
+
+
+                });
+                
+            </script>
+            <script>
+            // Function to handle button clicks
+            document.querySelectorAll(".request-item, .chat-item").forEach(button => {
+                button.addEventListener("click", function() {
+                // Remove 'active' class from all buttons
+                document.querySelectorAll(".request-item, .chat-item").forEach(btn => btn.classList.remove("active"));
+
+                // Add 'active' class to the clicked button
+                this.classList.add("active");
+                });
+            });
+            </script>
+            <script>
+            document.querySelectorAll(".chat-item").forEach(button => {
+            button.addEventListener("click", function () {
+                const chatArea = document.getElementById("chat-area");
+
+                // Extract user information from the button's data attributes
+                const username = button.getAttribute("data-username");
+                const email = button.getAttribute("data-email");
+
+                // Replace chat area content with user profile HTML
+                chatArea.innerHTML = `
+                <main class="content">
+                    <!-- Profile -->
+                    <div class="profile-header">
+                    <div class="user-info">
+                        <div class="avatar">👤</div>
+                        <div>
+                        <p><strong>Username:</strong> @${username}</p>
+                        <p><strong>Email:</strong> ${email}</p>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Sections for artists, tracks, playlists -->
+                    <section class="sections">
+                    <div class="section">
+                        <h2>Artists</h2>
+                        <div class="item-list">
+                        <div class="item-placeholder"><img src="giveon.jpg" alt="Artist 1"></div>
+                        <div class="item-placeholder"><img src="gracie.jpg" alt="Artist 2"></div>
+                        <div class="item-placeholder"><img src="don.jpg" alt="Artist 3"></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>Tracks</h2>
+                        <div class="item-list">
+                        <div class="item-placeholder"><img src="apt.jpg" alt="Track 1"></div>
+                        <div class="item-placeholder"><img src="dws.jpg" alt="Track 2"></div>
+                        <div class="item-placeholder"><img src="bf.jpg" alt="Track 3"></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>Playlists</h2>
+                        <div class="item-list">
+                        <div class="item-placeholder"><img src="playlist1.jpg" alt="Playlist 1"></div>
+                        <div class="item-placeholder"><img src="playlist2.jpg" alt="Playlist 2"></div>
+                        <div class="item-placeholder"><img src="playlist3.jpg" alt="Playlist 3"></div>
+                        </div>
+                    </div>
+                    </section>
+
+                    <!-- Accept/Decline Buttons -->
+                    <div class="action-buttons">
+                    <button class="accept-button">✔ Accept</button>
+                    <button class="decline-button">✖ Decline</button>
+                    </div>
+                </main>
+                `;
+            });
+            });
+            // document.querySelectorAll(".request-item").forEach(button => {
+            //   button.addEventListener("click", function () {
+            //     const chatArea = document.querySelector(".chat-area");
+
+            //     chatArea.innerHTML = `
+            //       <div class="chat-area">
+            //     <div class="chat-header">Messages</div>
+            //     <div class="messages">
+                
+            //     </div>
+            //     <div class="message-input">
+            //       <input type="text" placeholder="Type your message..." />
+            //       <button class="send-btn">➤</button>
+            //     </div>
+            //   </div>
+            //       `;
+            //   });
+            // });
+            </script>
+            </body>
+        </html>
+    </div>
+</body>
+</html>

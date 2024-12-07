@@ -1,12 +1,12 @@
 /* Basic reset and font setup */
-* {
+#profile-content-wrapper {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: 'Inter', sans-serif;
 }
 
-html, body {
+#profile-content-wrapper {
     min-height: 100%;
     margin: 0;
     background-color: #191414 ;

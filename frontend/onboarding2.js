@@ -30,31 +30,37 @@ function openDb() {
 
 // Save playlist data to IndexedDB
 function savePlayList(one, two, three) {
-  const transaction = db.transaction('playlists', 'readwrite');
-  const store = transaction.objectStore('playlists');
+  console.log("Playlists:", one, two, three);
+  // TODO: Send request to backend to save playlist data for onboarding
+
+  // const transaction = db.transaction('playlists', 'readwrite');
+  // const store = transaction.objectStore('playlists');
   
-  const playlists = { one, two, three };
+  // const playlists = { one, two, three };
 
-  const request = store.add(playlists);
+  // const request = store.add(playlists);
 
-  request.onsuccess = function () {
-    console.log("Playlists saved successfully!");
-  };
+  // request.onsuccess = function () {
+  //   console.log("Playlists saved successfully!");
+  // };
 
-  request.onerror = function (e) {
-    console.error("Error saving playlists:", e);
-  };
+  // request.onerror = function (e) {
+  //   console.error("Error saving playlists:", e);
+  // };
 }
 
 // Save questionnaire responses to IndexedDB
 function promptQ(q1, q2, q3) {
-  const transaction = db.transaction('responses', 'readwrite');
-  const store = transaction.objectStore('responses');
-  const responses = { q1, q2, q3 };
-  const request = store.add(responses);
-  request.onerror = function (e) {
-    console.error("Error saving responses:", e);
-  };
+  console.log("Responses:", q1, q2, q3);
+  // TODO: Send request to backend to save questionnaire responses for onboarding
+
+  // const transaction = db.transaction('responses', 'readwrite');
+  // const store = transaction.objectStore('responses');
+  // const responses = { q1, q2, q3 };
+  // const request = store.add(responses);
+  // request.onerror = function (e) {
+  //   console.error("Error saving responses:", e);
+  // };
 }
 
 // Event listener for page load to initialize the DB
@@ -93,7 +99,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (q1 && q2 && q3) {
       promptQ(q1, q2, q3);  // Save the responses
-      window.location.href = '../discovery/discovery.html';  // Redirect to next page  
+      // window.location.href = '../discovery/discovery.html';  // Redirect to next page  
+      document.getElementById("onboarding2").style.display = "none";
+      document.getElementById("discovery").style.display = "block";
     } else {
       alert("Please answer all questions!");
     }

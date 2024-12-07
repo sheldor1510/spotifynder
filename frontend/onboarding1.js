@@ -1,6 +1,6 @@
 // IndexedDB setup
-let db;
-const request = indexedDB.open('SpotifynderDB', 1);
+// let db;
+// const request = indexedDB.open('SpotifynderDB', 1);
 
 request.onupgradeneeded = function(event) {
   db = event.target.result;
@@ -23,22 +23,25 @@ request.onerror = function(event) {
 
 // Helper functions for IndexedDB operations
 function saveData(id, data) {
-  if (!db) {
-    console.error("IndexedDB is not available.");
-    return;
-  }
+  console.log(data)
+  // TODO: Send request to backend to save data for onboarding
+
+  // if (!db) {
+  //   console.error("IndexedDB is not available.");
+  //   return;
+  // }
   
-  const transaction = db.transaction(['userData'], 'readwrite');
-  const objectStore = transaction.objectStore('userData');
-  const request = objectStore.put({ id, ...data });
+  // const transaction = db.transaction(['userData'], 'readwrite');
+  // const objectStore = transaction.objectStore('userData');
+  // const request = objectStore.put({ id, ...data });
 
-  request.onsuccess = () => {
-    console.log(`Data saved to IndexedDB: ${JSON.stringify(data)}`);
-  };
+  // request.onsuccess = () => {
+  //   console.log(`Data saved to IndexedDB: ${JSON.stringify(data)}`);
+  // };
 
-  request.onerror = (event) => {
-    console.error('Error saving data to IndexedDB:', event.target.errorCode);
-  };
+  // request.onerror = (event) => {
+  //   console.error('Error saving data to IndexedDB:', event.target.errorCode);
+  // };
 }
 
 function loadUserData() {
@@ -187,7 +190,9 @@ function finishOnboarding() {
   saveData('user', { id: 'user', college: document.getElementById('college-input').value, selectedArtists, selectedTracks });
   // alert('Onboarding Complete!');
   console.log("Onboarding complete with data saved to IndexedDB.");
-  window.location.href = '../onboarding-2/onboarding2.html';
+  document.getElementById("onboarding1").style.display = "none";
+  document.getElementById("onboarding2").style.display = "block";
+  // window.location.href = '../onboarding-2/onboarding2.html';
 }
 
 // Switch between pages

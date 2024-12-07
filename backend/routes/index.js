@@ -7,6 +7,10 @@ const {
   fetchUsers, 
   updateUser 
 } = require('../controllers/userController');
+
+const {
+  fetchPlaylists
+} = require('../controllers/playlistController')
 const router = express.Router();
 
 console.log({
@@ -27,5 +31,8 @@ router.post('/college', updateCollege);
 router.post('/user', createUser);
 router.get('/users', fetchUsers);
 router.put('/user', updateUser);
+
+// Onboarding2 related routes
+router.get('/playlists', fetchPlaylists)
 
 module.exports = router;

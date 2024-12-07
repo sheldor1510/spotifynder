@@ -5,7 +5,13 @@ exports.spotifyOAuthCallback = (req, res) => {
 };
 
 exports.fetchColleges = (req, res) => {
-  res.send('Fetch Colleges Handler');
+  let colleges = [
+    'umass',
+    'mit'
+  ]
+  res.json({
+    data: colleges
+  });
 };
 
 exports.updateCollege = (req, res) => {

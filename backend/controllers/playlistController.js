@@ -8,6 +8,7 @@ exports.fetchPlaylists = async (req, res) => {
 
         // Check if the user exists in the database using the provided token
         const user = await User.findOne({ where: { accessToken: userToken } });
+        
         if (!user) {
             return res.status(404).json({ error: "User not found." });
         }

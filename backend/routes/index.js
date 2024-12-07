@@ -9,9 +9,16 @@ const {
 } = require('../controllers/userController');
 
 const {
-  fetchPlaylists
-} = require('../controllers/playlistController')
+  fetchPlaylists,
+  savePlaylists
+} = require('../controllers/playlistController');
+const { savePrompt 
+
+} = require('../controllers/personalityPromptController');
+
 const router = express.Router();
+
+
 
 console.log({
   spotifyOAuthCallback,
@@ -34,5 +41,9 @@ router.put('/user', updateUser);
 
 // Onboarding2 related routes
 router.get('/playlists', fetchPlaylists)
+//saving playlists
+router.post('/savePlaylists', savePlaylists)
+//route for the personality prompt
+router.post('/personalityPrompts', savePrompt)
 
 module.exports = router;

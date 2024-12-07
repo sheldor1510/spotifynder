@@ -17,6 +17,10 @@ const User = UserModel(sequelize, require('sequelize').DataTypes);
       email: 'janedoe@example.com',
       accessToken: 'access_token_example_1',
       college: 'ABC University',
+      playlists: [{
+        name: 'StudySongs',
+        name: 'CarVibes'
+      }]
     });
     console.log('First user added successfully:', firstUser.toJSON());
 
@@ -27,6 +31,11 @@ const User = UserModel(sequelize, require('sequelize').DataTypes);
       email: 'johnsmith@example.com',
       accessToken: 'access_token_example_2',
       college: 'XYZ College',
+      playlists: [{
+        name: 'ShowerSongs',
+        name: 'Pop'
+      }]
+  
     });
     console.log('Second user added successfully:', secondUser.toJSON());
 

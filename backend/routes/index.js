@@ -56,4 +56,9 @@ router.get('/profile', fetchProfile); // Fetch profile of user
 router.get('/fetchTopArtists', fetchTopArtists);
 router.get('/fetchTopTracks', fetchTopTracks);
 
+// Filters Routes
+router.get('/filters', getFilterOptions); // Fetch filter options
+router.get('/filters/randomize', getRandomizedFilters); // Fetch randomized filters
+
+
 module.exports = router;

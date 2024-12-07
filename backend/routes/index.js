@@ -8,6 +8,10 @@ const {
   fetchUsers, 
   updateUser 
 } = require('../controllers/userController');  // Correct path to userController
+
+
+const { fetchProfile } = require('../controllers/profileController'); // Correct path to profileController
+
 const router = express.Router();
 
 // Log the imported functions (for debugging)
@@ -38,6 +42,7 @@ router.get('/login/spotify', (req, res) => {
   res.redirect(SPOTIFY_AUTH_URL); // Redirect to Spotify login page
 });
 
+router.get('/profile', fetchProfile); // Fetch profile of user
 module.exports = router;
 
 

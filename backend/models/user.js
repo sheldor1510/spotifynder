@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     email: { type: DataTypes.STRING },
     accessToken: { type: DataTypes.STRING },
     college: { type: DataTypes.STRING },
+    topPlaylists: { type: DataTypes.JSON },
+    topArtists: { type: DataTypes.JSON },
+    topTracks: { type: DataTypes.JSON },
+    personalityPrompts: { type: DataTypes.JSON }
   });
 
   return User;

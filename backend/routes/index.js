@@ -6,8 +6,14 @@ const {
   updateCollege, 
   createUser, 
   fetchUsers, 
-  updateUser 
-} = require('../controllers/userController');  // Correct path to userController
+  updateUser
+} = require('../controllers/userController');
+
+const {
+  fetchTopArtists,
+  fetchTopTracks
+} = require ('../controllers/ArtistandTracksController');
+
 const router = express.Router();
 
 // Log the imported functions (for debugging)
@@ -37,6 +43,10 @@ router.get('/login/spotify', (req, res) => {
   const SPOTIFY_AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REDIRECT_URI)}&response_type=code&scope=user-read-private user-read-email`;
   res.redirect(SPOTIFY_AUTH_URL); // Redirect to Spotify login page
 });
+
+//User Spotify related queries
+router.get('/fetchTopArtists', fetchTopArtists);
+router.get('/fetchTopTracks', fetchTopTracks);
 
 module.exports = router;
 

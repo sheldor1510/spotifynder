@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     topPlaylists: { type: DataTypes.JSON },
     college: { type: DataTypes.STRING },
     compatibilityScore: { type: DataTypes.FLOAT },
+    personalityPrompts: { type: DataTypes.JSON },
   });
 
   return User;

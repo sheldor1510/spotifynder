@@ -169,3 +169,85 @@ exports.fetchFilteredUsers = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch filtered users.' });
   }
 };
+
+exports.getFilterOptions = async (req, res) => {
+  try {
+    // Fetch all users from the database
+    const users = await User.findAll();
+
+    // Aggregate unique values for filters
+    const uniqueArtists = new Set();
+    const uniqueTracks = new Set();
+    const uniquePlaylists = new Set();
+
+    users.forEach((user) => {
+      // Extract and aggregate unique artists
+      if (user.topArtists) {
+        user.topArtists.forEach((artist) => uniqueArtists.add(artist.name));
+      }
+
+      // Extract and aggregate unique tracks
+      if (user.topTracks) {
+        user.topTracks.forEach((track) => uniqueTracks.add(track.title));
+      }
+
+      // Extract and aggregate unique playlists
+      if (user.topPlaylists) {
+        user.topPlaylists.forEach((playlist) => uniquePlaylists.add(playlist.name));
+      }
+    });
+
+    // Respond with the unique filter options
+    res.status(200).json({
+      artists: Array.from(uniqueArtists),
+      tracks: Array.from(uniqueTracks),
+      playlists: Array.from(uniquePlaylists),
+    });
+  } catch (error) {
+    console.error('Error fetching filter options:', error);
+    res.status(500).json({ error: 'Failed to fetch filter options.' });
+  }
+};
+
+/**
+ * @description Fetch randomized filter options
+ */
+exports.getRandomizedFilters = async (req, res) => {
+  try {
+    // Fetch all users from the database
+    const users = await User.findAll();
+
+    // Aggregate values for randomization
+    const allArtists = [];
+    const allTracks = [];
+    const allPlaylists = [];
+
+    users.forEach((user) => {
+      if (user.topArtists) {
+        user.topArtists.forEach((artist) => allArtists.push(artist.name));
+      }
+      if (user.topTracks) {
+        user.topTracks.forEach((track) => allTracks.push(track.title));
+      }
+      if (user.topPlaylists) {
+        user.topPlaylists.forEach((playlist) => allPlaylists.push(playlist.name));
+      }
+    });
+
+    // Shuffle and limit the results
+    const shuffleArray = (array) => array.sort(() => 0.5 - Math.random());
+    const randomArtists = shuffleArray(allArtists).slice(0, 5); // Limit to 5
+    const randomTracks = shuffleArray(allTracks).slice(0, 5);   // Limit to 5
+    const randomPlaylists = shuffleArray(allPlaylists).slice(0, 5); // Limit to 5
+
+    // Respond with the randomized filter options
+    res.status(200).json({
+      randomArtists,
+      randomTracks,
+      randomPlaylists,
+    });
+  } catch (error) {
+    console.error('Error fetching randomized filters:', error);
+    res.status(500).json({ error: 'Failed to fetch randomized filters.' });
+  }
+};

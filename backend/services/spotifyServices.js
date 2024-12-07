@@ -9,20 +9,20 @@ const getAccessToken = async (code) => {
     params: {
       grant_type: 'authorization_code',
       code,
-      redirect_uri: process.env.REDIRECT_URI,
-      client_id: process.env.SPOTIFY_CLIENT_ID,
-      client_secret: process.env.SPOTIFY_CLIENT_SECRET,
+      redirect_uri: process.env.REDIRECT_URI,  // Set your redirect URI in .env file
+      client_id: process.env.SPOTIFY_CLIENT_ID, // Set your client ID in .env file
+      client_secret: process.env.SPOTIFY_CLIENT_SECRET, // Set your client secret in .env file
     },
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   });
-  return response.data;
+  return response.data;  // returns { access_token, refresh_token, expires_in }
 };
 
 const getUserProfile = async (accessToken) => {
   const response = await axios.get(SPOTIFY_API_URL, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
-  return response.data;
+  return response.data;  // returns user profile info like id, display_name, email
 };
 
 const findOrCreateUser = async ({ spotifyId, displayName, email, accessToken }) => {
@@ -30,7 +30,7 @@ const findOrCreateUser = async ({ spotifyId, displayName, email, accessToken }) 
   if (!user) {
     user = await User.create({ spotifyId, displayName, email, accessToken });
   } else {
-    user.accessToken = accessToken;
+    user.accessToken = accessToken;  // Update the token if user already exists
     await user.save();
   }
   return user;

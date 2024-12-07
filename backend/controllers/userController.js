@@ -1,7 +1,34 @@
-const { User } = require('../models'); // Import the User model from models/index.js
+const { User } = require('../models');
+const { getAccessToken, getUserProfile, findOrCreateUser } = require('../services/spotifyServices');
 
-exports.spotifyOAuthCallback = (req, res) => {
-  res.send('Spotify OAuth Callback Handler');
+exports.spotifyOAuthCallback = async (req, res) => {
+  const { code } = req.query;  // Get the authorization code from the query params
+
+  if (!code) {
+    return res.status(400).send('Spotify authorization code missing.');
+  }
+
+  try {
+    // Step 1: Get the access token using the authorization code
+    const { access_token } = await getAccessToken(code);
+    
+    // Step 2: Fetch user profile from Spotify
+    const userProfile = await getUserProfile(access_token);
+
+    // Step 3: Find or create the user in your database
+    const user = await findOrCreateUser({
+      spotifyId: userProfile.id,
+      displayName: userProfile.display_name,
+      email: userProfile.email,
+      accessToken: access_token,
+    });
+
+    // Respond with user data or redirect to the main app
+    res.json({ message: 'User logged in successfully', user });
+  } catch (error) {
+    console.error('Error during Spotify OAuth callback:', error);
+    res.status(500).send('Error handling the callback.');
+  }
 };
 
 exports.fetchColleges = (req, res) => {

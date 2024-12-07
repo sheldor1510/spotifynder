@@ -11,7 +11,9 @@ const {
 
 const {
   fetchTopArtists,
-  fetchTopTracks
+  fetchTopTracks,
+  selectTopArtists,
+  selectTopTracks
 } = require ('../controllers/ArtistandTracksController');
 
 const router = express.Router();
@@ -47,6 +49,8 @@ router.get('/login/spotify', (req, res) => {
 //User Spotify related queries
 router.get('/fetchTopArtists', fetchTopArtists);
 router.get('/fetchTopTracks', fetchTopTracks);
+router.post('/selectTopArtists', selectTopArtists);
+router.post('/selectTopTracks', selectTopTracks);
 
 module.exports = router;
 

@@ -72,4 +72,67 @@ exports.fetchTopTracks = async (req, res) => {
       res.status(500).send('Failed to fetch top tracks.');
     }
   };
+
+  exports.selectTopArtists = async (req, res) => {
+    try {
+      const { accessToken } = req.query; // Expecting Spotify access token in query parameter
+      const { topArtists } = req.body; // User-selected artists in request body
+  
+      // Find the user in the database by accessToken
+      const user = await User.findOne({accessToken: accessToken});
+      if (!user) {
+        return res.status(404).send('User not found.');
+      }
+  
+      if (!topArtists || !Array.isArray(topArtists) || topArtists.length !== 3) {
+        return res.status(400).send('You must provide exactly 3 artists.');
+      }
+  
+      // Save the selected artists as JSON in the user's record
+      user.topArtists = JSON.stringify(topArtists);
+  
+      await user.save(); // Save changes to the database
+  
+      res.status(200).json({
+        message: 'Top artists saved successfully.',
+        topArtists,
+      });
+    } catch (error) {
+      console.error('Error saving top artists:', error);
+      res.status(500).send('Failed to save top artists.');
+    }
+  };
+
+exports.selectTopTracks = async (req, res) => {
+    try {
+      const { accessToken } = req.query; // Expecting Spotify access token in query parameter
+      const { topTracks } = req.body; // User-selected tracks in request body
+  
+      // Find the user in the database by accessToken
+      const user = await User.findOne({ accessToken: accessToken });
+      if (!user) {
+        return res.status(404).send('User not found.');
+      }
+  
+      if (!topTracks || !Array.isArray(topTracks) || topTracks.length !== 3) {
+        return res.status(400).send('You must provide exactly 3 tracks.');
+      }
+  
+      // Save the selected tracks as JSON in the user's record
+      user.topTracks = JSON.stringify(topTracks);
+  
+      await user.save(); // Save changes to the database
+  
+      res.status(200).json({
+        message: 'Top tracks saved successfully.',
+        topTracks,
+      });
+    } catch (error) {
+      console.error('Error saving top tracks:', error);
+      res.status(500).send('Failed to save top tracks.');
+    }
+  };
+
+  
+  
   

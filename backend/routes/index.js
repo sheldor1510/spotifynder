@@ -5,7 +5,9 @@ const {
   updateCollege, 
   createUser, 
   fetchUsers, 
-  updateUser 
+  updateUser,
+  fetchTopArtists
+
 } = require('../controllers/userController');
 const router = express.Router();
 
@@ -27,5 +29,9 @@ router.post('/college', updateCollege);
 router.post('/user', createUser);
 router.get('/users', fetchUsers);
 router.put('/user', updateUser);
+
+//User Spotify related queries
+router.get('/fetchTopArtists', fetchTopArtists);
+router.get('/fetchTopTracks', fetchTopTracks);
 
 module.exports = router;

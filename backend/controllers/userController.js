@@ -99,22 +99,23 @@ exports.updateUser = async (req, res) => {
 
 exports.fetchFilteredUsers = async (req, res) => {
   try {
-    // Extract query parameters with defaults
     const {
-      artists = null,
-      tracks = null,
-      playlists = null,
+      artists,
+      tracks,
+      playlists,
       minCompatibilityScore = 0,
       page = 1,
       limit = 10,
+      randomize = 'false',
+      sort,
     } = req.query;
 
     // Initialize query conditions
     const conditions = {};
 
-    // Filter by topArtists (if provided)
+    // Add filter conditions dynamically
     if (artists) {
-      const artistArray = artists.split(','); // Supports multiple artists (comma-separated)
+      const artistArray = artists.split(',');
       conditions.topArtists = {
         [Op.or]: artistArray.map((artist) => ({
           [Op.contains]: [{ name: artist }],
@@ -122,7 +123,6 @@ exports.fetchFilteredUsers = async (req, res) => {
       };
     }
 
-    // Filter by topTracks (if provided)
     if (tracks) {
       const trackArray = tracks.split(',');
       conditions.topTracks = {
@@ -132,7 +132,6 @@ exports.fetchFilteredUsers = async (req, res) => {
       };
     }
 
-    // Filter by topPlaylists (if provided)
     if (playlists) {
       const playlistArray = playlists.split(',');
       conditions.topPlaylists = {
@@ -142,20 +141,36 @@ exports.fetchFilteredUsers = async (req, res) => {
       };
     }
 
-    // Filter by compatibilityScore
-    conditions.compatibilityScore = {
-      [Op.gte]: parseFloat(minCompatibilityScore),
-    };
+    if (minCompatibilityScore) {
+      conditions.compatibilityScore = {
+        [Op.gte]: parseFloat(minCompatibilityScore),
+      };
+    }
 
-    // Pagination: Calculate offset
+    // Pagination
     const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
 
-    const users = await User.findAll({
+    // Sorting
+    const order = [];
+    if (sort) {
+      const [key, direction] = sort.split(':');
+      order.push([key, direction.toUpperCase()]); // e.g., ['compatibilityScore', 'DESC']
+    }
+
+    // Fetch users with conditions and optional sorting
+    let users = await User.findAll({
       where: conditions,
       limit: parseInt(limit, 10),
       offset,
+      order: order.length ? order : undefined, // Apply sorting only if specified
     });
 
+    // Randomize results if `randomize=true`
+    if (randomize === 'true') {
+      users = users.sort(() => 0.5 - Math.random());
+    }
+
+    // Respond with filtered, sorted, and/or randomized profiles
     res.status(200).json({
       data: users,
       meta: {
@@ -172,8 +187,10 @@ exports.fetchFilteredUsers = async (req, res) => {
 
 exports.getFilterOptions = async (req, res) => {
   try {
-    // Fetch all users from the database
-    const users = await User.findAll();
+    // Query all users
+    const users = await User.findAll({
+      attributes: ['topArtists', 'topTracks', 'topPlaylists'], // Only fetch these fields
+    });
 
     // Aggregate unique values for filters
     const uniqueArtists = new Set();
@@ -181,23 +198,18 @@ exports.getFilterOptions = async (req, res) => {
     const uniquePlaylists = new Set();
 
     users.forEach((user) => {
-      // Extract and aggregate unique artists
       if (user.topArtists) {
         user.topArtists.forEach((artist) => uniqueArtists.add(artist.name));
       }
-
-      // Extract and aggregate unique tracks
       if (user.topTracks) {
         user.topTracks.forEach((track) => uniqueTracks.add(track.title));
       }
-
-      // Extract and aggregate unique playlists
       if (user.topPlaylists) {
         user.topPlaylists.forEach((playlist) => uniquePlaylists.add(playlist.name));
       }
     });
 
-    // Respond with the unique filter options
+    // Respond with unique filter options
     res.status(200).json({
       artists: Array.from(uniqueArtists),
       tracks: Array.from(uniqueTracks),

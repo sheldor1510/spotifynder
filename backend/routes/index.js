@@ -13,7 +13,9 @@ const { fetchProfile } = require('../controllers/profileController'); // Correct
 
 const {
   fetchTopArtists,
-  fetchTopTracks
+  fetchTopTracks,
+  selectTopArtists,
+  selectTopTracks
 } = require ('../controllers/ArtistandTracksController');
 
 const router = express.Router();
@@ -55,6 +57,8 @@ router.get('/profile', fetchProfile); // Fetch profile of user
 //User Spotify related queries
 router.get('/fetchTopArtists', fetchTopArtists);
 router.get('/fetchTopTracks', fetchTopTracks);
+router.post('/selectTopArtists', selectTopArtists);
+router.post('/selectTopTracks', selectTopTracks);
 
 // Filters Routes
 router.get('/filters', getFilterOptions); // Fetch filter options

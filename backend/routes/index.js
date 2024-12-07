@@ -1,4 +1,3 @@
-// routes.js
 const express = require('express');
 const { 
   spotifyOAuthCallback, 
@@ -6,7 +5,8 @@ const {
   updateCollege, 
   createUser, 
   fetchUsers, 
-  updateUser 
+  updateUser,
+  fetchFilteredUsers, // Import the new controller function
 } = require('../controllers/userController');  // Correct path to userController
 const router = express.Router();
 
@@ -18,6 +18,7 @@ console.log({
   createUser,
   fetchUsers,
   updateUser,
+  fetchFilteredUsers,
 });
 
 // Spotify OAuth Callback Route
@@ -32,6 +33,9 @@ router.post('/user', createUser);  // Create a new user
 router.get('/users', fetchUsers);  // Get all users
 router.put('/user', updateUser);   // Update user information
 
+// Discovery Route
+router.get('/discovery', fetchFilteredUsers); // Fetch filtered user profiles
+
 // Spotify Login Route (Redirect to Spotify OAuth)
 router.get('/login/spotify', (req, res) => {
   const SPOTIFY_AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REDIRECT_URI)}&response_type=code&scope=user-read-private user-read-email`;
@@ -39,5 +43,3 @@ router.get('/login/spotify', (req, res) => {
 });
 
 module.exports = router;
-
-

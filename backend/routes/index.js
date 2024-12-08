@@ -1,22 +1,27 @@
 const express = require('express');
-const { 
-  spotifyOAuthCallback, 
-  fetchColleges, 
-  updateCollege, 
-  createUser, 
+const {
+  spotifyOAuthCallback,
+  fetchColleges,
+  updateCollege,
+  createUser,
   fetchUsers,
   updateUser,
-  fetchFilteredUsers, // Import the new controller function
+  fetchFilteredUsers,
 } = require('../controllers/userController');
 
-const { fetchProfile } = require('../controllers/profileController'); // Correct path to profileController
-
+const { fetchProfile } = require('../controllers/profileController');
 const {
   fetchTopArtists,
   fetchTopTracks,
   selectTopArtists,
-  selectTopTracks
-} = require ('../controllers/ArtistandTracksController');
+  selectTopTracks,
+} = require('../controllers/ArtistandTracksController');
+
+const {
+  getUserChats,
+  sendMessage,
+  getChatHistory, // Import chatController functions
+} = require('../controllers/chatController');
 
 const router = express.Router();
 
@@ -29,40 +34,52 @@ console.log({
   fetchUsers,
   updateUser,
   fetchFilteredUsers,
+  fetchProfile,
+  fetchTopArtists,
+  fetchTopTracks,
+  selectTopArtists,
+  selectTopTracks,
+  getUserChats,
+  sendMessage,
+  getChatHistory,
 });
 
 // Spotify OAuth Callback Route
 router.get('/auth/spotify/callback', spotifyOAuthCallback);
 
 // Colleges Routes
-router.get('/colleges', fetchColleges); // Fetch list of colleges
-router.post('/college', updateCollege); // Update college information
+router.get('/colleges', fetchColleges);
+router.post('/college', updateCollege);
 
 // User-related Routes
-router.post('/user', createUser);  // Create a new user
-router.get('/users', fetchUsers);  // Get all users
-router.put('/user', updateUser);   // Update user information
+router.post('/user', createUser);
+router.get('/users', fetchUsers);
+router.put('/user', updateUser);
 
 // Discovery Route
-router.get('/discovery', fetchFilteredUsers); // Fetch filtered user profiles
+router.get('/discovery', fetchFilteredUsers);
 
-// Spotify Login Route (Redirect to Spotify OAuth)
+// Spotify Login Route
 router.get('/login/spotify', (req, res) => {
   const SPOTIFY_AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REDIRECT_URI)}&response_type=code&scope=user-read-private user-read-email`;
-  res.redirect(SPOTIFY_AUTH_URL); // Redirect to Spotify login page
+  res.redirect(SPOTIFY_AUTH_URL);
 });
 
-router.get('/profile', fetchProfile); // Fetch profile of user
+router.get('/profile', fetchProfile);
 
-//User Spotify related queries
+// User Spotify-related Queries
 router.get('/fetchTopArtists', fetchTopArtists);
 router.get('/fetchTopTracks', fetchTopTracks);
 router.post('/selectTopArtists', selectTopArtists);
 router.post('/selectTopTracks', selectTopTracks);
 
-// Filters Routes
-router.get('/filters', getFilterOptions); // Fetch filter options
-router.get('/filters/randomize', getRandomizedFilters); // Fetch randomized filters
+// Chat Routes
+router.get('/chats', getUserChats); // Fetch all chats for a user
+router.post('/chats/message', sendMessage); // Send a new chat message
+router.get('/chats/:match_id', getChatHistory); // Fetch conversation history for a match_id
 
+// Filters Routes
+router.get('/filters', getFilterOptions);
+router.get('/filters/randomize', getRandomizedFilters);
 
 module.exports = router;

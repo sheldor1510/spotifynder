@@ -25,7 +25,8 @@ exports.spotifyOAuthCallback = async (req, res) => {
     });
 
     // Respond with user data or redirect to the main app
-    res.json({ message: 'User logged in successfully', user });
+    // res.json({ message: 'User logged in successfully', user });
+    res.send('You can close this tab')
   } catch (error) {
     console.error('Error during Spotify OAuth callback:', error);
     res.status(500).send('Error handling the callback.');

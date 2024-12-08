@@ -216,7 +216,7 @@ const responseType = 'code';  // Spotify OAuth response type
 function handleSpotifyLogin() {
   console.log("here")
   const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&response_type=${responseType}`;
-  window.location.href = authUrl;
+  window.open(authUrl, '_blank')
 }
 
 document.getElementById('spotify-login-btn').addEventListener('click', handleSpotifyLogin);

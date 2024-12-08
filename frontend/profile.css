@@ -221,17 +221,17 @@ nav button.selected {
     border-radius: 8px; /* Rounds the corners of the input fields */
 }
 
-.add-prompt {
-    margin-top: 10px;
-    background-color: #1DB954; /* Spotify green */
+#save-prompts-btn {
+    margin-top: 20px;
+    background-color: #1db954;
     color: white;
-    width: 40px;
-    height: 40px;
+    padding: 10px;
     border: none;
-    border-radius: 50%;
-    font-size: 24px;
+    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+}
+
+#save-prompts-btn:hover {
+    background-color: #14843d;
 }

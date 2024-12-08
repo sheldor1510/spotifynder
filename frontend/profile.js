@@ -113,30 +113,6 @@ function loadProfileData(key = 1) {
     };
 }
 
-// Function to add custom prompts
-function addCustomPrompt() {
-    const maxPrompts = 3;
-    const addPromptButton = document.querySelector(".add-prompt");
-    const personalityPrompts = document.querySelector(".personality-prompts");
-
-    addPromptButton.addEventListener("click", () => {
-        console.log("hello");
-        const currentPrompts = document.querySelectorAll(".personality-prompts .prompt").length;
-
-        if (currentPrompts < maxPrompts) {
-            const newPrompt = document.createElement("div");
-            newPrompt.classList.add("prompt");
-            newPrompt.innerHTML = `
-                <input type="text" placeholder="Question">
-                <textarea placeholder="Answer..."></textarea>
-            `;
-            personalityPrompts.insertBefore(newPrompt, addPromptButton);
-        } else {
-            alert("You've hit the high note on prompts! Try editing your top picks!");
-        }
-    });
-}
-
 // Function to save profile data and images to IndexedDB
 function saveProfileData() {
     if (!profileDB) {
@@ -226,7 +202,15 @@ function populatePrompts(prompts) {
     });
 }
 
-// Initialize custom prompts once the DOM is fully loaded
+// Add event listener to Save button
 document.addEventListener("DOMContentLoaded", () => {
-    addCustomPrompt();
+    const savePromptsButton = document.querySelector("#save-prompts-btn");
+
+    savePromptsButton.addEventListener("click", () => {
+        saveProfileData();
+        alert("Prompts saved successfully!");
+    });
+
+    // Initial profile data load
+    loadProfileData(1);
 });

@@ -1,11 +1,12 @@
 const { User } = require('../models'); // Import the User model from models/index.js
+const axios = require('axios');
 
 exports.fetchTopArtists = async (req, res) => {
     try {
       const { accessToken } = req.query; // Expecting user ID as a path parameter
   
       // Find the user in the database
-      const user = await User.find({ accessToken: accessToken });
+      const user = await User.findOne({where: {accessToken: accessToken}} );
       if (!user) {
         return res.status(404).send('User not found.');
       }
@@ -17,7 +18,7 @@ exports.fetchTopArtists = async (req, res) => {
       // Fetch top artists from Spotify
       const topArtistsResponse = await axios.get('https://api.spotify.com/v1/me/top/artists', {
         headers: { Authorization: `Bearer ${user.spotifyId}` },
-        params: { limit: 10 }, // Fetch top 5 artists
+        params: { limit: 10 }, // Fetch top 10 artists
       });
   
       const topArtists = topArtistsResponse.data.items.map(artist => ({
@@ -41,7 +42,7 @@ exports.fetchTopTracks = async (req, res) => {
       const { accessToken } = req.query; // Expecting Spotify access token in query parameter
   
       // Find the user in the database
-      const user = await User.find({  accessToken: accessToken } ); // Adjusted query to find the user by accessToken
+      const user = await User.findOne({where: {accessToken: accessToken}} );// Adjusted query to find the user by accessToken
       if (!user) {
         return res.status(404).send('User not found.');
       }
@@ -79,7 +80,7 @@ exports.fetchTopTracks = async (req, res) => {
       const { topArtists } = req.body; // User-selected artists in request body
   
       // Find the user in the database by accessToken
-      const user = await User.findOne({accessToken: accessToken});
+      const user = await User.findOne({where: {accessToken: accessToken}} );
       if (!user) {
         return res.status(404).send('User not found.');
       }
@@ -109,7 +110,7 @@ exports.selectTopTracks = async (req, res) => {
       const { topTracks } = req.body; // User-selected tracks in request body
   
       // Find the user in the database by accessToken
-      const user = await User.findOne({ accessToken: accessToken });
+      const user = await User.findOne({where: {accessToken: accessToken}} );
       if (!user) {
         return res.status(404).send('User not found.');
       }

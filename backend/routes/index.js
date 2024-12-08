@@ -20,6 +20,13 @@ const {
   selectTopTracks,
 } = require('../controllers/ArtistandTracksController');
 
+const{
+  resetFilters,
+  getRandomProfile
+}= require ('../controllers/filterController')
+
+const router = express.Router();
+
 const {
   getUserChats,
   sendMessage,
@@ -79,6 +86,10 @@ router.get('/fetchTopArtists', fetchTopArtists);
 router.get('/fetchTopTracks', fetchTopTracks);
 router.post('/selectTopArtists', selectTopArtists);
 router.post('/selectTopTracks', selectTopTracks);
+
+//User filter related queries
+router.post('/filter-reset-button', resetFilters);
+router.get('/random-profile', getRandomProfile);
 
 // Chat Routes
 router.get('/chats', getUserChats); // Fetch all chats for a user

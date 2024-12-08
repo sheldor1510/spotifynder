@@ -22,6 +22,3 @@ sequelize.sync().then(() => {
     console.log('Server running on http://localhost:5001');
   });
 });
-
-
-

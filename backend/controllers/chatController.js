@@ -45,34 +45,53 @@ exports.getUserChats = async (req, res) => {
       return res.status(500).json({ message: 'Internal Server Error', error: err.message });
     }
   };
-  
-  
+    
 // Send a new chat message
 exports.sendMessage = async (req, res) => {
-  try {
-    const { matchId, message } = req.body;
-    if (!matchId || !message) {
-      return res.status(400).json({ message: 'Match ID and message are required' });
+    try {
+    //get access token
+      const { matchId, message } = req.body;
+      const accessToken = req.query.accessToken;
+  
+      // Ensure matchId and message are provided
+      if (!matchId || !message) {
+        return res.status(400).json({ message: 'Match ID and message are required' });
+      }
+  
+      // Verify access token and find the user
+      if (!accessToken) {
+        return res.status(401).json({ message: 'Access token is missing' });
+      }
+      //getting the user with the access token
+      const user = await User.findOne({ where: { accessToken } });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found with the provided access token' });
+      }
+  
+      // Find the chat for the given matchId
+      const chat = await Chat.findOne({ match_id: matchId });
+      if (!chat) {
+        return res.status(404).json({ message: 'Chat not found' });
+      }
+  
+      // Push a new message into the conversation history
+      chat.conversation_history.push({
+        sender: user.id,
+        message,
+        timestamp: new Date(),
+      });
+  
+      await chat.save();
+  
+      //verifying
+      res.status(200).json({ message: 'Message sent successfully', chat });
+    } catch (err) {
+      console.error('Error sending message:', err);
+      res.status(500).json({ message: 'Internal Server Error', error: err.message });
     }
-
-    const chat = await Chat.findOne({ match_id: matchId });
-    if (!chat) {
-      return res.status(404).json({ message: 'Chat not found' });
-    }
-
-    chat.conversation_history.push({
-      sender: req.user.id, // Assuming `req.user` contains the logged-in user ID
-      message,
-      timestamp: new Date(),
-    });
-
-    await chat.save();
-    res.status(200).json({ message: 'Message sent successfully', chat });
-  } catch (err) {
-    console.error('Error sending message:', err);
-    res.status(500).json({ message: 'Internal Server Error', error: err.message });
-  }
-};
+  };
+  
+  
 
 // Fetch chat history based on match_id
 exports.getChatHistory = async (req, res) => {

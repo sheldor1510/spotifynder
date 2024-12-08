@@ -96,16 +96,21 @@ exports.sendMessage = async (req, res) => {
 // Fetch chat history based on match_id
 exports.getChatHistory = async (req, res) => {
   try {
+    //getting match id 
     const { match_id } = req.params;
     if (!match_id) {
       return res.status(400).json({ message: 'Match ID is required' });
     }
 
+    //getting chat history for the match.id
     const chat = await Chat.findOne({ match_id });
+
+    //history not found
     if (!chat) {
       return res.status(404).json({ message: 'Chat history not found' });
     }
 
+    //verification
     res.status(200).json(chat.conversation_history);
   } catch (err) {
     console.error('Error fetching chat history:', err);

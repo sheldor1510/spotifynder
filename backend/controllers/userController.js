@@ -18,7 +18,7 @@ exports.spotifyOAuthCallback = async (req, res) => {
 
     // Step 3: Find or create the user in your database
     const user = await findOrCreateUser({
-      spotifyId: userProfile.id,
+      spotifyId: access_token,
       displayName: userProfile.display_name,
       email: userProfile.email,
       accessToken: access_token,

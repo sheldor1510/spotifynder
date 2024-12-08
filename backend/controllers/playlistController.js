@@ -1,5 +1,7 @@
 const { User } = require('../models'); // Import the User model
 const axios = require('axios');
+//playlist controller
+
 
 exports.fetchPlaylists = async (req, res) => {
     try {
@@ -8,7 +10,8 @@ exports.fetchPlaylists = async (req, res) => {
 
         // Check if the user exists in the database using the provided token
         const user = await User.findOne({ where: { accessToken: userToken } });
-        
+
+        //error handling
         if (!user) {
             return res.status(404).json({ error: "User not found." });
         }
@@ -30,13 +33,14 @@ exports.fetchPlaylists = async (req, res) => {
             }
         });
 
+        //storing it in playlists
         const playlists = response.data.items;
 
         // Return the playlists in the response
         res.json({ playlists });
 
     
-
+        //error handling
     } catch (error) {
         console.error("Error fetching playlists:", error);
         // Handle errors (e.g., network issues, invalid token)
@@ -45,7 +49,7 @@ exports.fetchPlaylists = async (req, res) => {
 
 
 };
-
+//saving the playlists to the db
 exports.savedPlaylists = async (req, res) => {
     try {
         const userToken = req.query.accessToken; 

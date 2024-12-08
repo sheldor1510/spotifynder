@@ -43,3 +43,68 @@ function populateDropdowns(playlists) {
     });
   });
 }
+
+async function saveTopPlaylists() {
+  const accessToken = localStorage.getItem("accessToken");
+  const playlistSelects = [
+      document.getElementById('playlist-select1'),
+      document.getElementById('playlist-select2'),
+      document.getElementById('playlist-select3')
+  ];
+
+
+  const url = `http://localhost:3001/api/savedPlaylists?accessToken=${accessToken}`;
+  
+  try {
+      const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ playlists: playlistSelects })
+      });
+
+
+      const result = await response.json();
+      if (result.success) {
+          alert("Playlists saved successfully!");
+      }
+  } catch (error) {
+      console.error("Error saving playlists:", error);
+      alert("An error occurred while saving playlists.");
+  }
+}
+
+async function savePersonalityPrompts() {
+  const accessToken = localStorage.getItem("accessToken");
+  const promptAnswers = [
+      document.getElementById('q1'),
+      document.getElementById('q2'),
+      document.getElementById('q3')
+  ];
+
+
+  const url = `http://localhost:3001/api/personalityPrompts?accessToken=${accessToken}`;
+  
+  try {
+      const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ prompts: promptAnswers })
+      });
+
+
+      const result = await response.json();
+      if (result.success) {
+          alert("Prompts saved successfully!");
+      }
+  } catch (error) {
+      console.error("Error saving prompts:", error);
+      alert("An error occurred while saving prompts.");
+  }
+}
+

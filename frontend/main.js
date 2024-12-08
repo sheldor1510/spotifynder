@@ -1,5 +1,5 @@
-document.getElementById("onboarding1").style.display = "block";
-document.getElementById("onboarding2").style.display = "none";
+document.getElementById("onboarding1").style.display = "none";
+document.getElementById("onboarding2").style.display = "block";
 document.getElementById("discovery").style.display = "none";
 document.getElementById("discovery-content-wrapper").style.display = "block";
 document.getElementById("chat-content-wrapper").style.display = "none";

@@ -15,7 +15,7 @@ const {
 
 const {
   fetchPlaylists,
-  savePlaylists
+  savedPlaylists
 } = require('../controllers/playlistController');
 
 const { savePrompt } = require('../controllers/personalityPromptController');
@@ -79,7 +79,7 @@ router.put('/user', updateUser);
 // Onboarding2 related routes
 router.get('/playlists', fetchPlaylists)
 //saving playlists
-router.post('/savePlaylists', savePlaylists)
+router.post('/savePlaylists', savedPlaylists)
 //route for the personality prompt
 router.post('/personalityPrompts', savePrompt)
 

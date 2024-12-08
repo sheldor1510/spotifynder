@@ -16,6 +16,10 @@ const {
   selectTopTracks
 } = require ('../controllers/ArtistandTracksController');
 
+const{
+  resetFilters,
+}= require ('../controllers/filterController')
+
 const router = express.Router();
 
 // Log the imported functions (for debugging)
@@ -51,6 +55,10 @@ router.get('/fetchTopArtists', fetchTopArtists);
 router.get('/fetchTopTracks', fetchTopTracks);
 router.post('/selectTopArtists', selectTopArtists);
 router.post('/selectTopTracks', selectTopTracks);
+
+//User filter related queries
+router.post('/filter-reset-button', resetFilters);
+router.get('/random-profile', controller.getRandomProfile);
 
 module.exports = router;
 

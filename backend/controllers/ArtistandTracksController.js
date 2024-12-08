@@ -1,4 +1,5 @@
 const { User } = require('../models'); // Import the User model from models/index.js
+const axios = require('axios');
 
 exports.fetchTopArtists = async (req, res) => {
     try {
@@ -17,7 +18,7 @@ exports.fetchTopArtists = async (req, res) => {
       // Fetch top artists from Spotify
       const topArtistsResponse = await axios.get('https://api.spotify.com/v1/me/top/artists', {
         headers: { Authorization: `Bearer ${user.spotifyId}` },
-        params: { limit: 10 }, // Fetch top 5 artists
+        params: { limit: 10 }, // Fetch top 10 artists
       });
   
       const topArtists = topArtistsResponse.data.items.map(artist => ({

@@ -172,27 +172,22 @@ nav button.selected {
     margin-bottom: 5px;
 }
 
-.section-note {
-    font-size: 0.9em;
+.name-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
     color: #b3b3b3;
-    margin-bottom: 10px;
 }
 
-/* Increase spacing between images */
-.item-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Adjust for 3 columns for better spacing */
-    gap: 20px; /* Increased gap between images */
-}
-
-.item-placeholder img {
-    width: 100px;
-    height: 100px;
+.name-list li {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #333;
+    border: 1px solid #555;
     border-radius: 8px;
-    object-fit: cover;
-    border: 2px solid #333;
+    color: #FFFFFF;
 }
-
 
 /* Personality prompts styling */
 .personality-prompts h2 {

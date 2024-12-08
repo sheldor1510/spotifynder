@@ -52,12 +52,10 @@ router.get('/login/spotify', (req, res) => {
 });
 
 router.get('/profile', fetchProfile); // Fetch profile of user
+router.get('/profile', updatePrompts); // Update personality prompts
 
 //User Spotify related queries
 router.get('/fetchTopArtists', fetchTopArtists);
 router.get('/fetchTopTracks', fetchTopTracks);
-
-router.get('/profile', fetchProfile); // Fetch profile of user
-router.get('/profile', updatePrompts); // Update personality prompts
 
 module.exports = router;

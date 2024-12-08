@@ -1,3 +1,4 @@
+
 window.onload = async function() {
   await getData();  // Call the function when the window has loaded
 };

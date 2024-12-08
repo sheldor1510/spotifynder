@@ -1,4 +1,5 @@
 const express = require('express');
+const router = express.Router();
 
 const { 
   spotifyOAuthCallback, 
@@ -12,6 +13,13 @@ const {
   getRandomizedFilters // Import the new controller function
 } = require('../controllers/userController');
 
+const {
+  fetchPlaylists,
+  savePlaylists
+} = require('../controllers/playlistController');
+
+const { savePrompt } = require('../controllers/personalityPromptController');
+
 const { fetchProfile } = require('../controllers/profileController');
 const {
   fetchTopArtists,
@@ -24,8 +32,6 @@ const{
   resetFilters,
   getRandomProfile
 }= require ('../controllers/filterController')
-
-const router = express.Router();
 
 const {
   getUserChats,
@@ -69,6 +75,13 @@ router.post('/college', updateCollege);
 router.post('/user', createUser);
 router.get('/users', fetchUsers);
 router.put('/user', updateUser);
+
+// Onboarding2 related routes
+router.get('/playlists', fetchPlaylists)
+//saving playlists
+router.post('/savePlaylists', savePlaylists)
+//route for the personality prompt
+router.post('/personalityPrompts', savePrompt)
 
 // Discovery Route
 router.get('/discovery', fetchFilteredUsers);

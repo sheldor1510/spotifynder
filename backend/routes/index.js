@@ -1,12 +1,15 @@
 const express = require('express');
-const {
-  spotifyOAuthCallback,
-  fetchColleges,
-  updateCollege,
-  createUser,
+
+const { 
+  spotifyOAuthCallback, 
+  fetchColleges, 
+  updateCollege, 
+  createUser, 
   fetchUsers,
   updateUser,
-  fetchFilteredUsers,
+  fetchFilteredUsers, // Import the new controller function
+  getFilterOptions, // Import the new controller function
+  getRandomizedFilters // Import the new controller function
 } = require('../controllers/userController');
 
 const { fetchProfile } = require('../controllers/profileController');
@@ -23,7 +26,11 @@ const {
   getChatHistory, // Import chatController functions
 } = require('../controllers/chatController');
 
-const router = express.Router();
+const {
+  fetchRequests,
+  acceptRequest,
+  rejectRequest
+} = require('../controllers/matchesController');
 
 // Log the imported functions (for debugging)
 console.log({
@@ -81,5 +88,9 @@ router.get('/chats/:match_id', getChatHistory); // Fetch conversation history fo
 // Filters Routes
 router.get('/filters', getFilterOptions);
 router.get('/filters/randomize', getRandomizedFilters);
+// Matches Routes
+router.get('/requests', fetchRequests); // Fetch requests
+router.post('/requests/accept', acceptRequest); // Accept request
+router.post('/requests/reject', rejectRequest); // Reject request
 
 module.exports = router;

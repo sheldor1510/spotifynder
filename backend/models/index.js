@@ -13,3 +13,7 @@ module.exports = {
 // Load models
 const Chat = require('./chat/Chat');
 module.exports = { Chat };
+
+// Load Match model
+const Match = require('./Match');
+module.exports = { Match };

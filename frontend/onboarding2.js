@@ -90,29 +90,36 @@ async function saveTopPlaylists() {
   }
 }
 
+//function for saving personality prompts from user input
 async function savePersonalityPrompts() {
+  //getting the access token
   const accessToken = localStorage.getItem("accessToken");
+  //saving the prompt answers based off of their id 
   const promptAnswers = [
       document.getElementById('q1'),
       document.getElementById('q2'),
       document.getElementById('q3')
   ];
 
-
+  //saving the url
   const url = `http://localhost:3001/api/personalityPrompts?accessToken=${accessToken}`;
   
   try {
+    //doing the post request for the database
       const response = await fetch(url, {
           method: 'POST',
-          
+          //sending it to the body from prompts
           body: JSON.stringify({ prompts: promptAnswers })
       });
 
-
+      //converting to json
       const result = await response.json();
+
+      //success message
       if (result.success) {
           alert("Prompts saved successfully!");
       }
+      //error handling + alert message
   } catch (error) {
       console.error("Error saving prompts:", error);
       alert("An error occurred while saving prompts.");

@@ -19,16 +19,16 @@ async function getData() {
     }
     //turning it into json 
     const json = await response.json();
-    console.log(json);  // Log the fetched data for debugging
+    console.log(json.playlists);  // Log the fetched data for debugging
 
     //populatedropdown function that displays all the personal playlists for a user
-    populateDropdowns(json);  // Populate the dropdowns with playlists
+    populateDropdowns(json.playlists);  // Populate the dropdowns with playlists
 
     //error handling
   } catch (error) {
     //console.log for error handling + alert message
     console.error("Error fetching playlists:", error.message);
-    alert("An error occurred while fetching playlists.");
+    // alert("An error occurred while fetching playlists.");
   }
 }
 
@@ -47,10 +47,12 @@ function populateDropdowns(playlists) {
     selectElement.innerHTML = `<option value="">Select a playlist</option>`;
 
     playlists.forEach((playlist) => {
-      const option = document.createElement('option');
-      option.value = playlist.id;  // Use the playlist ID as the value
-      option.textContent = playlist.name;  // Use the playlist name as the option text
-      selectElement.appendChild(option);  // Append the new option to the dropdown
+      if (playlist != null) {
+        const option = document.createElement('option');
+        option.value = playlist.id;  // Use the playlist ID as the value
+        option.textContent = playlist.name;  // Use the playlist name as the option text
+        selectElement.appendChild(option);  // Append the new option to the dropdown
+      }
     });
   });
 }

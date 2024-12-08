@@ -1,4 +1,6 @@
 const express = require('express');
+const router = express.Router();
+
 const { 
   spotifyOAuthCallback, 
   fetchColleges, 
@@ -7,6 +9,8 @@ const {
   fetchUsers,
   updateUser,
   fetchFilteredUsers, // Import the new controller function
+  getFilterOptions, // Import the new controller function
+  getRandomizedFilters // Import the new controller function
 } = require('../controllers/userController');
 
 const { fetchProfile } = require('../controllers/profileController'); // Correct path to profileController
@@ -18,7 +22,11 @@ const {
   selectTopTracks
 } = require ('../controllers/ArtistandTracksController');
 
-const router = express.Router();
+const {
+  fetchRequests,
+  acceptRequest,
+  rejectRequest
+} = require('../controllers/matchesController');
 
 // Log the imported functions (for debugging)
 console.log({
@@ -64,5 +72,9 @@ router.post('/selectTopTracks', selectTopTracks);
 router.get('/filters', getFilterOptions); // Fetch filter options
 router.get('/filters/randomize', getRandomizedFilters); // Fetch randomized filters
 
+// Matches Routes
+router.get('/requests', fetchRequests); // Fetch requests
+router.post('/requests/accept', acceptRequest); // Accept request
+router.post('/requests/reject', rejectRequest); // Reject request
 
 module.exports = router;

@@ -6,7 +6,7 @@ exports.fetchTopArtists = async (req, res) => {
       const { accessToken } = req.query; // Expecting user ID as a path parameter
   
       // Find the user in the database
-      const user = await User.find({ accessToken: accessToken });
+      const user = await User.findOne({where: {accessToken: accessToken}} );
       if (!user) {
         return res.status(404).send('User not found.');
       }
@@ -42,7 +42,7 @@ exports.fetchTopTracks = async (req, res) => {
       const { accessToken } = req.query; // Expecting Spotify access token in query parameter
   
       // Find the user in the database
-      const user = await User.find({  accessToken: accessToken } ); // Adjusted query to find the user by accessToken
+      const user = await User.findOne({where: {accessToken: accessToken}} );// Adjusted query to find the user by accessToken
       if (!user) {
         return res.status(404).send('User not found.');
       }
@@ -80,7 +80,7 @@ exports.fetchTopTracks = async (req, res) => {
       const { topArtists } = req.body; // User-selected artists in request body
   
       // Find the user in the database by accessToken
-      const user = await User.findOne({accessToken: accessToken});
+      const user = await User.findOne({where: {accessToken: accessToken}} );
       if (!user) {
         return res.status(404).send('User not found.');
       }
@@ -110,7 +110,7 @@ exports.selectTopTracks = async (req, res) => {
       const { topTracks } = req.body; // User-selected tracks in request body
   
       // Find the user in the database by accessToken
-      const user = await User.findOne({ accessToken: accessToken });
+      const user = await User.findOne({where: {accessToken: accessToken}} );
       if (!user) {
         return res.status(404).send('User not found.');
       }

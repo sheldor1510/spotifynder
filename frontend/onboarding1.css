@@ -109,3 +109,25 @@ body {
       margin-bottom: 10px;
     }
   }
+  /* Style the college input dropdown */
+#college-select {
+  background-color: black;  /* Black background */
+  color: white;  /* White text color */
+  border: 1px solid #444;  /* Dark border */
+  padding: 10px;  /* Add some padding inside the box */
+  width: 100%;  /* Make it take the full width */
+  font-size: 16px;  /* Increase font size for better readability */
+}
+
+/* Add space between the label and dropdown */
+label[for="college-select"] {
+  margin-bottom: 10px;  /* Add margin at the bottom of the label */
+  display: block;  /* Ensure the label is a block-level element */
+  font-size: 18px;  /* Adjust font size for the label */
+}
+
+/* Optional: Focus effect to enhance visibility */
+#college-select:focus {
+  border-color: green;  /* Change border color when focused */
+  outline: none;  /* Remove default outline */
+}

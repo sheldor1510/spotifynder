@@ -66,10 +66,7 @@ console.log({
 
 // Spotify OAuth Callback Route
 router.get('/auth/spotify/callback', spotifyOAuthCallback);
-
-// Colleges Routes
-router.get('/colleges', fetchColleges);
-router.post('/college', updateCollege);
+const { colleges } = require('../colleges')
 
 // User-related Routes
 router.post('/user', createUser);
@@ -90,6 +87,13 @@ router.get('/discovery', fetchFilteredUsers);
 router.get('/login/spotify', (req, res) => {
   const SPOTIFY_AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REDIRECT_URI)}&response_type=code&scope=user-read-private user-read-email`;
   res.redirect(SPOTIFY_AUTH_URL);
+});
+
+const path = require('path');
+
+// Serve colleges.json from the backend folder
+router.get('/colleges', (req, res) => {
+  res.send(colleges)
 });
 
 router.get('/profile', fetchProfile);

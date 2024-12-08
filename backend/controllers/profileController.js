@@ -44,19 +44,25 @@ exports.updatePrompts = async (req, res) => {
   }
 };
 
+// Function to fetch all profile information
 exports.fetchProfile = async (req, res) => {
+    // Check if the access token is provided in the query parameters
     if (!req.query.accessToken) {
-        return res.status(400).send("Access Token missing");
+        return res.status(400).send("Access Token missing"); // Send 404 response if DNE
     }
 
     try {
+        // Extract access token from query parameters
         const userToken = req.query.accessToken;
+         // Find the user in the database using the access token
         const user = await User.findOne({where: { accessToken: userToken} });
 
+        // If no user found, send 400 error
         if(!user) {
             return res.status(400).send("User does not exist");
         }
 
+        // Safely retrieve user data and assign fallback values (empty array) if properties missing
         const topArtists = user.topArtists || [];
         const topTracks = user.topTracks || [];
         const topPlaylists = user.topPlaylists || [];
@@ -65,12 +71,10 @@ exports.fetchProfile = async (req, res) => {
         const displayName = user.displayName;
         const spotifyId = user.spotifyId;
 
+        // Return the user profile data in a JSON response
         return res.json({topArtists, topTracks, topPlaylists, personalityPrompts, email, displayName, spotifyId});
     } catch (error) {
         console.error('Error fetching user profile:', error);
         res.status(500).send('Internal Server Error');
     }
-    // check if accesstoken 
-    // if there is, fetch user
-    // if user, send obj back 
 };

@@ -53,7 +53,7 @@ exports.fetchPlaylists = async (req, res) => {
 
 
 //saving the playlists to the db
-exports.savedPlaylists = async (req, res) => {
+exports.savePlaylists = async (req, res) => {
     try {
         //getting the access token
         const userToken = req.query.accessToken; 

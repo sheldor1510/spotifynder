@@ -5,6 +5,7 @@ const axios = require('axios');
 
 exports.fetchPlaylists = async (req, res) => {
     try {
+        //getting the access token
         const userToken = req.query.accessToken; // Get the accessToken from the query string
 
 
@@ -49,11 +50,14 @@ exports.fetchPlaylists = async (req, res) => {
 
 
 };
+
+
 //saving the playlists to the db
 exports.savedPlaylists = async (req, res) => {
     try {
+        //getting the access token
         const userToken = req.query.accessToken; 
- 
+        //finding the specific user with that access token
         const user = await User.findOne({ where: { accessToken: userToken } });
         if (!user) {
             return res.status(404).json({ error: "User not found." });
@@ -63,10 +67,13 @@ exports.savedPlaylists = async (req, res) => {
         
         // update the user in the database with the playlists they selected
         user.topPlaylists = usersTopPlaylists
-        await user.save();
+        //saving it
+        await user.save();  
 
+        //converting to json
         res.json({ success: true })
 
+        //error handling
     } catch (error) {
         console.error("Error fetching playlists:", error);
         // Handle errors (e.g., network issues, invalid token)

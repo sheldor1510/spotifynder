@@ -9,3 +9,7 @@ module.exports = {
   sequelize,
   User,
 };
+
+// Load models
+const Chat = require('./chat/Chat');
+module.exports = { Chat };

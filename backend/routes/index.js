@@ -10,6 +10,7 @@ const {
 } = require('../controllers/userController');
 
 const { fetchProfile } = require('../controllers/profileController'); // Correct path to profileController
+const { updatePrompts } = require('../controllers/profileController'); 
 
 const {
   fetchTopArtists,
@@ -55,5 +56,8 @@ router.get('/profile', fetchProfile); // Fetch profile of user
 //User Spotify related queries
 router.get('/fetchTopArtists', fetchTopArtists);
 router.get('/fetchTopTracks', fetchTopTracks);
+
+router.get('/profile', fetchProfile); // Fetch profile of user
+router.get('/profile', updatePrompts); // Update personality prompts
 
 module.exports = router;

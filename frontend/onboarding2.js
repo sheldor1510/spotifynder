@@ -8,7 +8,7 @@ window.onload = async function() {
 async function getData() {
   //getting the acecess token
   const accessToken = localStorage.getItem("accessToken");  // Get access token from localStorage
-  const url = `http://localhost:3001/api/playlists?accessToken=${accessToken}`;  // API URL with access token
+  const url = `http://localhost:5001/api/playlists?accessToken=${accessToken}`;  // API URL with access token
 
   try {
     //waiting to fetch url
@@ -67,7 +67,7 @@ async function saveTopPlaylists() {
   ];
 
 //saving url
-  const url = `http://localhost:3001/api/savedPlaylists?accessToken=${accessToken}`;
+  const url = `http://localhost:5001/api/savedPlaylists?accessToken=${accessToken}`;
   
   try {
     //sending the post request to save the info to db
@@ -102,7 +102,7 @@ async function savePersonalityPrompts() {
   ];
 
   //saving the url
-  const url = `http://localhost:3001/api/personalityPrompts?accessToken=${accessToken}`;
+  const url = `http://localhost:5001/api/personalityPrompts?accessToken=${accessToken}`;
   
   try {
     //doing the post request for the database

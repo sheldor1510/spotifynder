@@ -1,232 +1,119 @@
-// Dummy profile data with image paths
-
-const dummyProfile = {
-    id: 1,
-    username: "@aanyamehta",
-    email: "aanyamehta@umass.edu",
-    artists: [
-        { image: "giveon.jpg" },
-        { image: "gracie.jpg" },
-        { image: "don.jpg" }
-    ],
-    tracks: [
-        { image: "bf.jpg" },
-        { image: "apt.jpg" },
-        { image: "dws.jpg" }
-    ],
-    playlists: [
-        { image: "playlist1.jpg" },
-        { image: "playlist2.jpg" },
-        { image: "playlist3.jpg" }
-    ],
-    prompts: [
-        { question: "What is one concert you want to go to?", answer: "Coldplay" },
-        { question: "What's your go-to song for a road trip?", answer: "Hotel California - Eagles" },
-        { question: "If you could only listen to one artist for a month, who would it be?", answer: "Taylor Swift" }
-    ]
+window.onload = async function() {
+    await loadProfileData();
 };
 
-// Initialize IndexedDB
-let profileDB;
-const profileDBRequest = indexedDB.open("SpotifynderDB", 1);
+// Function to load profile data from the backend
+async function loadProfileData() {
+    const accessToken = localStorage.getItem("accessToken"); // Retrieve access token
+    const url = `http://localhost:5001/api/profile?accessToken=${accessToken}`; // API endpoint for fetching profile
 
-profileDBRequest.onupgradeneeded = (event) => {
-    profileDB = event.target.result;
-
-    // Create main profiles store
-    const profilesStore = profileDB.createObjectStore("profiles", { keyPath: "id", autoIncrement: true });
-    profilesStore.createIndex("username", "username", { unique: true });
-    profilesStore.createIndex("email", "email", { unique: false });
-
-    // Separate stores for artists, tracks, and playlists with image-only field
-    const artistsStore = profileDB.createObjectStore("artists", { keyPath: "id", autoIncrement: true });
-    artistsStore.createIndex("image", "image", { unique: false });
-
-    const tracksStore = profileDB.createObjectStore("tracks", { keyPath: "id", autoIncrement: true });
-    tracksStore.createIndex("image", "image", { unique: false });
-
-    const playlistsStore = profileDB.createObjectStore("playlists", { keyPath: "id", autoIncrement: true });
-    playlistsStore.createIndex("image", "image", { unique: false });
-
-    console.log("Database setup complete.");
-};
-
-profileDBRequest.onsuccess = (event) => {
-    profileDB = event.target.result;
-    console.log("Database opened successfully");
-    
-    // Call loadProfileData only after the database is successfully opened
-    loadProfileData(1); // Load profile data with default id of 1
-    saveProfileData(1);
-};
-
-profileDBRequest.onerror = (event) => {
-    console.error("Database error:", event.target.errorCode);
-};
-
-// Function to load profile data and related images
-function loadProfileData(key = 1) {
-    if (!profileDB) {
-        console.error("IndexedDB is not initialized.");
-        return;
-    }
-
-    // Load main profile data
-    const profileTransaction = profileDB.transaction(["profiles"], "readwrite");
-    const profilesStore = profileTransaction.objectStore("profiles");
-    const profileRequest = profilesStore.get(key);
-
-    profileRequest.onsuccess = (event) => {
-        const profile = event.target.result || dummyProfile; // Use dummyProfile as fallback
-        populateProfileData(profile);
-    };
-
-    profileRequest.onerror = (event) => {
-        console.error("Error loading profile data:", event.target.error);
-    };
-
-    // Load artists images
-    const artistsTransaction = profileDB.transaction(["artists"], "readwrite");
-    const artistsStore = artistsTransaction.objectStore("artists");
-    const artistsRequest = artistsStore.getAll();
-
-    artistsRequest.onsuccess = (event) => {
-        populateImages("artists", event.target.result);
-    };
-
-    // Load tracks images
-    const tracksTransaction = profileDB.transaction(["tracks"], "readwrite");
-    const tracksStore = tracksTransaction.objectStore("tracks");
-    const tracksRequest = tracksStore.getAll();
-
-    tracksRequest.onsuccess = (event) => {
-        populateImages("tracks", event.target.result);
-    };
-
-    // Load playlists images
-    const playlistsTransaction = profileDB.transaction(["playlists"], "readwrite");
-    const playlistsStore = playlistsTransaction.objectStore("playlists");
-    const playlistsRequest = playlistsStore.getAll();
-
-    playlistsRequest.onsuccess = (event) => {
-        populateImages("playlists", event.target.result);
-    };
-}
-
-// Function to add custom prompts
-function addCustomPrompt() {
-    const maxPrompts = 3;
-    const addPromptButton = document.querySelector(".add-prompt");
-    const personalityPrompts = document.querySelector(".personality-prompts");
-
-    addPromptButton.addEventListener("click", () => {
-        console.log("hello");
-        const currentPrompts = document.querySelectorAll(".personality-prompts .prompt").length;
-
-        if (currentPrompts < maxPrompts) {
-            const newPrompt = document.createElement("div");
-            newPrompt.classList.add("prompt");
-            newPrompt.innerHTML = `
-                <input type="text" placeholder="Question">
-                <textarea placeholder="Answer..."></textarea>
-            `;
-            personalityPrompts.insertBefore(newPrompt, addPromptButton);
-        } else {
-            alert("You've hit the high note on prompts! Try editing your top picks!");
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error fetching profile: ${response.status}`);
         }
-    });
+        const profile = await response.json(); // Parse JSON response
+        populateProfileData(profile); // Populate profile data into UI
+    } catch (error) {
+        console.error("Error loading profile data:", error.message);
+        alert("An error occurred while loading profile data.");
+    }
 }
 
-// Function to save profile data and images to IndexedDB
-function saveProfileData() {
-    if (!profileDB) {
-        console.error("IndexedDB is not available.");
-        return;
-    }
+// Function to save updated profile data to the backend
+async function saveProfileData() {
+    const accessToken = localStorage.getItem("accessToken"); // Retrieve access token
+    const url = `http://localhost:5001/api/profile?accessToken=${accessToken}`; // API endpoint for saving profile
 
-    const username = document.querySelector(".user-info p").textContent;
-    const email = "aanyamehta@umass.edu";
-    const prompts = collectPrompts();
+    const prompts = collectPrompts(); // Collect updated prompts from the UI
 
     const profile = {
-        id: 1,
-        username,
-        email,
-        prompts
+        prompts // Sending prompts only
     };
 
-    const transaction = profileDB.transaction(["profiles", "artists", "tracks", "playlists"], "readwrite");
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(profile) // Send profile data as JSON
+        });
 
-    transaction.objectStore("profiles").put(profile);
-
-    dummyProfile.artists.forEach(artist => {
-        transaction.objectStore("artists").put(artist);
-    });
-
-    dummyProfile.tracks.forEach(track => {
-        transaction.objectStore("tracks").put(track);
-    });
-
-    dummyProfile.playlists.forEach(playlist => {
-        transaction.objectStore("playlists").put(playlist);
-    });
-
-    transaction.oncomplete = () => {
-        console.log("Profile and images saved successfully.");
-    };
-
-    transaction.onerror = (event) => {
-        console.error("Error saving data to IndexedDB:", event.target.error);
-    };
+        const result = await response.json(); // Parse JSON response
+        if (result.success) {
+            alert("Profile updated successfully!");
+        } else {
+            throw new Error(result.message || "An unknown error occurred");
+        }
+    } catch (error) {
+        console.error("Error saving profile data:", error.message);
+        alert("An error occurred while saving profile data.");
+    }
 }
 
-// Function to populate profile data
+// Function to populate profile data into the UI
 function populateProfileData(profile) {
+    // Populate username and email
     document.querySelector(".user-info p").textContent = profile.username;
     document.querySelector(".user-info p + p").textContent = profile.email;
+
+    // Populate personality prompts
     populatePrompts(profile.prompts);
+
+    // Populate images for artists, tracks, and playlists
+    populateNames("artists", profile.artists);
+    populateNames("tracks", profile.tracks);
+    populateNames("playlists", profile.playlists);
 }
 
-// Function to populate images for artists, tracks, and playlists
-function populateImages(containerId, items) {
+// Function to populate images for a section (artists, tracks, playlists)
+function populateNames(containerId, items) {
     const container = document.getElementById(containerId);
-    const placeholderImage = "https://via.placeholder.com/100"; // Fallback image URL
 
     container.innerHTML = items.map(item => `
         <div class="item-placeholder">
-            <img src="${item.image || placeholderImage}" alt="${containerId}">
+            <p>${item.name || "Unnamed"}</p> <!-- Display name instead of an image -->
         </div>
     `).join("");
 }
 
-// Function to collect prompts
+// Function to populate prompts into input fields
+function populatePrompts(prompts) {
+    const personalityPrompts = document.querySelector(".personality-prompts");
+    personalityPrompts.innerHTML = ""; // Clear existing prompts
+
+    prompts.forEach((prompt, index) => {
+        const promptDiv = document.createElement("div");
+        promptDiv.classList.add("prompt");
+        promptDiv.innerHTML = `
+            <label for="prompt${index + 1}">Question ${index + 1}:</label>
+            <input type="text" id="prompt${index + 1}" value="${prompt.question}" placeholder="Enter your question">
+            <textarea id="answer${index + 1}" placeholder="Enter your answer">${prompt.answer}</textarea>
+        `;
+        personalityPrompts.appendChild(promptDiv);
+    });
+}
+
+// Function to collect updated prompts from the UI
 function collectPrompts() {
     const prompts = [];
-    document.querySelectorAll(".personality-prompts .prompt").forEach(prompt => {
-        const question = prompt.querySelector("input").value;
-        const answer = prompt.querySelector("textarea").value;
-        prompts.push({ question, answer });
+    document.querySelectorAll(".personality-prompts .prompt").forEach((promptDiv, index) => {
+        const question = promptDiv.querySelector(`#prompt${index + 1}`).value.trim();
+        const answer = promptDiv.querySelector(`#answer${index + 1}`).value.trim();
+
+        if (question && answer) {
+            prompts.push({ question, answer });
+        }
     });
     return prompts;
 }
 
-// Function to populate prompts
-function populatePrompts(prompts) {
-    const personalityPrompts = document.querySelector(".personality-prompts");
-
-
-    prompts.forEach(prompt => {
-        const promptDiv = document.createElement("div");
-        promptDiv.classList.add("prompt");
-        promptDiv.innerHTML = `
-            <input type="text" value="${prompt.question}" placeholder="Question">
-            <textarea placeholder="Answer...">${prompt.answer}</textarea>
-        `;
-        personalityPrompts.insertBefore(promptDiv, document.querySelector(".add-prompt"));
-    });
-}
-
-// Initialize custom prompts once the DOM is fully loaded
+// Add event listeners for Save button and initialize profile data loading
 document.addEventListener("DOMContentLoaded", () => {
-    addCustomPrompt();
+    const savePromptsButton = document.querySelector("#save-prompts-btn");
+
+    savePromptsButton.addEventListener("click", () => {
+        saveProfileData(); // Save updated prompts to the backend
+    });
+
+    loadProfileData(); // Fetch and display profile data from the backend
 });

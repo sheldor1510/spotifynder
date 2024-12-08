@@ -172,27 +172,22 @@ nav button.selected {
     margin-bottom: 5px;
 }
 
-.section-note {
-    font-size: 0.9em;
+.name-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
     color: #b3b3b3;
-    margin-bottom: 10px;
 }
 
-/* Increase spacing between images */
-.item-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Adjust for 3 columns for better spacing */
-    gap: 20px; /* Increased gap between images */
-}
-
-.item-placeholder img {
-    width: 100px;
-    height: 100px;
+.name-list li {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #333;
+    border: 1px solid #555;
     border-radius: 8px;
-    object-fit: cover;
-    border: 2px solid #333;
+    color: #FFFFFF;
 }
-
 
 /* Personality prompts styling */
 .personality-prompts h2 {
@@ -221,17 +216,17 @@ nav button.selected {
     border-radius: 8px; /* Rounds the corners of the input fields */
 }
 
-.add-prompt {
-    margin-top: 10px;
-    background-color: #1DB954; /* Spotify green */
+#save-prompts-btn {
+    margin-top: 20px;
+    background-color: #1db954;
     color: white;
-    width: 40px;
-    height: 40px;
+    padding: 10px;
     border: none;
-    border-radius: 50%;
-    font-size: 24px;
+    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+}
+
+#save-prompts-btn:hover {
+    background-color: #14843d;
 }

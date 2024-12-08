@@ -20,7 +20,8 @@ const {
 
 const { savePrompt } = require('../controllers/personalityPromptController');
 
-const { fetchProfile } = require('../controllers/profileController');
+const { fetchProfile } = require('../controllers/profileController');const { updatePrompts } = require('../controllers/profileController'); 
+
 const {
   fetchTopArtists,
   fetchTopTracks,
@@ -96,7 +97,8 @@ router.get('/colleges', (req, res) => {
   res.send(colleges)
 });
 
-router.get('/profile', fetchProfile);
+router.get('/profile', fetchProfile); // Fetch profile of user
+router.get('/profile', updatePrompts); // Update personality prompts
 
 // User Spotify-related Queries
 router.get('/fetchTopArtists', fetchTopArtists);

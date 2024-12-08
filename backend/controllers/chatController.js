@@ -1,6 +1,6 @@
 // controllers/chatController.js
 
-const Chat = require('../models/chat/Chat');
+const { Chat } = require('../models');
 
 // Fetch all chats for a logged-in user
 exports.getUserChats = async (req, res) => {

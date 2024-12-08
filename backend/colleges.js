@@ -1,4 +1,4 @@
-[
+exports.colleges = [
     {
     "name": "Engineering Institute of Technology",
     "domains": [

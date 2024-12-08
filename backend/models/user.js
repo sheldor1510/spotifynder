@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     topArtists: { type: DataTypes.JSON },
     topTracks: { type: DataTypes.JSON },
     personalityPrompts: { type: DataTypes.JSON },
-    compatibilityScore: { type: DataTypes.FLOAT }
+    compatibilityScore: { type: DataTypes.FLOAT },
+    rejectPile: { type: DataTypes.JSON },
   });
 
   return User;

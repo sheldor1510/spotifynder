@@ -24,15 +24,17 @@
                 <div id="sign-in-page" class="page">
                 <h1>Welcome to Spotifynder</h1>
                 <p>Sign in with Spotify to get started.</p>
-                <button id="spotify-login-btn" class="spotify-button">Sign in with Spotify</button>
+                <button id="spotify-login-btn"class="spotify-button">Sign in with Spotify</button>
                 </div>
                 
                 <!-- College Selection Page -->
                 <div id="college-selection" class="page hidden">
-                <h1>Spotifynder</h1>
-                <label for="college-input">Enter your College:</label>
-                <input type="text" id="college-input" placeholder="Your College Name">
-                <button id="save-college-btn" class="spotify-button">Save College</button>
+                    <h1>Spotifynder</h1>
+                    <label for="college-select">Select your College:</label>
+                    <select id="college-select">
+                    <option value="">Select from Dropdown</option>
+                    </select>
+                    <button id="save-college-btn" class="spotify-button">Save College</button>
                 </div>
                 
                 <!-- Top Artists and Tracks Selection Page -->
@@ -73,12 +75,28 @@
             <div id="playlist-form" class="onboarding-container">
                 <h1>Spotifynder</h1>
                 <h2>Tell us about your playlists</h2>
-                <label for="playlist-input1">Personal Playlist1:</label>
-                <input type="text" id="playlist-input1" placeholder="Enter playlist name">
-                <label for="playlist-input2">Personal Playlist2:</label>
-                <input type="text" id="playlist-input2" placeholder="Enter playlist name">
-                <label for="playlist-input3">Personal Playlist3:</label>
-                <input type="text" id="playlist-input3" placeholder="Enter playlist name">
+        
+                <div class="playlist-item">
+                    <label for="playlist-select1">Personal Playlist 1:</label>
+                    <select id="playlist-select1">
+                        <option value="">Select a playlist</option>
+                    </select>
+                </div>
+        
+                <div class="playlist-item">
+                    <label for="playlist-select2">Personal Playlist 2:</label>
+                    <select id="playlist-select2">
+                        <option value="">Select a playlist</option>
+                    </select>
+                </div>
+        
+                <div class="playlist-item">
+                    <label for="playlist-select3">Personal Playlist 3:</label>
+                    <select id="playlist-select3">
+                        <option value="">Select a playlist</option>
+                    </select>
+                </div>
+        
                 <button class="spotify-button" id="continue-button">Continue</button>
             </div>
 

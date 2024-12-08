@@ -216,7 +216,7 @@ const responseType = 'code';  // Spotify OAuth response type
 function handleSpotifyLogin() {
   console.log("here")
   const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&response_type=${responseType}`;
-  window.location.href = authUrl;
+  window.open(authUrl, '_blank')
 }
 
 document.getElementById('spotify-login-btn').addEventListener('click', handleSpotifyLogin);
@@ -267,3 +267,36 @@ function fetchAccessToken(code) {
 if (window.location.pathname === '/callback') {
   handleSpotifyCallback();
 }
+
+// Assuming colleges.json is placed in the public directory or accessible path
+
+// Fetch colleges.json once at the start
+fetch('http://localhost:5001/api/colleges')  // Assuming your backend runs on port 5001
+  .then(response => response.json())
+  .then(colleges => {
+    const collegeSelect = document.getElementById('college-select');
+    collegeSelect.innerHTML = '<option value="">Select your college</option>'; // Clear existing options
+    
+    colleges.forEach(college => {
+      const option = document.createElement('option');
+      option.value = college.name;  // Assuming each college object has a 'name' property
+      option.textContent = college.name;
+      collegeSelect.appendChild(option);
+    });
+  })
+  .catch(error => {
+    console.error('Error loading colleges from backend:', error);
+  });
+
+// Save the selected college when the user clicks the Save College button
+document.getElementById('save-college-btn').addEventListener('click', function() {
+  const selectedCollege = document.getElementById('college-input').value;
+
+  if (selectedCollege) {
+    console.log('Saving college:', selectedCollege);
+    // Implement the logic to save the selected college to the database or IndexedDB
+    // e.g., saveCollegeData(selectedCollege);
+  } else {
+    alert('Please select a college.');
+  }
+});

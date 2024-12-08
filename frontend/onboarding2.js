@@ -1,109 +1,130 @@
-const dbName = 'userData';
-const ver = 1;
-let db;
-let dbReady = false;  
+//using window onload to load all the playlist drop down options fetched from the spotify api
+window.onload = async function() {
+  //using get data function
+  await getData();  // Call the function when the window has loaded
+};
 
+//gets the spotify personal playlists for a user
+async function getData() {
+  //getting the acecess token
+  const accessToken = localStorage.getItem("accessToken");  // Get access token from localStorage
+  const url = `http://localhost:5001/api/playlists?accessToken=${accessToken}`;  // API URL with access token
 
-function openDb() {
-  const request = indexedDB.open(dbName, ver);
-  request.onupgradeneeded = function (e) {
-    db = e.target.result;
-    if (!db.objectStoreNames.contains('playlists')) {
-      db.createObjectStore('playlists', { keyPath: 'id', autoIncrement: true });
+  try {
+    //waiting to fetch url
+    const response = await fetch(url);
+    //error handling
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
     }
-    if (!db.objectStoreNames.contains('responses')) {
-      db.createObjectStore('responses', { keyPath: 'id', autoIncrement: true });
-    }
-  };
+    //turning it into json 
+    const json = await response.json();
+    console.log(json.playlists);  // Log the fetched data for debugging
 
-  request.onsuccess = function (e) {
-    db = e.target.result;
-    dbReady = true; 
-    console.log("Database is ready.");
-  };
-  
+    //populatedropdown function that displays all the personal playlists for a user
+    populateDropdowns(json.playlists);  // Populate the dropdowns with playlists
 
-  request.onerror = function (e) {
-    console.error("Error opening IndexedDB:", e);
-  };
+    //error handling
+  } catch (error) {
+    //console.log for error handling + alert message
+    console.error("Error fetching playlists:", error.message);
+    // alert("An error occurred while fetching playlists.");
+  }
 }
 
-// Save playlist data to IndexedDB
-function savePlayList(one, two, three) {
-  console.log("Playlists:", one, two, three);
-  // TODO: Send request to backend to save playlist data for onboarding
+//populating the actual playlists
+function populateDropdowns(playlists) {
+  // Assuming playlists is an array of objects with 'id' and 'name' properties
+  const playlistSelects = [
+    document.getElementById('playlist-select1'),
+    document.getElementById('playlist-select2'),
+    document.getElementById('playlist-select3')
+  ];
 
-  // const transaction = db.transaction('playlists', 'readwrite');
-  // const store = transaction.objectStore('playlists');
-  
-  // const playlists = { one, two, three };
+  //doing a for each to display the playlists
+  playlistSelects.forEach((selectElement) => {
+    // Clear existing options before populating new ones
+    selectElement.innerHTML = `<option value="">Select a playlist</option>`;
 
-  // const request = store.add(playlists);
-
-  // request.onsuccess = function () {
-  //   console.log("Playlists saved successfully!");
-  // };
-
-  // request.onerror = function (e) {
-  //   console.error("Error saving playlists:", e);
-  // };
-}
-
-// Save questionnaire responses to IndexedDB
-function promptQ(q1, q2, q3) {
-  console.log("Responses:", q1, q2, q3);
-  // TODO: Send request to backend to save questionnaire responses for onboarding
-
-  // const transaction = db.transaction('responses', 'readwrite');
-  // const store = transaction.objectStore('responses');
-  // const responses = { q1, q2, q3 };
-  // const request = store.add(responses);
-  // request.onerror = function (e) {
-  //   console.error("Error saving responses:", e);
-  // };
-}
-
-// Event listener for page load to initialize the DB
-document.addEventListener('DOMContentLoaded', function() {
-  openDb();  
-  const continueButton = document.getElementById('continue-button');
-  const playlistForm = document.getElementById('playlist-form');
-  const questionnaireForm = document.getElementById('questionnaire-form');
-  
-  questionnaireForm.classList.add('hidden');  // Hide the questionnaire form initially
-  continueButton.addEventListener('click', function() {
-
-    const playlist1 = document.getElementById('playlist-input1').value;
-    const playlist2 = document.getElementById('playlist-input2').value;
-    const playlist3 = document.getElementById('playlist-input3').value;
-    console.log("Submit button clicked!");
-
-    if (playlist1 && playlist2 && playlist3) {
-      savePlayList(playlist1, playlist2, playlist3);
-      playlistForm.classList.add('hidden');
-      questionnaireForm.classList.remove('hidden');
-    } else {
-      alert("Please fill out all playlist fields!");
-    }
+    playlists.forEach((playlist) => {
+      if (playlist != null) {
+        const option = document.createElement('option');
+        option.value = playlist.id;  // Use the playlist ID as the value
+        option.textContent = playlist.name;  // Use the playlist name as the option text
+        selectElement.appendChild(option);  // Append the new option to the dropdown
+      }
+    });
   });
+}
 
-  const submitResponsesButton = document.getElementById('submit-responses-button');
+//saving the playlists to the data base based off of the user's responses
+async function saveTopPlaylists() {
+  //gettign access token
+  const accessToken = localStorage.getItem("accessToken");
+  //getting the playlists they chose and saving it to playlistSelects
+  const playlistSelects = [
+      document.getElementById('playlist-select1'),
+      document.getElementById('playlist-select2'),
+      document.getElementById('playlist-select3')
+  ];
+
+//saving url
+  const url = `http://localhost:5001/api/savedPlaylists?accessToken=${accessToken}`;
   
-  submitResponsesButton.addEventListener('click', function() {
-    const q1 = document.getElementById('q1').value;
-    const q2 = document.getElementById('q2').value;
-    const q3 = document.getElementById('q3').value;
+  try {
+    //sending the post request to save the info to db
+      const response = await fetch(url, {
+          method: 'POST',
+          
+          //sending the body back
+          body: JSON.stringify({ playlists: playlistSelects })
+      });
 
-    console.log("Submit button clicked!");
-    console.log("q1:", q1, "q2:", q2, "q3:", q3);  // Log responses to make sure values are captured
+      //success alert message
+      const result = await response.json();
+      if (result.success) {
+          alert("Playlists saved successfully!");
+      }
+      //error handling
+  } catch (error) {
+      console.error("Error saving playlists:", error);
+      alert("An error occurred while saving playlists.");
+  }
+}
 
-    if (q1 && q2 && q3) {
-      promptQ(q1, q2, q3);  // Save the responses
-      // window.location.href = '../discovery/discovery.html';  // Redirect to next page  
-      document.getElementById("onboarding2").style.display = "none";
-      document.getElementById("discovery").style.display = "block";
-    } else {
-      alert("Please answer all questions!");
-    }
-  });
-});
+//function for saving personality prompts from user input
+async function savePersonalityPrompts() {
+  //getting the access token
+  const accessToken = localStorage.getItem("accessToken");
+  //saving the prompt answers based off of their id 
+  const promptAnswers = [
+      document.getElementById('q1'),
+      document.getElementById('q2'),
+      document.getElementById('q3')
+  ];
+
+  //saving the url
+  const url = `http://localhost:5001/api/personalityPrompts?accessToken=${accessToken}`;
+  
+  try {
+    //doing the post request for the database
+      const response = await fetch(url, {
+          method: 'POST',
+          //sending it to the body from prompts
+          body: JSON.stringify({ prompts: promptAnswers })
+      });
+
+      //converting to json
+      const result = await response.json();
+
+      //success message
+      if (result.success) {
+          alert("Prompts saved successfully!");
+      }
+      //error handling + alert message
+  } catch (error) {
+      console.error("Error saving prompts:", error);
+      alert("An error occurred while saving prompts.");
+  }
+}
+

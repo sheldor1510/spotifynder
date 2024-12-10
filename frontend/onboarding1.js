@@ -21,6 +21,22 @@ request.onerror = function(event) {
   console.error('Database error:', event.target.errorCode);
 };
 
+
+async function apiRequest(url, method = 'GET', headers = {}, body = null) {
+  const response = await fetch(url, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers
+    },
+    body: body ? JSON.stringify(body) : null
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+  return response.json();
+}
+
 // Helper functions for IndexedDB operations
 function saveData(id, data) {
   console.log(data)
@@ -124,6 +140,57 @@ function startOnboarding() {
   switchToPage('college-selection');
 }
 
+// Fetch top artists from the backend using the correct access token key
+async function fetchTopArtists() {
+  const accessToken = localStorage.getItem('accessToken'); // Corrected token key
+  const artists = await apiRequest(`/api/fetchTopArtists?accessToken=${accessToken}`);
+  displayTopArtists(artists.topArtists);
+}
+
+// Fetch top tracks from the backend using the correct access token key
+async function fetchTopTracks() {
+  const accessToken = localStorage.getItem('accessToken'); // Corrected token key
+  const tracks = await apiRequest(`/api/fetchTopTracks?accessToken=${accessToken}`);
+  displayTopTracks(tracks.topTracks);
+}
+
+// Save selected artists to the backend
+async function saveTopArtists(selectedArtists) {
+  const accessToken = localStorage.getItem('accessToken'); // Corrected token key
+  await apiRequest(`/api/selectTopArtists?accessToken=${accessToken}`, 'POST', {}, { topArtists: selectedArtists });
+}
+
+// Save selected tracks to the backend
+async function saveTopTracks(selectedTracks) {
+  const accessToken = localStorage.getItem('accessToken'); // Corrected token key
+  await apiRequest(`/api/selectTopTracks?accessToken=${accessToken}`, 'POST', {}, { topTracks: selectedTracks });
+}
+
+// Display top artists in the UI
+function displayTopArtists(artists) {
+  const artistsList = document.getElementById('artists-list');
+  artistsList.innerHTML = ''; // Clear existing entries
+  artists.forEach(artist => {
+    const li = document.createElement('li');
+    li.textContent = artist.name;
+    li.onclick = () => toggleSelection(li, artist.name, selectedArtists);
+    artistsList.appendChild(li);
+  });
+}
+
+// Display top tracks in the UI
+function displayTopTracks(tracks) {
+  const tracksList = document.getElementById('tracks-list');
+  tracksList.innerHTML = ''; // Clear existing entries
+  tracks.forEach(track => {
+    const li = document.createElement('li');
+    li.textContent = track.name;
+    li.onclick = () => toggleSelection(li, track.name, selectedTracks);
+    tracksList.appendChild(li);
+  });
+}
+
+/*
 // Display top artists list
 function displayTopArtists() {
   artistsList.innerHTML = '';
@@ -144,7 +211,21 @@ function displayTopTracks() {
     li.addEventListener('click', () => toggleSelection(li, track.name, selectedTracks));
     tracksList.appendChild(li);
   });
-}
+}*/
+
+/*// Toggle selection of an item, limit to max 3 selections
+function toggleSelection(element, name, selectedArray) {
+  if (selectedArray.includes(name)) {
+    selectedArray.splice(selectedArray.indexOf(name), 1);
+    element.classList.remove('selected');
+  } else if (selectedArray.length < 3) {
+    selectedArray.push(name);
+    element.classList.add('selected');
+  } else {
+    alert('You can select a maximum of 3 items.');
+  }
+  saveCollegeData(); // Save data after each selection
+}*/
 
 // Toggle selection of an item, limit to max 3 selections
 function toggleSelection(element, name, selectedArray) {
@@ -157,7 +238,6 @@ function toggleSelection(element, name, selectedArray) {
   } else {
     alert('You can select a maximum of 3 items.');
   }
-  saveCollegeData(); // Save data after each selection
 }
 
 // Save college and selected data

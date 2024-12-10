@@ -2,6 +2,34 @@
 // let db;
 // const request = indexedDB.open('SpotifynderDB', 1);
 
+window.onload = function() {
+  if (localStorage.getItem('accessToken')) {
+    if (localStorage.getItem('college')) {
+      if (localStorage.getItem('selectedArtists') && localStorage.getItem('selectedTracks')) {
+        document.getElementById("onboarding1").style.display = "none";
+        document.getElementById("onboarding2").style.display = "block";
+        if (localStorage.getItem("playlistSelects")) {
+          if (localStorage.getItem("prompts")) {
+            document.getElementById("onboarding2").style.display = "none";
+            document.getElementById("discovery").style.display = "block";
+          } else {
+            document.getElementById("playlist-form").classList.add('hidden');
+            document.getElementById('questionnaire-form').classList.remove('hidden');
+          }
+        }
+      } else {
+        switchToPage('top-info');
+        fetchTopArtists();
+        fetchTopTracks();
+      }
+    } else {
+      switchToPage('college-selection');
+    }
+  } else {
+    switchToPage('sign-in-page');
+  }
+}
+
 request.onupgradeneeded = function(event) {
   db = event.target.result;
   const objectStore = db.createObjectStore('userData', { keyPath: 'id' });
@@ -23,7 +51,8 @@ request.onerror = function(event) {
 
 
 async function apiRequest(url, method = 'GET', headers = {}, body = null) {
-  const response = await fetch(url, {
+  const apiURL = 'http://localhost:5001' + url
+  const response = await fetch(apiURL, {
     method: method,
     headers: {
       'Content-Type': 'application/json',
@@ -266,10 +295,13 @@ function finishOnboarding() {
     alert('Please select at least one artist and one track.');
     return;
   }
-  saveData('user', { id: 'user', college: document.getElementById('college-input').value, selectedArtists, selectedTracks });
-  console.log("Onboarding complete with data saved to IndexedDB.");
-  document.getElementById("onboarding1").style.display = "none";
-  document.getElementById("onboarding2").style.display = "block";
+  console.log(selectedArtists, selectedTracks);
+  saveTopArtists(selectedArtists);
+  saveTopTracks(selectedTracks);
+  localStorage.setItem('selectedArtists', selectedArtists);
+  localStorage.setItem('selectedTracks', selectedTracks);
+  // document.getElementById("onboarding1").style.display = "none";
+  // document.getElementById("onboarding2").style.display = "block";
 }
 
 // Switch between pages
@@ -370,10 +402,12 @@ fetch('http://localhost:5001/api/colleges')  // Assuming your backend runs on po
 
 // Save the selected college when the user clicks the Save College button
 document.getElementById('save-college-btn').addEventListener('click', function() {
-  const selectedCollege = document.getElementById('college-input').value;
+  const selectedCollege = document.getElementById('college-select').value;
 
   if (selectedCollege) {
     console.log('Saving college:', selectedCollege);
+    localStorage.setItem('college', selectedCollege);
+    window.location.reload();
     // Implement the logic to save the selected college to the database or IndexedDB
     // e.g., saveCollegeData(selectedCollege);
   } else {

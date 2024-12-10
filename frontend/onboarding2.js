@@ -4,6 +4,23 @@ window.onload = async function() {
   await getData();  // Call the function when the window has loaded
 };
 
+document.getElementById('continue-button').addEventListener('click', function() {
+  // Save the selected playlists to the database
+  saveTopPlaylists();
+  // remove hidden from class
+  document.getElementById("playlist-form").classList.add('hidden');
+  document.getElementById('questionnaire-form').classList.remove('hidden');
+});
+
+document.getElementById("submit-responses-button").addEventListener("click", function() {
+  // Save the personality prompts to the database
+  savePersonalityPrompts();
+  // Redirect to the next page
+  window.location.reload();
+});
+
+getData();
+
 //gets the spotify personal playlists for a user
 async function getData() {
   //getting the acecess token
@@ -49,7 +66,7 @@ function populateDropdowns(playlists) {
     playlists.forEach((playlist) => {
       if (playlist != null) {
         const option = document.createElement('option');
-        option.value = playlist.id;  // Use the playlist ID as the value
+        option.value = playlist.name;  // Use the playlist name as the value
         option.textContent = playlist.name;  // Use the playlist name as the option text
         selectElement.appendChild(option);  // Append the new option to the dropdown
       }
@@ -63,19 +80,25 @@ async function saveTopPlaylists() {
   const accessToken = localStorage.getItem("accessToken");
   //getting the playlists they chose and saving it to playlistSelects
   const playlistSelects = [
-      document.getElementById('playlist-select1'),
-      document.getElementById('playlist-select2'),
-      document.getElementById('playlist-select3')
+      document.getElementById('playlist-select1').value,
+      document.getElementById('playlist-select2').value,
+      document.getElementById('playlist-select3').value
   ];
 
+  console.log(playlistSelects);
+
+  localStorage.setItem("playlistSelects", JSON.stringify(playlistSelects));
+
 //saving url
-  const url = `http://localhost:5001/api/savedPlaylists?accessToken=${accessToken}`;
+  const url = `http://localhost:5001/api/savePlaylists?accessToken=${accessToken}`;
   
   try {
     //sending the post request to save the info to db
       const response = await fetch(url, {
           method: 'POST',
-          
+          headers: {
+            'Content-Type': 'application/json'
+          },
           //sending the body back
           body: JSON.stringify({ playlists: playlistSelects })
       });
@@ -98,9 +121,9 @@ async function savePersonalityPrompts() {
   const accessToken = localStorage.getItem("accessToken");
   //saving the prompt answers based off of their id 
   const promptAnswers = [
-      document.getElementById('q1'),
-      document.getElementById('q2'),
-      document.getElementById('q3')
+      document.getElementById('q1').value,
+      document.getElementById('q2').value,
+      document.getElementById('q3').value
   ];
 
   //saving the url
@@ -108,9 +131,14 @@ async function savePersonalityPrompts() {
   
   try {
     //doing the post request for the database
+      localStorage.setItem("prompts", JSON.stringify(promptAnswers));
+
       const response = await fetch(url, {
           method: 'POST',
           //sending it to the body from prompts
+          headers: {
+            'Content-Type': 'application/json'
+          },
           body: JSON.stringify({ prompts: promptAnswers })
       });
 
@@ -124,7 +152,7 @@ async function savePersonalityPrompts() {
       //error handling + alert message
   } catch (error) {
       console.error("Error saving prompts:", error);
-      alert("An error occurred while saving prompts.");
+      // alert("An error occurred while saving prompts.");
   }
 }
 

@@ -16,7 +16,7 @@ async function loadProfileData() {
         populateProfileData(profile); // Populate profile data into UI
     } catch (error) {
         console.error("Error loading profile data:", error.message);
-        alert("An error occurred while loading profile data.");
+        // alert("An error occurred while loading profile data.");
     }
 }
 

@@ -65,10 +65,12 @@ exports.savePlaylists = async (req, res) => {
         // body = { playlists: [1,2,3] }
         const usersTopPlaylists = req.body.playlists
         
+        console.log(req.body);
+
         // update the user in the database with the playlists they selected
         user.topPlaylists = usersTopPlaylists
         //saving it
-        await user.save();  
+        await user.save();
 
         //converting to json
         res.json({ success: true })

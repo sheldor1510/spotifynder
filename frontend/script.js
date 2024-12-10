@@ -588,6 +588,7 @@ document.getElementById('reset-btn').addEventListener('click', () => {
     setTimeout(() => (resetButton.style.backgroundColor = '#535353'), 200);
 });
 
+/*
 // "I'm Feeling Lucky" button functionality
 document.getElementById('lucky-btn').addEventListener('click', () => {
     if (!discoveryDB) {
@@ -675,5 +676,71 @@ document.getElementById('lucky-btn').addEventListener('click', () => {
     const luckyButton = document.getElementById('lucky-btn');
     luckyButton.style.backgroundColor = '#1aa34a'; // Highlight the button
     setTimeout(() => (luckyButton.style.backgroundColor = '#535353'), 200); // Reset color after 200ms
+});*/
+
+// Event listeners for the filter reset and "I'm Feeling Lucky" buttons
+document.getElementById('reset-btn').addEventListener('click', function() {
+    resetFilters();
 });
+
+document.getElementById('lucky-btn').addEventListener('click', function() {
+    fetchRandomProfile();
+});
+
+// Function to reset filters
+async function resetFilters() {
+    try {
+        const response = await fetch('/api/filter-reset-button', { method: 'POST' });
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Filters reset successfully:', data);
+            // Here you could also reset UI elements related to filters if needed
+            alert('Filters have been reset to default settings.');
+        } else {
+            console.error('Failed to reset filters:', await response.text());
+        }
+    } catch (error) {
+        console.error('Error resetting filters:', error);
+    }
+}
+
+// Function to fetch a random profile
+async function getRandomProfile() {
+    try {
+        const response = await fetch('/api/random-profile');
+        if (response.ok) {
+            const profile = await response.json();
+            displayRandomProfile(profile);
+        } else {
+            console.error('Failed to fetch random profile:', await response.text());
+        }
+    } catch (error) {
+        console.error('Error fetching random profile:', error);
+    }
+}
+
+// Function to display the random profile data in the UI
+function displayRandomProfile(profile) {
+    document.getElementById('profile-name').textContent = profile.username;
+    document.getElementById('profile-pfp').src = profile.profilePic;
+    document.getElementById('score').textContent = profile.compatibilityScore + '% compatibility';
+
+    // Assuming the profile data includes arrays of artists, tracks, and playlists
+    updateProfileList('user-artists', profile.topArtists);
+    updateProfileList('user-tracks', profile.topTracks);
+    updateProfileList('user-playlists', profile.topPlaylists);
+}
+
+// Helper function to update profile lists such as artists, tracks, playlists
+function updateProfileList(elementId, items) {
+    const listElement = document.getElementById(elementId);
+    listElement.innerHTML = '';  // Clear existing entries
+    items.forEach(item => {
+        const img = document.createElement('img');
+        img.src = item.image;  // Assuming each item has an image property
+        img.alt = item.name;
+        listElement.appendChild(img);
+    });
+}
+
     

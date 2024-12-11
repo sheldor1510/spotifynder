@@ -196,11 +196,27 @@ exports.fetchFilteredUsers = async (req, res) => {
       const topPlaylists = parseField(user.topPlaylists);
       const personalityPrompts = parseField(user.personalityPrompts);
 
+      const promptsWithQuestions = [
+          {
+              question: "If you could meet one artist who would it be?",
+              answer: ""
+          },
+          {
+              question: "What's your favorite shower jam?",
+              answer: ""
+          },
+          {
+              question: "What's your dream concert?",
+              answer: ""
+          }
+      ]
+
+
       return {
         type: 'profile',
         name: user.displayName || 'Unknown User',
         username: user.username || 'unknown',
-        image: user.profilePic || 'default-pic.jpg',
+        image: user.image || 'sample-pfp.jpeg',
         compability: user.compatibilityScore || 0,
         topArtists: topArtists.map((artist) => ({
           name: artist || 'Unknown Artist',
@@ -214,9 +230,9 @@ exports.fetchFilteredUsers = async (req, res) => {
           name: playlist || 'Unknown Playlist',
           image: 'path/to/playlist/image.jpg',
         })),
-        questions: personalityPrompts.map((prompt) => ({
-          question: prompt.question || 'Unknown Question',
-          answer: prompt.answer || 'No Answer',
+        questions: personalityPrompts.map((prompt, index) => ({
+          question: promptsWithQuestions[index].question || 'Unknown Question',
+          answer: prompt || 'No Answer',
         })),
       };
     });

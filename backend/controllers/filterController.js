@@ -38,7 +38,7 @@ exports.getRandomProfile = async (req, res) => {
         // Return the random user's profile in the format expected by the frontend
         res.status(200).json({
             username: randomUser.username || 'Unknown User',
-            profilePic: randomUser.profilePic || 'default-pic.jpg', // Default pic if none provided
+            profilePic: randomUser.profilePic || 'sample-pfp.jpeg', // Default pic if none provided
             compatibilityScore: randomUser.compatibilityScore || 0,
             topArtists: randomUser.topArtists || [],
             topTracks: randomUser.topTracks || [],

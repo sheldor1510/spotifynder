@@ -13,6 +13,7 @@ async function loadProfileData() {
             throw new Error(`Error fetching profile: ${response.status}`);
         }
         const profile = await response.json(); // Parse JSON response
+        console.log("profile", profile);
         populateProfileData(profile); // Populate profile data into UI
     } catch (error) {
         console.error("Error loading profile data:", error.message);
@@ -53,27 +54,68 @@ async function saveProfileData() {
 // Function to populate profile data into the UI
 function populateProfileData(profile) {
     // Populate username and email
-    document.querySelector(".user-info p").textContent = profile.username;
+    document.querySelector(".user-info p").textContent = profile.displayName;
     document.querySelector(".user-info p + p").textContent = profile.email;
 
     // Populate personality prompts
-    populatePrompts(profile.prompts);
+    // add questions to the personality prompts
+    const promptsWithQuestions = [
+        {
+            question: "If you could meet one artist who would it be?",
+            answer: ""
+        },
+        {
+            question: "What's your favorite shower jam?",
+            answer: ""
+        },
+        {
+            question: "What's your dream concert?",
+            answer: ""
+        }
+    ]
+
+    // go through personality prompts and add them each object in order of promptsWithQuestions
+    profile.personalityPrompts.forEach((prompt, index) => {
+        promptsWithQuestions[index].answer = prompt;
+    });
+    
+    populatePrompts(promptsWithQuestions);
 
     // Populate images for artists, tracks, and playlists
-    populateNames("artists", profile.artists);
-    populateNames("tracks", profile.tracks);
-    populateNames("playlists", profile.playlists);
+    populateNames("artists", JSON.parse(profile.topArtists));
+    populateNames("tracks", JSON.parse(profile.topTracks));
+    populateNames("playlists", profile.topPlaylists);
 }
 
 // Function to populate images for a section (artists, tracks, playlists)
 function populateNames(containerId, items) {
     const container = document.getElementById(containerId);
 
-    container.innerHTML = items.map(item => `
-        <div class="item-placeholder">
-            <p>${item.name || "Unnamed"}</p> <!-- Display name instead of an image -->
-        </div>
-    `).join("");
+    console.log("items", items);
+
+    if (containerId === "artists") {
+        container.innerHTML = items.map(item => `
+            <div class="item-placeholder">
+                <img src=${item.imageUrl || "Unnamed"}></img>
+            </div>
+        `).join("");
+    }
+
+    if (containerId === "tracks") {
+        container.innerHTML = items.map(item => `
+            <div class="item-placeholder">
+                <img src=${item.albumImageUrl || "Unnamed"}></img>
+            </div>
+        `).join("");
+    }
+
+    if (containerId === "playlists") {
+        container.innerHTML = items.map(item => `
+            <div class="item-placeholder">
+                <img src=${item.images[0].url || "Unnamed"}></img>
+            </div>
+        `).join("");
+    }
 }
 
 // Function to populate prompts into input fields

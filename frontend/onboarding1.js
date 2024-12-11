@@ -131,6 +131,9 @@ const tracksList = document.getElementById('tracks-list');
 let selectedArtists = [];
 let selectedTracks = [];
 
+let fetchedArtists = [];
+let fetchedTracks = [];
+
 // Dummy Data for Artists and Tracks
 const dummyArtists = [
   { name: "Taylor Swift" },
@@ -173,6 +176,7 @@ function startOnboarding() {
 async function fetchTopArtists() {
   const accessToken = localStorage.getItem('accessToken'); // Corrected token key
   const artists = await apiRequest(`/api/fetchTopArtists?accessToken=${accessToken}`);
+  fetchedArtists = artists.topArtists;
   displayTopArtists(artists.topArtists);
 }
 
@@ -180,19 +184,34 @@ async function fetchTopArtists() {
 async function fetchTopTracks() {
   const accessToken = localStorage.getItem('accessToken'); // Corrected token key
   const tracks = await apiRequest(`/api/fetchTopTracks?accessToken=${accessToken}`);
+  fetchedTracks = tracks.topTracks;
   displayTopTracks(tracks.topTracks);
 }
 
 // Save selected artists to the backend
 async function saveTopArtists(selectedArtists) {
+  let selectedArtistsData = [];
+  selectedArtists.forEach(artistName => {
+    const artist = fetchedArtists.find(artist => artist.name === artistName);
+    if (artist) {
+      selectedArtistsData.push(artist);
+    }
+  });
   const accessToken = localStorage.getItem('accessToken'); // Corrected token key
-  await apiRequest(`/api/selectTopArtists?accessToken=${accessToken}`, 'POST', {}, { topArtists: selectedArtists });
+  await apiRequest(`/api/selectTopArtists?accessToken=${accessToken}`, 'POST', {}, { topArtists: selectedArtistsData });
 }
 
 // Save selected tracks to the backend
 async function saveTopTracks(selectedTracks) {
+  let selectedTracksData = [];
+  selectedTracks.forEach(trackName => {
+    const track = fetchedTracks.find(track => track.name === trackName);
+    if (track) {
+      selectedTracksData.push(track);
+    }
+  });
   const accessToken = localStorage.getItem('accessToken'); // Corrected token key
-  await apiRequest(`/api/selectTopTracks?accessToken=${accessToken}`, 'POST', {}, { topTracks: selectedTracks });
+  await apiRequest(`/api/selectTopTracks?accessToken=${accessToken}`, 'POST', {}, { topTracks: selectedTracksData });
 }
 
 // Display top artists in the UI

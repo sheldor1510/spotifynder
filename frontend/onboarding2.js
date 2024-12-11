@@ -21,6 +21,8 @@ document.getElementById("submit-responses-button").addEventListener("click", fun
 
 getData();
 
+let fetchedPlaylists = [];
+
 //gets the spotify personal playlists for a user
 async function getData() {
   //getting the acecess token
@@ -37,6 +39,8 @@ async function getData() {
     //turning it into json 
     const json = await response.json();
     console.log(json.playlists);  // Log the fetched data for debugging
+
+    fetchedPlaylists = json.playlists;  // Save the fetched playlists to a global variable
 
     //populatedropdown function that displays all the personal playlists for a user
     populateDropdowns(json.playlists);  // Populate the dropdowns with playlists
@@ -91,6 +95,15 @@ async function saveTopPlaylists() {
 
 //saving url
   const url = `http://localhost:5001/api/savePlaylists?accessToken=${accessToken}`;
+
+  let playlistSelectsData = [];
+
+  playlistSelects.forEach((playlist) => {
+    const selectedPlaylist = fetchedPlaylists.find((p) => p.name === playlist);
+    if (selectedPlaylist) {
+      playlistSelectsData.push(selectedPlaylist);
+    }
+  });
   
   try {
     //sending the post request to save the info to db
@@ -100,7 +113,7 @@ async function saveTopPlaylists() {
             'Content-Type': 'application/json'
           },
           //sending the body back
-          body: JSON.stringify({ playlists: playlistSelects })
+          body: JSON.stringify({ playlists: playlistSelectsData })
       });
 
       //success alert message

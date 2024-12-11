@@ -2,6 +2,71 @@
 let discoveryDB;
 const request = window.indexedDB.open('SpotifynderDB', 5);
 
+async function fetchFilteredUsersFromBackend() {
+    try {
+        // Replace 'http://localhost:5001/api/discovery' with your actual API endpoint
+        const response = await fetch('http://localhost:5001/api/discovery');
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch users: ${response.statusText}`);
+        }
+
+        // Parse the JSON response
+        const { data } = await response.json();
+        return data; // This contains the filtered users
+    } catch (error) {
+        console.error('Error fetching filtered users:', error);
+        return []; // Return an empty array or handle the error as needed
+    }
+}
+
+
+let dummyData = []; // Initialize as an empty array
+
+async function populateUsers() {
+    try {
+        console.log('Populating users...');
+        // Fetch users from the backend
+        const users = await fetchFilteredUsersFromBackend();
+        console.log('Raw Users:', users);
+
+        // Process and log each user with the desired structure
+        const processedUsers = users.map(user => ({
+            type: 'profile',
+            name: user.name || 'Unknown User',
+            username: user.username || 'unknown',
+            image: user.image || 'default-pic.jpg',
+            compability: user.compatibility || 0,
+            topArtists: (user.topArtists || []).map(artist => ({
+                name: artist.name || 'Unknown Artist',
+                image: artist.image || 'default-artist.jpg',
+            })),
+            topTracks: (user.topTracks || []).map(track => ({
+                name: track.name || 'Unknown Track',
+                image: track.image || 'default-track.jpg',
+            })),
+            topPlaylists: (user.topPlaylists || []).map(playlist => ({
+                name: playlist.name || 'Unknown Playlist',
+                image: playlist.image || 'default-playlist.jpg',
+            })),
+            questions: (user.questions || []).map(q => ({
+                question: q.question || 'Unknown Question',
+                answer: q.answer || 'No Answer',
+            })),
+        }));
+
+        console.log('Processed Users:', processedUsers);
+
+        // Return the processed users
+        return processedUsers;
+    } catch (error) {
+        console.error('Error populating users:', error);
+        return []; // Return an empty array in case of error
+    }
+}
+
+
+
 request.onupgradeneeded = function (event) {
     discoveryDB = event.target.result;
 
@@ -74,39 +139,6 @@ function loadUserProfile() {
     };
 }
 
-function addDummyData() {
-    if (!discoveryDB) return;
-
-    const userTransaction = discoveryDB.transaction(['userData'], 'readwrite');
-    const userStore = userTransaction.objectStore('userData');
-    const dummyUserData = {
-        id: 'user',
-        username: 'avni',
-        profilePic: 'sample-pfp.jpeg'
-    };
-    userStore.put(dummyUserData);
-
-    const chatTransaction = discoveryDB.transaction(['chatsData'], 'readwrite');
-    const chatStore = chatTransaction.objectStore('chatsData');
-    const dummyChats = [
-        { isUnread: true, message: "Hello! How are you?" },
-        { isUnread: false, message: "Don't forget the meeting tomorrow." },
-        { isUnread: true, message: "Can you send me the document?" },
-        { isUnread: false, message: "See you soon!" },
-        { isUnread: true, message: "Are you coming to the event?" }
-    ];
-    dummyChats.forEach(chat => {
-        chatStore.add(chat);
-    });
-
-    userTransaction.oncomplete = function () {
-        console.log("Dummy user data added.");
-    };
-    chatTransaction.oncomplete = function () {
-        console.log("Dummy chat data added.");
-    };
-}
-
 function loadUnreadChatCount() {
     if (!discoveryDB) return;
 
@@ -136,156 +168,154 @@ function loadUnreadChatCount() {
 }
 
 // Populate dummy data for filterData
-function populateDummyFilterData() {
+async function populateDummyFilterData() {
     if (!discoveryDB) return;
 
-    const transaction = discoveryDB.transaction(['filterData'], 'readwrite');
-    const filterStore = transaction.objectStore('filterData');
+    console.log('Populating dummy filter data...');
 
-    const dummyData = [
-        // Artists
-        { type: 'artist', name: 'Artist 1', image: './artist1.jpg' },
-        { type: 'artist', name: 'Artist 2', image: './artist2.jpg' },
-        { type: 'artist', name: 'Artist 3', image: './artist3.jpg' },
-        { type: 'artist', name: 'Artist 4', image: './artist4.jpg' },
+    try {
+        // Retrieve the access token from local storage
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) {
+            console.log('Access token not found.');
+            return;
+        }
 
-        // Tracks
-        { type: 'track', name: 'Track 1', image: './track1.jpg' },
-        { type: 'track', name: 'Track 2', image: './track2.jpg' },
-        { type: 'track', name: 'Track 3', image: './track3.jpg' },
-        { type: 'track', name: 'Track 4', image: './track4.jpg' },
+        // Construct the API URL with the access token
+        const apiUrl = `http://localhost:5001/api/profile?accessToken=${encodeURIComponent(accessToken)}`;
 
-        // Playlists
-        { type: 'playlist', name: 'Playlist 1', image: './playlist1.jpg' },
-        { type: 'playlist', name: 'Playlist 2', image: './playlist2.jpg' },
-        { type: 'playlist', name: 'Playlist 3', image: './playlist3.jpg' },
-        { type: 'playlist', name: 'Playlist 4', image: './playlist4.jpg' }
-    ];
+        console.log('Fetching filter data from:', apiUrl);
 
-    dummyData.forEach(item => {
-        filterStore.add(item);
-    });
+        // Fetch data from the backend
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch profile data: ${response.statusText}`);
+        }
 
-    transaction.oncomplete = function () {
-        console.log('Dummy filter data added successfully.');
-        loadFilterData();
-    };
+        const rawData = await response.json();
 
-    transaction.onerror = function (event) {
-        console.error('Error adding dummy data to filterData:', event.target.errorCode);
-    };
+        console.log('Raw filter data:', rawData);
+
+        const topArtists = JSON.parse(rawData.topArtists || '[]').map(name => ({
+            name: name || 'Unknown Artist',
+            image: 'default-artist.jpg', // Add default images or fetch them dynamically if available
+        }));
+
+        const topTracks = JSON.parse(rawData.topTracks || '[]').map(name => ({
+            name: name || 'Unknown Track',
+            image: 'default-track.jpg', // Add default images or fetch them dynamically if available
+        }));
+
+        const topPlaylists = rawData.topPlaylists || '[]'.map(name => ({
+            name: name || 'Unknown Playlist',
+            image: 'default-playlist.jpg', // Add default images or fetch them dynamically if available
+        }));
+
+        console.log('Parsed and cleaned filter data:', { topArtists, topTracks, topPlaylists });
+
+        // Prepare filter data
+        const filterData = [];
+
+        topArtists.forEach(artist => {
+            filterData.push({ type: 'artist', name: artist.name, image: artist.image });
+        });
+
+        topTracks.forEach(track => {
+            filterData.push({ type: 'track', name: track.name, image: track.image });
+            console.log('Processed filter data for TRACK:', track);
+        });
+
+        topPlaylists.forEach(playlist => {
+            filterData.push({ type: 'playlist', name: playlist, image: image });
+            console.log('Processed filter data for PLAYLIST:', playlist);
+        });
+
+        console.log('Processed filter data for PLAYLIST:', topPlaylists);
+
+        console.log('Processed filter data for IndexedDB:', filterData);
+
+        const transaction = discoveryDB.transaction(['filterData'], 'readwrite');
+        const filterStore = transaction.objectStore('filterData');
+
+        // Clear existing filter data in IndexedDB
+        filterStore.clear();
+
+        // Add new filter data to IndexedDB
+        filterData.forEach(item => {
+            filterStore.add(item);
+        });
+
+        transaction.oncomplete = function () {
+            console.log('Filter data added successfully from backend.');
+            loadFilterData();
+        };
+
+        transaction.onerror = function (event) {
+            console.error('Error adding filter data to IndexedDB:', event.target.errorCode);
+        };
+    } catch (error) {
+        console.log('Error populating dummy filter data:', error);
+    }
 }
 
 // Populate dummy data for cardsData
-function populateDummyCardsData() {
+async function populateDummyCardsData() {
     if (!discoveryDB) return;
 
-    const transaction = discoveryDB.transaction(['cardsData'], 'readwrite');
-    const cardsStore = transaction.objectStore('cardsData');
+    try {
+        // Fetch processed users from populateUsers
+        const users = await populateUsers();
+        console.log('Users fetched for cards data:', users);
 
-    const dummyData = [
-        {
+        const cardsData = [];
+
+        // Add tracker object to manage the current profile
+        cardsData.push({
             type: 'tracker',
-            profile_currently_viewing: 'tanushsavadi',
+            profile_currently_viewing: users[0]?.username || 'unknown', // Default to the first user or 'unknown'
             profiles_chosen: [],
             profiles_rejected: []
-        },
-        {
-            type: 'profile',
-            name: 'Anshul Saha',
-            username: 'anshulsaha',
-            image: 'https://github.com/sheldor1510.png',
-            compability: 90,
-            topArtists: [
-                { name: 'Artist 1', image: './artist1.jpg' },
-                { name: 'Artist 2', image: './artist1.jpg' },
-                { name: 'Artist 3', image: './artist1.jpg' }
-            ],
-            topTracks: [
-                { name: 'Track 1', image: './track1.jpg' },
-                { name: 'Track 2', image: './track1.jpg' },
-                { name: 'Track 3', image: './track1.jpg' }
-            ],
-            topPlaylists: [
-                { name: 'Playlist 1', image: './playlist1.jpg' },
-                { name: 'Playlist 2', image: './playlist1.jpg' },
-                { name: 'Playlist 3', image: './playlist1.jpg' }
-            ],
-            questions: [
-                { question: 'What is your favorite genre?', answer: 'R&B' },
-                { question: 'What is your favorite artist?', answer: 'Kendrick Lamar' },
-                { question: 'What is your favorite track?', answer: 'Instant Crush' }
-            ]
-        },
-        {
-            type: 'profile',
-            name: 'Tanush Savadi',
-            username: 'tanushsavadi',
-            image: 'https://github.com/tanushsavadi.png',
-            compability: 35,
-            topArtists: [
-                { name: 'Artist 1', image: './artist1.jpg' },
-                { name: 'Artist 2', image: './artist1.jpg' },
-                { name: 'Artist 3', image: './artist1.jpg' }
-            ],
-            topTracks: [
-                { name: 'Track 1', image: './track1.jpg' },
-                { name: 'Track 2', image: './track1.jpg' },
-                { name: 'Track 3', image: './track1.jpg' }
-            ],
-            topPlaylists: [
-                { name: 'Playlist 1', image: './playlist1.jpg' },
-                { name: 'Playlist 2', image: './playlist1.jpg' },
-                { name: 'Playlist 3', image: './playlist1.jpg' }
-            ],
-            questions: [
-                { question: 'What is your go-to playlist?', answer: 'Chill Vibes' },
-                { question: 'Which artist do you listen to the most?', answer: 'Taylor Swift' },
-                { question: 'What is your current favorite album?', answer: 'After Hours' },
-            ]
-        },
-        {
-            type: 'profile',
-            name: 'Shoubhit Ravi',
-            username: 'shoubhitravi',
-            image: 'https://github.com/shoubhitravi.png',
-            compability: 75,
-            topArtists: [
-                { name: 'Artist 1', image: './artist1.jpg' },
-                { name: 'Artist 2', image: './artist1.jpg' },
-                { name: 'Artist 3', image: './artist1.jpg' }
-            ],
-            topTracks: [
-                { name: 'Track 1', image: './track1.jpg' },
-                { name: 'Track 2', image: './track1.jpg' },
-                { name: 'Track 3', image: './track1.jpg' }
-            ],
-            topPlaylists: [
-                { name: 'Playlist 1', image: './playlist1.jpg' },
-                { name: 'Playlist 2', image: './playlist1.jpg' },
-                { name: 'Playlist 3', image: './playlist1.jpg' }
-            ],
-            questions: [
-                { question: 'What is your all-time favorite concert?', answer: 'Coldplay Live 2016' },
-                { question: 'Which genre do you listen to when working?', answer: 'Lo-fi Hip Hop' },
-                { question: 'What is your favorite music decade?', answer: 'The 80s' },
-            ]
-        },
-    ];
+        });
 
-    dummyData.forEach(item => {
-        cardsStore.add(item);
-    });
+        // Add user profiles
+        users.forEach(user => {
+            cardsData.push({
+                type: 'profile',
+                name: user.name || 'Unknown User',
+                username: user.username || 'unknown',
+                image: user.image || 'default-pic.jpg',
+                compability: user.compability || 0,
+                topArtists: user.topArtists || [],
+                topTracks: user.topTracks || [],
+                topPlaylists: user.topPlaylists || [],
+                questions: user.questions || [],
+            });
+        });
 
-    transaction.oncomplete = function () {
-        console.log('Dummy cards data added successfully.');
-        loadCardsData();
-    };
+        const transaction = discoveryDB.transaction(['cardsData'], 'readwrite');
+        const cardsStore = transaction.objectStore('cardsData');
 
-    transaction.onerror = function (event) {
-        console.error('Error adding dummy data to cardsData:', event.target.errorCode);
-    };
+        // Clear existing data
+        cardsStore.clear();
+
+        // Add new cards data to IndexedDB
+        cardsData.forEach(item => {
+            cardsStore.add(item);
+        });
+
+        transaction.oncomplete = function () {
+            console.log('Cards data added successfully from backend users.');
+            loadCardsData();
+        };
+
+        transaction.onerror = function (event) {
+            console.error('Error adding cards data to IndexedDB:', event.target.errorCode);
+        };
+    } catch (error) {
+        console.error('Error populating dummy cards data:', error);
+    }
 }
+
 
 // Load and display cards data
 function loadCardsData() {
@@ -301,85 +331,151 @@ function loadCardsData() {
     };
 }
 
-function populateActiveCard(items) {
-    const tracker = items.filter(item => item.type === 'tracker')[0];
-    const profile = items.filter(item => item.username === tracker.profile_currently_viewing)[0];
+async function populateActiveCard() {
+    try {
+        // Retrieve the access token from local storage
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) {
+            throw new Error('Access token not found in local storage.');
+        }
 
-    // Display the profile card
-    document.getElementById('profile-name').textContent = profile.name;
-    document.getElementById('profile-pfp').src = profile.image;
-    document.getElementById('score').textContent = profile.compability.toString() + '%';
+        console.log('Fetching all profiles except the current user...');
 
-    document.getElementById('user-artists').innerHTML = '';
-    profile.topArtists.forEach(artist => {
-        const div = document.createElement('div');
-        div.classList.add('artist');
-        const img = document.createElement('img');
-        img.src = artist.image;
-        img.alt = artist.name;
-        div.appendChild(img);
-        document.getElementById('user-artists').appendChild(div);
-    });
+        // Fetch all users using populateUsers
+        const allUsers = await populateUsers();
+        console.log('All fetched users:', allUsers);
 
-    document.getElementById('user-tracks').innerHTML = '';
-    profile.topTracks.forEach(track => {
-        const div = document.createElement('div');
-        div.classList.add('artist');
-        const img = document.createElement('img');
-        img.src = track.image;
-        img.alt = track.name;
-        div.appendChild(img);
-        document.getElementById('user-tracks').appendChild(div);
-    });
+        // Filter out the current user using the accessToken
+        const filteredUsers = allUsers.filter(user => user.accessToken !== accessToken);
+        if (!filteredUsers.length) {
+            console.log('No other profiles found.');
+            return;
+        }
 
-    document.getElementById('user-playlists').innerHTML = '';
-    profile.topPlaylists.forEach(playlist => {
-        const div = document.createElement('div');
-        div.classList.add('artist');
-        const img = document.createElement('img');
-        img.src = playlist.image;
-        img.alt = playlist.name;
-        div.appendChild(img);
-        document.getElementById('user-playlists').appendChild(div);
-    });
+        // For simplicity, display the first user in the filtered list
+        const profile = filteredUsers[16]; // Replace 0 with the desired index if needed
+        console.log('Displaying profile:', profile);
 
-    document.getElementById('personality-prompts').innerHTML = '';
-    profile.questions.forEach(question => {
-        const div = document.createElement('div');
-        div.classList.add('qa');
-        const q = document.createElement('p');
-        q.classList.add('question');
-        q.textContent = question.question;
-        div.appendChild(q);
-        div.appendChild(document.createElement('br'));
-        const a = document.createElement('p');
-        a.classList.add('answer');
-        a.textContent = question.answer;
-        div.appendChild(a);
-        document.getElementById('personality-prompts').appendChild(div);
-    });
+        // Display the profile card
+        document.getElementById('profile-name').textContent = profile.name || 'Unknown Name';
+        document.getElementById('profile-pfp').src = profile.image || 'default-pfp.jpg';
+        document.getElementById('score').textContent = (profile.compability || 0).toString() + '%';
+
+        document.getElementById('user-artists').innerHTML = '';
+        (profile.topArtists || []).forEach(artist => {
+            const div = document.createElement('div');
+            div.classList.add('artist');
+            const img = document.createElement('img');
+            img.src = artist.image || 'default-artist.jpg';
+            img.alt = artist.name || 'Unknown Artist';
+            div.appendChild(img);
+            document.getElementById('user-artists').appendChild(div);
+        });
+
+        document.getElementById('user-tracks').innerHTML = '';
+        (profile.topTracks || []).forEach(track => {
+            const div = document.createElement('div');
+            div.classList.add('artist');
+            const img = document.createElement('img');
+            img.src = track.image || 'default-track.jpg';
+            img.alt = track.name || 'Unknown Track';
+            div.appendChild(img);
+            document.getElementById('user-tracks').appendChild(div);
+        });
+
+        document.getElementById('user-playlists').innerHTML = '';
+        (profile.topPlaylists || []).forEach(playlist => {
+            const div = document.createElement('div');
+            div.classList.add('artist');
+            const img = document.createElement('img');
+            img.src = playlist.image || 'default-playlist.jpg';
+            img.alt = playlist.name || 'Unknown Playlist';
+            div.appendChild(img);
+            document.getElementById('user-playlists').appendChild(div);
+        });
+
+        // Define the predefined prompts with questions
+        const promptsWithQuestions = [
+            {
+                question: "If you could meet one artist who would it be?",
+                answer: ""
+            },
+            {
+                question: "What's your favorite shower jam?",
+                answer: ""
+            },
+            {
+                question: "What's your dream concert?",
+                answer: ""
+            }
+        ];
+
+        // Map the personality prompts to predefined questions
+        if (profile.personalityPrompts) {
+            profile.personalityPrompts.forEach((prompt, index) => {
+                if (promptsWithQuestions[index]) {
+                    promptsWithQuestions[index].answer = prompt;
+                }
+            });
+        }
+
+        // Display the prompts with questions
+        document.getElementById('personality-prompts').innerHTML = '';
+        promptsWithQuestions.forEach(({ question, answer }) => {
+            const div = document.createElement('div');
+            div.classList.add('qa');
+            const q = document.createElement('p');
+            q.classList.add('question');
+            q.textContent = question;
+            div.appendChild(q);
+            div.appendChild(document.createElement('br'));
+            const a = document.createElement('p');
+            a.classList.add('answer');
+            a.textContent = answer || 'No Answer';
+            div.appendChild(a);
+            document.getElementById('personality-prompts').appendChild(div);
+        });
+
+    } catch (error) {
+        console.error('Error populating active card:', error);
+    }
 }
 
 // Load and display filter data
 function loadFilterData() {
-    if (!discoveryDB) return;
+    if (!discoveryDB) {
+        console.error('IndexedDB is not initialized.');
+        return;
+    }
 
-    const transaction = discoveryDB.transaction(['filterData'], 'readonly');
-    const filterStore = transaction.objectStore('filterData');
-    const request = filterStore.getAll();
+    try {
+        const transaction = discoveryDB.transaction(['filterData'], 'readonly');
+        const filterStore = transaction.objectStore('filterData');
+        const request = filterStore.getAll();
 
-    request.onsuccess = function (event) {
-        const items = event.target.result;
+        request.onsuccess = function (event) {
+            const items = event.target.result || [];
 
-        populateFilterSection('artist', items.filter(item => item.type === 'artist'));
-        populateFilterSection('track', items.filter(item => item.type === 'track'));
-        populateFilterSection('playlist', items.filter(item => item.type === 'playlist'));
-    };
+            // Safely process and populate filter sections
+            const artists = items.filter(item => item.type === 'artist');
+            const tracks = items.filter(item => item.type === 'track');
+            const playlists = items.filter(item => item.type === 'playlist');
 
-    request.onerror = function (event) {
-        console.error('Error loading filter data:', event.target.errorCode);
-    };
+            populateFilterSection('artist', artists);
+            populateFilterSection('track', tracks);
+            populateFilterSection('playlist', playlists);
+
+            console.log('Filter data loaded successfully.');
+        };
+
+        request.onerror = function (event) {
+            console.error('Error loading filter data from IndexedDB:', event.target.errorCode);
+        };
+    } catch (error) {
+        console.error('Unexpected error while loading filter data:', error);
+    }
 }
+
 
 // Populate a specific filter section
 function populateFilterSection(sectionType, items) {
@@ -588,7 +684,6 @@ document.getElementById('reset-btn').addEventListener('click', () => {
     setTimeout(() => (resetButton.style.backgroundColor = '#535353'), 200);
 });
 
-/*
 // "I'm Feeling Lucky" button functionality
 document.getElementById('lucky-btn').addEventListener('click', () => {
     if (!discoveryDB) {
@@ -676,71 +771,4 @@ document.getElementById('lucky-btn').addEventListener('click', () => {
     const luckyButton = document.getElementById('lucky-btn');
     luckyButton.style.backgroundColor = '#1aa34a'; // Highlight the button
     setTimeout(() => (luckyButton.style.backgroundColor = '#535353'), 200); // Reset color after 200ms
-});*/
-
-// Event listeners for the filter reset and "I'm Feeling Lucky" buttons
-document.getElementById('reset-btn').addEventListener('click', function() {
-    resetFilters();
 });
-
-document.getElementById('lucky-btn').addEventListener('click', function() {
-    fetchRandomProfile();
-});
-
-// Function to reset filters
-async function resetFilters() {
-    try {
-        const response = await fetch('/api/filter-reset-button', { method: 'POST' });
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Filters reset successfully:', data);
-            // Here you could also reset UI elements related to filters if needed
-            alert('Filters have been reset to default settings.');
-        } else {
-            console.error('Failed to reset filters:', await response.text());
-        }
-    } catch (error) {
-        console.error('Error resetting filters:', error);
-    }
-}
-
-// Function to fetch a random profile
-async function getRandomProfile() {
-    try {
-        const response = await fetch('/api/random-profile');
-        if (response.ok) {
-            const profile = await response.json();
-            displayRandomProfile(profile);
-        } else {
-            console.error('Failed to fetch random profile:', await response.text());
-        }
-    } catch (error) {
-        console.error('Error fetching random profile:', error);
-    }
-}
-
-// Function to display the random profile data in the UI
-function displayRandomProfile(profile) {
-    document.getElementById('profile-name').textContent = profile.username;
-    document.getElementById('profile-pfp').src = profile.profilePic;
-    document.getElementById('score').textContent = profile.compatibilityScore + '% compatibility';
-
-    // Assuming the profile data includes arrays of artists, tracks, and playlists
-    updateProfileList('user-artists', profile.topArtists);
-    updateProfileList('user-tracks', profile.topTracks);
-    updateProfileList('user-playlists', profile.topPlaylists);
-}
-
-// Helper function to update profile lists such as artists, tracks, playlists
-function updateProfileList(elementId, items) {
-    const listElement = document.getElementById(elementId);
-    listElement.innerHTML = '';  // Clear existing entries
-    items.forEach(item => {
-        const img = document.createElement('img');
-        img.src = item.image;  // Assuming each item has an image property
-        img.alt = item.name;
-        listElement.appendChild(img);
-    });
-}
-
-    

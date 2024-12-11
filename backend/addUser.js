@@ -23,6 +23,7 @@ const User = UserModel(sequelize, require('sequelize').DataTypes);
       compatibilityScore: 85.5,
       personalityPrompts: ['Outgoing', 'Adventurous'],
       rejectPile: [{ name: 'User 2' }],
+      image: 'https://github.com/sheldor1510.png',
     });
     console.log('First user added successfully:', firstUser.toJSON());
 
@@ -39,6 +40,7 @@ const User = UserModel(sequelize, require('sequelize').DataTypes);
       compatibilityScore: 90.0,
       personalityPrompts: ['Analytical', 'Thoughtful'],
       rejectPile: [{ name: 'User 1' }],
+      image: 'https://github.com/sheldor1510.png',
     });
     console.log('Second user added successfully:', secondUser.toJSON());
   } catch (error) {

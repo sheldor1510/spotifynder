@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     personalityPrompts: { type: DataTypes.JSON },
     compatibilityScore: { type: DataTypes.FLOAT },
     rejectPile: { type: DataTypes.JSON },
+    image: { type: DataTypes.STRING },
   });
 
   return User;

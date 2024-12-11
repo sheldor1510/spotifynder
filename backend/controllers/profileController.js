@@ -70,9 +70,10 @@ exports.fetchProfile = async (req, res) => {
         const email = user.email;
         const displayName = user.displayName;
         const spotifyId = user.spotifyId;
+        const image = user.image;
 
         // Return the user profile data in a JSON response
-        return res.json({topArtists, topTracks, topPlaylists, personalityPrompts, email, displayName, spotifyId});
+        return res.json({topArtists, topTracks, topPlaylists, personalityPrompts, email, displayName, spotifyId, image});
     } catch (error) {
         console.error('Error fetching user profile:', error);
         res.status(500).send('Internal Server Error');

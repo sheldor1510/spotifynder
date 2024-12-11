@@ -22,6 +22,7 @@ exports.spotifyOAuthCallback = async (req, res) => {
       displayName: userProfile.display_name,
       email: userProfile.email,
       accessToken: access_token,
+      image: userProfile.images[0].url,
     });
 
     // Respond with user data or redirect to the main app
@@ -110,9 +111,9 @@ exports.fetchFilteredUsers = async (req, res) => {
       artists,
       tracks,
       playlists,
-      minCompatibilityScore = 0,
+      compatibilityScore = 0,
       page = 1,
-      limit = 10,
+      limit = 50,
       randomize = 'false',
       sort,
     } = req.query;
@@ -120,56 +121,54 @@ exports.fetchFilteredUsers = async (req, res) => {
     // Initialize query conditions
     const conditions = {};
 
-    // Add filter conditions dynamically
     if (artists) {
-      const artistArray = artists.split(',');
-      conditions.topArtists = {
-        [Op.or]: artistArray.map((artist) => ({
-          [Op.contains]: [{ name: artist }],
-        })),
-      };
+      const artistArray = artists.split(',').filter(Boolean);
+      if (artistArray.length > 0) {
+        conditions.topArtists = {
+          [Op.or]: artistArray.map((artist) => ({
+            [Op.contains]: [{ name: artist }],
+          })),
+        };
+      }
     }
 
     if (tracks) {
-      const trackArray = tracks.split(',');
-      conditions.topTracks = {
-        [Op.or]: trackArray.map((track) => ({
-          [Op.contains]: [{ title: track }],
-        })),
-      };
+      const trackArray = tracks.split(',').filter(Boolean);
+      if (trackArray.length > 0) {
+        conditions.topTracks = {
+          [Op.or]: trackArray.map((track) => ({
+            [Op.contains]: [{ title: track }],
+          })),
+        };
+      }
     }
 
     if (playlists) {
-      const playlistArray = playlists.split(',');
-      conditions.topPlaylists = {
-        [Op.or]: playlistArray.map((playlist) => ({
-          [Op.contains]: [{ name: playlist }],
-        })),
-      };
+      const playlistArray = playlists.split(',').filter(Boolean);
+      if (playlistArray.length > 0) {
+        conditions.topPlaylists = {
+          [Op.or]: playlistArray.map((playlist) => ({
+            [Op.contains]: [{ name: playlist }],
+          })),
+        };
+      }
     }
 
-    if (minCompatibilityScore) {
+    if (compatibilityScore) {
       conditions.compatibilityScore = {
-        [Op.gte]: parseFloat(minCompatibilityScore),
+        [Op.gte]: parseFloat(compatibilityScore),
       };
     }
 
-    // Pagination
+    // Pagination and Sorting
     const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
+    const order = sort ? [sort.split(':').map((item) => item.trim())] : [];
 
-    // Sorting
-    const order = [];
-    if (sort) {
-      const [key, direction] = sort.split(':');
-      order.push([key, direction.toUpperCase()]); // e.g., ['compatibilityScore', 'DESC']
-    }
-
-    // Fetch users with conditions and optional sorting
     let users = await User.findAll({
       where: conditions,
       limit: parseInt(limit, 10),
       offset,
-      order: order.length ? order : undefined, // Apply sorting only if specified
+      order,
     });
 
     // Randomize results if `randomize=true`
@@ -177,9 +176,53 @@ exports.fetchFilteredUsers = async (req, res) => {
       users = users.sort(() => 0.5 - Math.random());
     }
 
-    // Respond with filtered, sorted, and/or randomized profiles
+    // Format the users to match the expected structure
+    const formattedUsers = users.map((user) => {
+      // Ensure parsing only if the data is a string
+      const parseField = (field) => {
+        if (typeof field === 'string') {
+          try {
+            return JSON.parse(field);
+          } catch {
+            console.error(`Failed to parse field: ${field}`);
+            return [];
+          }
+        }
+        return Array.isArray(field) ? field : [];
+      };
+
+      const topArtists = parseField(user.topArtists);
+      const topTracks = parseField(user.topTracks);
+      const topPlaylists = parseField(user.topPlaylists);
+      const personalityPrompts = parseField(user.personalityPrompts);
+
+      return {
+        type: 'profile',
+        name: user.displayName || 'Unknown User',
+        username: user.username || 'unknown',
+        image: user.profilePic || 'default-pic.jpg',
+        compability: user.compatibilityScore || 0,
+        topArtists: topArtists.map((artist) => ({
+          name: artist || 'Unknown Artist',
+          image: 'path/to/artist/image.jpg',
+        })),
+        topTracks: topTracks.map((track) => ({
+          name: track || 'Unknown Track',
+          image: 'path/to/track/image.jpg',
+        })),
+        topPlaylists: topPlaylists.map((playlist) => ({
+          name: playlist || 'Unknown Playlist',
+          image: 'path/to/playlist/image.jpg',
+        })),
+        questions: personalityPrompts.map((prompt) => ({
+          question: prompt.question || 'Unknown Question',
+          answer: prompt.answer || 'No Answer',
+        })),
+      };
+    });
+
     res.status(200).json({
-      data: users,
+      data: formattedUsers,
       meta: {
         page: parseInt(page, 10),
         limit: parseInt(limit, 10),
@@ -191,6 +234,9 @@ exports.fetchFilteredUsers = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch filtered users.' });
   }
 };
+
+
+
 
 exports.getFilterOptions = async (req, res) => {
   try {

@@ -30,26 +30,6 @@ window.onload = function() {
   }
 }
 
-request.onupgradeneeded = function(event) {
-  db = event.target.result;
-  const objectStore = db.createObjectStore('userData', { keyPath: 'id' });
-  objectStore.createIndex('college', 'college', { unique: false });
-  objectStore.createIndex('selectedArtists', 'selectedArtists', { unique: false });
-  objectStore.createIndex('selectedTracks', 'selectedTracks', { unique: false });
-  console.log("IndexedDB setup complete.");
-};
-
-request.onsuccess = function(event) {
-  db = event.target.result;
-  console.log("IndexedDB opened successfully.");
-  loadUserData(); // Load data when DB is successfully opened
-};
-
-request.onerror = function(event) {
-  console.error('Database error:', event.target.errorCode);
-};
-
-
 async function apiRequest(url, method = 'GET', headers = {}, body = null) {
   const apiURL = 'http://localhost:5001' + url
   const response = await fetch(apiURL, {

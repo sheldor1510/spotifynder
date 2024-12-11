@@ -253,7 +253,7 @@
                         </div>
                     </div>
                 </div>
-                <script src="script.js"></script>
+                <script src="script.js" defer></script>
             </span>
 
 
@@ -369,11 +369,11 @@
             // Function to handle button clicks
             document.querySelectorAll(".request-item, .chat-item").forEach(button => {
                 button.addEventListener("click", function() {
-                // Remove 'active' class from all buttons
-                document.querySelectorAll(".request-item, .chat-item").forEach(btn => btn.classList.remove("active"));
+                    // Remove 'active' class from all buttons
+                    document.querySelectorAll(".request-item, .chat-item").forEach(btn => btn.classList.remove("active"));
 
-                // Add 'active' class to the clicked button
-                this.classList.add("active");
+                    // Add 'active' class to the clicked button
+                    this.classList.add("active");
                 });
             });
             </script>

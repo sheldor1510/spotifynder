@@ -93,7 +93,7 @@ async function saveMessage(matchId, message) {
 // Event listener to load different chats
 document.addEventListener("DOMContentLoaded", () => {
   // Fetch user chats on page load
-  fetchUserChats();
+  // fetchUserChats();
 
   [...requests].forEach((item) => {
     item.addEventListener("click", () => {

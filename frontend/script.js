@@ -35,7 +35,7 @@ async function populateUsers() {
             type: 'profile',
             name: user.name || 'Unknown User',
             username: user.username || 'unknown',
-            image: user.image || 'default-pic.jpg',
+            image: user.image || 'sample-pfp.jpeg',
             compability: user.compatibility || 0,
             topArtists: (user.topArtists || []).map(artist => ({
                 name: artist.name || 'Unknown Artist',
@@ -102,10 +102,8 @@ request.onsuccess = function (event) {
     // Load existing data or populate dummy data
     loadUserProfile();
     loadUnreadChatCount();
-    loadFilterData();
 
     populateDummyFilterData();
-
     
     populateDummyCardsData();
 
@@ -167,12 +165,10 @@ function loadUnreadChatCount() {
     };
 }
 
+let filterData = [];
+
 // Populate dummy data for filterData
 async function populateDummyFilterData() {
-    if (!discoveryDB) return;
-
-    console.log('Populating dummy filter data...');
-
     try {
         // Retrieve the access token from local storage
         const accessToken = localStorage.getItem('accessToken');
@@ -196,63 +192,27 @@ async function populateDummyFilterData() {
 
         console.log('Raw filter data:', rawData);
 
-        const topArtists = JSON.parse(rawData.topArtists || '[]').map(name => ({
-            name: name || 'Unknown Artist',
-            image: 'default-artist.jpg', // Add default images or fetch them dynamically if available
-        }));
+        const topArtists = JSON.parse(rawData.topArtists || '[]')
 
-        const topTracks = JSON.parse(rawData.topTracks || '[]').map(name => ({
-            name: name || 'Unknown Track',
-            image: 'default-track.jpg', // Add default images or fetch them dynamically if available
-        }));
+        const topTracks = JSON.parse(rawData.topTracks || '[]')
 
-        const topPlaylists = rawData.topPlaylists || '[]'.map(name => ({
-            name: name || 'Unknown Playlist',
-            image: 'default-playlist.jpg', // Add default images or fetch them dynamically if available
-        }));
+        const topPlaylists = rawData.topPlaylists || '[]'
 
         console.log('Parsed and cleaned filter data:', { topArtists, topTracks, topPlaylists });
 
-        // Prepare filter data
-        const filterData = [];
-
         topArtists.forEach(artist => {
-            filterData.push({ type: 'artist', name: artist.name, image: artist.image });
+            filterData.push({ type: 'artist', name: artist.name, image: artist.imageUrl });
         });
 
         topTracks.forEach(track => {
-            filterData.push({ type: 'track', name: track.name, image: track.image });
-            console.log('Processed filter data for TRACK:', track);
+            filterData.push({ type: 'track', name: track.name, image: track.albumImageUrl });
         });
 
         topPlaylists.forEach(playlist => {
-            filterData.push({ type: 'playlist', name: playlist, image: image });
-            console.log('Processed filter data for PLAYLIST:', playlist);
+            filterData.push({ type: 'playlist', name: playlist.name, image: playlist.images[0].url });
         });
 
-        console.log('Processed filter data for PLAYLIST:', topPlaylists);
-
-        console.log('Processed filter data for IndexedDB:', filterData);
-
-        const transaction = discoveryDB.transaction(['filterData'], 'readwrite');
-        const filterStore = transaction.objectStore('filterData');
-
-        // Clear existing filter data in IndexedDB
-        filterStore.clear();
-
-        // Add new filter data to IndexedDB
-        filterData.forEach(item => {
-            filterStore.add(item);
-        });
-
-        transaction.oncomplete = function () {
-            console.log('Filter data added successfully from backend.');
-            loadFilterData();
-        };
-
-        transaction.onerror = function (event) {
-            console.error('Error adding filter data to IndexedDB:', event.target.errorCode);
-        };
+        loadFilterData();
     } catch (error) {
         console.log('Error populating dummy filter data:', error);
     }
@@ -283,7 +243,7 @@ async function populateDummyCardsData() {
                 type: 'profile',
                 name: user.name || 'Unknown User',
                 username: user.username || 'unknown',
-                image: user.image || 'default-pic.jpg',
+                image: user.image || 'sample-pfp.jpeg',
                 compability: user.compability || 0,
                 topArtists: user.topArtists || [],
                 topTracks: user.topTracks || [],
@@ -353,75 +313,53 @@ async function populateActiveCard() {
         }
 
         // For simplicity, display the first user in the filtered list
-        const profile = filteredUsers[16]; // Replace 0 with the desired index if needed
+        const profile = filteredUsers[2]; // Replace 0 with the desired index if needed
         console.log('Displaying profile:', profile);
 
         // Display the profile card
         document.getElementById('profile-name').textContent = profile.name || 'Unknown Name';
-        document.getElementById('profile-pfp').src = profile.image || 'default-pfp.jpg';
-        document.getElementById('score').textContent = (profile.compability || 0).toString() + '%';
+        document.getElementById('profile-pfp').src = profile.image || 'sample-pfp.jpeg';
+        document.getElementById('score').textContent = (profile.compability || (Math.random() * 100).toFixed(0)).toString() + '%';
 
         document.getElementById('user-artists').innerHTML = '';
         (profile.topArtists || []).forEach(artist => {
+            const artistToDisplay = artist.name;
             const div = document.createElement('div');
             div.classList.add('artist');
             const img = document.createElement('img');
-            img.src = artist.image || 'default-artist.jpg';
-            img.alt = artist.name || 'Unknown Artist';
+            img.src = artistToDisplay.imageUrl || 'default-artist.jpg';
+            img.alt = artistToDisplay.name || 'Unknown Artist';
             div.appendChild(img);
             document.getElementById('user-artists').appendChild(div);
         });
 
         document.getElementById('user-tracks').innerHTML = '';
         (profile.topTracks || []).forEach(track => {
+            const trackToDisplay = track.name;
             const div = document.createElement('div');
             div.classList.add('artist');
             const img = document.createElement('img');
-            img.src = track.image || 'default-track.jpg';
-            img.alt = track.name || 'Unknown Track';
+            img.src = trackToDisplay.albumImageUrl || 'default-track.jpg';
+            img.alt = trackToDisplay.name || 'Unknown Track';
             div.appendChild(img);
             document.getElementById('user-tracks').appendChild(div);
         });
 
         document.getElementById('user-playlists').innerHTML = '';
         (profile.topPlaylists || []).forEach(playlist => {
+            const playlistToDisplay = playlist.name;
             const div = document.createElement('div');
             div.classList.add('artist');
             const img = document.createElement('img');
-            img.src = playlist.image || 'default-playlist.jpg';
-            img.alt = playlist.name || 'Unknown Playlist';
+            img.src = playlistToDisplay.images[0].url || 'default-playlist.jpg';
+            img.alt = playlistToDisplay.name || 'Unknown Playlist';
             div.appendChild(img);
             document.getElementById('user-playlists').appendChild(div);
         });
 
-        // Define the predefined prompts with questions
-        const promptsWithQuestions = [
-            {
-                question: "If you could meet one artist who would it be?",
-                answer: ""
-            },
-            {
-                question: "What's your favorite shower jam?",
-                answer: ""
-            },
-            {
-                question: "What's your dream concert?",
-                answer: ""
-            }
-        ];
-
-        // Map the personality prompts to predefined questions
-        if (profile.personalityPrompts) {
-            profile.personalityPrompts.forEach((prompt, index) => {
-                if (promptsWithQuestions[index]) {
-                    promptsWithQuestions[index].answer = prompt;
-                }
-            });
-        }
-
         // Display the prompts with questions
         document.getElementById('personality-prompts').innerHTML = '';
-        promptsWithQuestions.forEach(({ question, answer }) => {
+        profile.questions.forEach(({ question, answer }) => {
             const div = document.createElement('div');
             div.classList.add('qa');
             const q = document.createElement('p');
@@ -443,37 +381,14 @@ async function populateActiveCard() {
 
 // Load and display filter data
 function loadFilterData() {
-    if (!discoveryDB) {
-        console.error('IndexedDB is not initialized.');
-        return;
-    }
-
-    try {
-        const transaction = discoveryDB.transaction(['filterData'], 'readonly');
-        const filterStore = transaction.objectStore('filterData');
-        const request = filterStore.getAll();
-
-        request.onsuccess = function (event) {
-            const items = event.target.result || [];
-
-            // Safely process and populate filter sections
-            const artists = items.filter(item => item.type === 'artist');
-            const tracks = items.filter(item => item.type === 'track');
-            const playlists = items.filter(item => item.type === 'playlist');
-
-            populateFilterSection('artist', artists);
-            populateFilterSection('track', tracks);
-            populateFilterSection('playlist', playlists);
-
-            console.log('Filter data loaded successfully.');
-        };
-
-        request.onerror = function (event) {
-            console.error('Error loading filter data from IndexedDB:', event.target.errorCode);
-        };
-    } catch (error) {
-        console.error('Unexpected error while loading filter data:', error);
-    }
+    console.log("filter data in gloabl state", filterData);
+    populateFilterSection('artist', filterData.filter(item => item.type === 'artist'));
+    populateFilterSection('track', filterData.filter(item => item.type === 'track'));
+    populateFilterSection('playlist', filterData.filter(item => item.type === 'playlist'));
+    // console.log(artists, tracks, playlists);
+    // populateFilterSection('artist', artists);
+    // populateFilterSection('track', tracks);
+    // populateFilterSection('playlist', playlists);
 }
 
 
@@ -619,42 +534,7 @@ document.getElementById('reject-button').addEventListener('click', () => {
 
 // Randomize button functionality
 document.getElementById('randomize-btn').addEventListener('click', () => {
-    if (!discoveryDB) return;
-
-    const transaction = discoveryDB.transaction(['filterData'], 'readonly');
-    const filterStore = transaction.objectStore('filterData');
-
-    const request = filterStore.getAll();
-
-    request.onsuccess = function (event) {
-        const items = event.target.result;
-
-        // Separate items by type
-        const artists = items.filter(item => item.type === 'artist');
-        const tracks = items.filter(item => item.type === 'track');
-        const playlists = items.filter(item => item.type === 'playlist');
-
-        // Shuffle each group
-        const shuffledArtists = artists.sort(() => Math.random() - 0.5);
-        const shuffledTracks = tracks.sort(() => Math.random() - 0.5);
-        const shuffledPlaylists = playlists.sort(() => Math.random() - 0.5);
-
-        // Re-populate the filter sections with shuffled data
-        populateFilterSection('artist', shuffledArtists);
-        populateFilterSection('track', shuffledTracks);
-        populateFilterSection('playlist', shuffledPlaylists);
-
-        console.log('Filters have been randomized.');
-    };
-
-    request.onerror = function (event) {
-        console.error('Error randomizing filters:', event.target.errorCode);
-    };
-
-    // Change button color on click
-    const randomizeButton = document.getElementById('randomize-btn');
-    randomizeButton.style.backgroundColor = '#1aa34a'; // Highlight the button
-    setTimeout(() => (randomizeButton.style.backgroundColor = '#535353'), 200); // Reset color after 200ms
+    populateDummyCardsData();
 });
 
 

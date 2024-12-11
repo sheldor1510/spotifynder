@@ -151,11 +151,11 @@ function collectPrompts() {
 
 // Add event listeners for Save button and initialize profile data loading
 document.addEventListener("DOMContentLoaded", () => {
-    const savePromptsButton = document.querySelector("#save-prompts-btn");
+    // const savePromptsButton = document.querySelector("#save-prompts-btn");
 
-    savePromptsButton.addEventListener("click", () => {
-        saveProfileData(); // Save updated prompts to the backend
-    });
+    // savePromptsButton.addEventListener("click", () => {
+    //     saveProfileData(); // Save updated prompts to the backend
+    // });
 
     loadProfileData(); // Fetch and display profile data from the backend
 });

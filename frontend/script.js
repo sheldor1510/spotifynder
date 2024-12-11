@@ -20,6 +20,22 @@ async function fetchFilteredUsersFromBackend() {
     }
 }
 
+async function apiRequest(url, method = 'GET', headers = {}, body = null) {
+    const apiURL = 'http://localhost:5001' + url
+    const response = await fetch(apiURL, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers
+      },
+      body: body ? JSON.stringify(body) : null
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+}
+
 
 let dummyData = []; // Initialize as an empty array
 
@@ -456,14 +472,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-document.getElementById('accept-button').addEventListener('click', () => {
-    if (!discoveryDB) return;
+document.getElementById('accept-button').addEventListener('click', async () => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+        console.log('Access token not found.');
+        return;
+    }
 
-    // Open a transaction to update the cardsData
+    // Retrieve the requestorId from the tracker object
+    let requestorId = '';
     const transaction = discoveryDB.transaction(['cardsData'], 'readwrite');
     const cardsStore = transaction.objectStore('cardsData');
-
-    // Get the tracker object
     const request = cardsStore.getAll();
 
     request.onsuccess = (event) => {
@@ -471,37 +490,36 @@ document.getElementById('accept-button').addEventListener('click', () => {
         const tracker = items.find(item => item.type === 'tracker');
 
         if (tracker) {
-            // Update the profile_currently_viewing to 'anshulsaha'
-            tracker.profile_currently_viewing = 'anshulsaha';
-
-            // Save the updated tracker object back to the store
-            const updateRequest = cardsStore.put(tracker);
-
-            updateRequest.onsuccess = () => {
-                console.log('Profile accepted and updated to anshulsaha');
-                loadCardsData(); // Reload the updated data
-            };
-
-            updateRequest.onerror = (event) => {
-                console.error('Error updating tracker:', event.target.errorCode);
-            };
+            requestorId = tracker.profile_currently_viewing;
         }
-    };
 
-    request.onerror = (event) => {
-        console.error('Error fetching tracker data:', event.target.errorCode);
-    };
+        console.log('Requestor ID:', requestorId);
+    }
+
+    // Construct the API URL with the access token and requestorId
+    const apiUrl = `/api/requests/accept?accessToken=${accessToken}&requestorId=${requestorId}`;
+
+    const response = await apiRequest(apiUrl, 'POST');
+
+    if (response.success) {
+        console.log('Request accepted successfully.');
+    } else {
+        console.error('Error accepting request:', response.error);
+    }
 });
 
 // Event listener for "Reject" button
-document.getElementById('reject-button').addEventListener('click', () => {
-    if (!discoveryDB) return;
+document.getElementById('reject-button').addEventListener('click', async () => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+        console.log('Access token not found.');
+        return;
+    }
 
-    // Open a transaction to update the cardsData
+    // Retrieve the requestorId from the tracker object
+    let requestorId = '';
     const transaction = discoveryDB.transaction(['cardsData'], 'readwrite');
     const cardsStore = transaction.objectStore('cardsData');
-
-    // Get the tracker object
     const request = cardsStore.getAll();
 
     request.onsuccess = (event) => {
@@ -509,26 +527,22 @@ document.getElementById('reject-button').addEventListener('click', () => {
         const tracker = items.find(item => item.type === 'tracker');
 
         if (tracker) {
-            // Update the profile_currently_viewing to 'shoubhitravi'
-            tracker.profile_currently_viewing = 'shoubhitravi';
-
-            // Save the updated tracker object back to the store
-            const updateRequest = cardsStore.put(tracker);
-
-            updateRequest.onsuccess = () => {
-                console.log('Profile rejected and updated to shoubhitravi');
-                loadCardsData();
-            };
-
-            updateRequest.onerror = (event) => {
-                console.error('Error updating tracker:', event.target.errorCode);
-            };
+            requestorId = tracker.profile_currently_viewing;
         }
-    };
 
-    request.onerror = (event) => {
-        console.error('Error fetching tracker data:', event.target.errorCode);
-    };
+        console.log('Requestor ID:', requestorId);
+    }
+
+    // Construct the API URL with the access token and requestorId
+    const apiUrl = `/api/requests/reject?accessToken=${accessToken}&requestorId=${requestorId}`;
+
+    const response = await apiRequest(apiUrl, 'POST');
+
+    if (response.success) {
+        console.log('Request rejected successfully.');
+    } else {
+        console.error('Error rejecting request:', response.error);
+    }
 });
     
 
